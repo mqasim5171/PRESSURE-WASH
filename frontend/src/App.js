@@ -13,6 +13,7 @@ import Contact from "./pages/Contact";
 import Areas from "./pages/Areas";
 import GalleryPage from "./pages/GalleryPage";
 import ServiceDetail from "./pages/ServiceDetail";
+import Blog from "./pages/Blog";
 
 function App() {
   return (
