@@ -1,16 +1,13 @@
 import React from 'react';
 import { Star, Quote } from 'lucide-react';
 import Section from '../ui/Section';
-import { copy } from '../../lib/copy';
 
 const Testimonials = () => {
-  const { testimonials } = copy;
-
   return (
     <Section className="bg-white">
       <div className="text-center mb-16">
         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-          {testimonials.title}
+          What Sydney Customers Say
         </h2>
         <div className="flex items-center justify-center gap-2 mb-2">
           <div className="flex items-center gap-1">
@@ -18,13 +15,29 @@ const Testimonials = () => {
               <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
             ))}
           </div>
-          <span className="font-semibold text-slate-900">{testimonials.rating}</span>
+          <span className="font-semibold text-slate-900">5.0 Stars</span>
         </div>
-        <p className="text-slate-600">{testimonials.sub}</p>
+        <p className="text-slate-600">Based on 247+ verified reviews</p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-8">
-        {testimonials.items.map((testimonial, index) => (
+        {[
+          { 
+            name:"Sarah M.", 
+            location:"Bondi",
+            text:"Had my solar panels cleaned by Arcturus Services and couldn't be happier! They increased our energy output by 28% and were incredibly professional throughout. Highly recommend to anyone wanting to maximize their solar investment." 
+          },
+          { 
+            name:"Michael T.", 
+            location:"Chatswood",
+            text:"Absolutely fantastic pressure washing service! My concrete driveway looked terrible after years of stains and weathering. Now it looks like we have a brand new driveway. Professional, punctual and worth every penny!" 
+          },
+          { 
+            name:"Lisa K.", 
+            location:"Manly",
+            text:"Called Arcturus for an urgent roof and gutter clean before the storm season. They came same-day, cleared everything perfectly and potentially saved us from serious water damage. Professional service at its absolute best!" 
+          }
+        ].map((testimonial, index) => (
           <div 
             key={index}
             className="bg-slate-50 rounded-2xl p-8 relative hover:shadow-lg transition-shadow duration-300"
@@ -70,7 +83,7 @@ const Testimonials = () => {
               Join Our Growing Family of Happy Customers
             </h3>
             <p className="text-blue-100 mb-6">
-              Over 247 five-star reviews and counting. Experience the difference professional cleaning makes.
+              Over 247+ five-star reviews and counting. Experience the difference professional cleaning makes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
