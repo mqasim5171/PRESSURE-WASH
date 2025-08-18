@@ -3,7 +3,8 @@ import { MapPin, Phone, CheckCircle } from 'lucide-react';
 import Section from '../components/ui/Section';
 import Button from '../components/ui/Button';
 import CTA from '../components/sections/CTA';
-import { copy, biz } from '../lib/copy';
+import { copy } from '../lib/copy';
+import { biz } from '../lib/config';
 
 const AreasPage = () => {
   const { areas } = copy;
