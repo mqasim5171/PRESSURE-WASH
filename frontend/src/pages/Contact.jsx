@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, CheckCircle, Loader2 } from 'lucide-react';
 import Section from '../components/ui/Section';
 import Button from '../components/ui/Button';
-import { copy, biz } from '../lib/copy';
+import { copy } from '../lib/copy';
+import { biz } from '../lib/config';
 import { mockQuotes } from '../mock/mockData';
 
 const Contact = () => {
