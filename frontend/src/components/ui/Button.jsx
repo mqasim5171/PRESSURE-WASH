@@ -1,59 +1,49 @@
-import React from 'react';
-import { cn } from '../../lib/utils';
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva } from "class-variance-authority";
 
-const Button = ({ 
-  variant = 'primary',
-  size = 'default', 
-  className = '', 
-  children,
-  href,
-  onClick,
-  disabled,
-  type = 'button',
-  ...props 
-}) => {
-  const baseClasses = 'inline-flex items-center justify-center font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
-  
-  const variants = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5',
-    secondary: 'bg-slate-100 text-slate-900 hover:bg-slate-200 focus:ring-slate-500 border border-slate-200',
-    outline: 'border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white focus:ring-blue-500',
-    ghost: 'text-blue-600 hover:bg-blue-50 focus:ring-blue-500'
-  };
+import { cn } from "../../lib/utils"
 
-  const sizes = {
-    sm: 'px-4 py-2 text-sm rounded-md',
-    default: 'px-6 py-3 text-base rounded-lg',
-    lg: 'px-8 py-4 text-lg rounded-lg'
-  };
-
-  const classes = cn(
-    baseClasses,
-    variants[variant],
-    sizes[size],
-    disabled && 'opacity-50 cursor-not-allowed hover:transform-none',
-    className
-  );
-
-  if (href) {
-    return (
-      <a href={href} className={classes} {...props}>
-        {children}
-      </a>
-    );
+const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  {
+    variants: {
+      variant: {
+        default:
+          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        outline:
+          "border border-input shadow-sm hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-9 px-4 py-2",
+        sm: "h-8 rounded-md px-3 text-xs",
+        lg: "h-10 rounded-md px-8",
+        icon: "h-9 w-9",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
   }
+)
 
+const Button = React.forwardRef(({ className, variant, size, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : "button"
   return (
-    <button 
-      type={type}
-      onClick={onClick}
-      disabled={disabled}
-      className={classes}
-      {...props}
-    >
-      {children}
-    </button>
+    <Comp
+      className={cn(buttonVariants({ variant, size, className }))}
+      ref={ref}
+      {...props} />
   );
-};
+})
+Button.displayName = "Button"
 
+export { Button, buttonVariants }
 export default Button;
