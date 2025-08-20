@@ -10,6 +10,8 @@ import Footer from "./components/layout/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Services from "./pages/Services";
+
 
 
 import ServiceDetail from "./pages/ServiceDetail";
@@ -20,15 +22,21 @@ function App() {
     <div className="App min-h-screen bg-white">
       <BrowserRouter>
         <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
+        <div className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           
-          <Route path="/blog" element={<Blog />} />
-          
-          <Route path="/services/:slug" element={<ServiceDetail />} />
-        </Routes>
+             <Route path="/blog" element={<Blog />} />
+
+            {/* New route for listing services */}
+            <Route path="/services" element={<Services />} />
+
+           {/* Dynamic route for each service detail */}
+            <Route path="/services/:slug" element={<ServiceDetail />} />
+          </Routes>
+        </div>
         <Footer />
         <Toaster />
       </BrowserRouter>

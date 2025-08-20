@@ -32,3 +32,12 @@
         transform: rotate(360deg);
     }
 }
+
+
+/* Emergent "made with" badge removal */
+a[href*="emergent"], 
+div[class*="emergent"], 
+iframe[src*="emergent"] {
+  display: none !important;
+  visibility: hidden !important;
+}
