@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, CheckCircle, Clock, Shield, Star, Phone } from 'lucide-react';
 import Section from '../components/ui/Section';
-import Button from '../components/ui/Button';
+import Button from '../components/ui/button';
 import CTA from '../components/sections/CTA';
 import { copy } from '../lib/copy';
 
@@ -153,64 +153,8 @@ const ServiceDetail = () => {
         </div>
       </Section>
 
-      {/* FAQ Section */}
-      <Section className="bg-white">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">
-            Frequently Asked Questions
-          </h2>
-
-          <div className="space-y-6">
-            {[
-              {
-                q: `How often should I have ${service.title.toLowerCase()}?`,
-                a: "We recommend regular maintenance every 6-12 months, or more frequently depending on your property's exposure to elements and local conditions."
-              },
-              {
-                q: "Do you provide same-day service?",
-                a: "Yes! We offer same-day service across most Sydney suburbs when you call before 2 PM, subject to availability."
-              },
-              {
-                q: "Are you insured for this type of work?",
-                a: "Absolutely. We carry $10 million public liability insurance and all our technicians are fully licensed and certified for safety."
-              },
-              {
-                q: "What if I'm not satisfied with the results?",
-                a: "We guarantee your complete satisfaction. If you're not happy with our work, we'll return at no extra charge to make it right."
-              }
-            ].map((faq, index) => (
-              <div key={index} className="bg-slate-50 rounded-xl p-6">
-                <h3 className="font-bold text-slate-900 mb-3">{faq.q}</h3>
-                <p className="text-slate-600">{faq.a}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* Service Area */}
-      <Section className="bg-slate-50">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-slate-900 mb-8">
-            Available Across All Sydney Suburbs
-          </h2>
-          <p className="text-xl text-slate-600 mb-12">
-            We bring our professional {service.title.toLowerCase()} service to customers throughout greater Sydney.
-          </p>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 text-center mb-12">
-            {['Bondi', 'Manly', 'Chatswood', 'Parramatta', 'Coogee', 'Mosman', 'Surry Hills', 'Paddington', 'Double Bay', 'Rose Bay', 'Woollahra', 'Randwick'].map((suburb, index) => (
-              <div key={index} className="bg-white rounded-lg p-3 text-sm font-medium text-slate-700">
-                {suburb}
-              </div>
-            ))}
-          </div>
-
-          <Button size="lg" href="/areas">
-            View All Service Areas
-          </Button>
-        </div>
-      </Section>
+      
+      
 
       <CTA />
     </main>

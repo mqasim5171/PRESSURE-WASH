@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, ArrowRight } from 'lucide-react';
 import Section from '../ui/Section';
-import Button from '../ui/Button';
+import Button from '../ui/button';
 import { copy } from '../../lib/copy';
 
 const Areas = () => {

@@ -12,9 +12,12 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">A</span>
-              </div>
+              {/* Logo */}
+              <img 
+                src="/logo.png"   // <-- replace with your actual logo path
+                alt={biz.name}
+                className="w-10 h-10 object-contain"
+              />
               <span className="font-bold text-lg">{biz.name}</span>
             </div>
             <p className="text-slate-300 text-sm leading-relaxed">
@@ -60,7 +63,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Info */}
+          {/* Contact Info + Map */}
           <div className="space-y-4">
             <h4 className="font-semibold text-lg">Contact Info</h4>
             <div className="space-y-3">
@@ -86,6 +89,20 @@ const Footer = () => {
                 <Clock className="w-4 h-4" />
                 <span className="text-sm">{biz.hours}</span>
               </div>
+            </div>
+
+            {/* Map Embed */}
+            <div className="mt-4 rounded-lg overflow-hidden shadow-lg">
+              <iframe
+                title="Google Map"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.743597089323!2d144.97170471531552!3d-37.84120577974425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642ef4f16db4b%3A0x123456789abcdef!2s470%20St%20Kilda%20Rd%2C%20Melbourne%20VIC%203004%2C%20Australia!5e0!3m2!1sen!2sau!4v1691999999999!5m2!1sen!2sau"
+                width="100%"
+                height="200"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </div>
         </div>
