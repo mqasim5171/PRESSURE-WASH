@@ -14,66 +14,50 @@ const Process = () => {
   const { process } = copy;
 
   return (
-    <Section className="bg-slate-50">
+    <Section className="bg-gradient-to-b from-[#44B149]/10 to-[#F79029]/10 py-20">
+      {/* Section Header */}
       <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-[#314085] mb-4">
           {process.title}
         </h2>
-        <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+        <p className="text-xl text-[#314085]/80 max-w-3xl mx-auto">
           {process.subtitle}
         </p>
       </div>
 
+      {/* Process Cards */}
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
         {process.cards.map((card, index) => {
           const IconComponent = iconMap[card.icon];
-          
+
           return (
             <div
               key={index}
-              className="bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-lg transition-shadow duration-300 border border-slate-100"
+              className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-[#F79029]/40"
             >
-              {/* Number Badge */}
+              {/* Icon Circle */}
               <div className="relative mb-6">
-                <div className="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <div
+                  className={`w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-4
+                    ${index % 3 === 0 ? 'bg-[#44B149]' : index % 3 === 1 ? 'bg-[#F79029]' : 'bg-[#314085]'}
+                  `}
+                >
                   <IconComponent className="w-10 h-10 text-white" />
                 </div>
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-cyan-400 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#F79029] rounded-full flex items-center justify-center text-white font-bold text-sm">
                   {index + 1}
                 </div>
               </div>
 
-              {/* Content */}
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
-                {card.title}
-              </h3>
-              <p className="text-slate-600 leading-relaxed">
-                {card.text}
-              </p>
+              {/* Card Content */}
+              <h3 className="text-xl font-bold text-[#314085] mb-3">{card.title}</h3>
+              <p className="text-[#314085]/80 leading-relaxed">{card.text}</p>
             </div>
           );
         })}
       </div>
 
-      {/* Additional Trust Indicators */}
-      <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div className="space-y-2">
-          <div className="text-3xl font-bold text-blue-600">$10M</div>
-          <div className="text-sm text-slate-600">Insurance Coverage</div>
-        </div>
-        <div className="space-y-2">
-          <div className="text-3xl font-bold text-blue-600">247+</div>
-          <div className="text-sm text-slate-600">5-Star Reviews</div>
-        </div>
-        <div className="space-y-2">
-          <div className="text-3xl font-bold text-blue-600">1000+</div>
-          <div className="text-sm text-slate-600">Happy Customers</div>
-        </div>
-        <div className="space-y-2">
-          <div className="text-3xl font-bold text-blue-600">7</div>
-          <div className="text-sm text-slate-600">Days a Week</div>
-        </div>
-      </div>
+      
     </Section>
   );
 };

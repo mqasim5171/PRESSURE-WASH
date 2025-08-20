@@ -1,152 +1,151 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Phone, Shield, Star, Users, CheckCircle } from 'lucide-react';
-import Section from '../ui/Section';
-import Button from '../ui/Button';
-import QuoteModal from '../QuoteModal';
-import { copy } from '../../lib/copy';
+"use client";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-const Hero = () => {
-  const { hero } = copy;
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+const slides = [
+  {
+    id: 1,
+    image: "/images/main.webp",
+    title: "Sydney’s #01",
+    highlight: "Cleaning Services",
+    description: "Trusted experts in pressure washing, window cleaning, and solar panel care.",
+    link: "#services",
+  },
+  {
+    id: 2,
+    image: "/images/solar.avif",
+    title: "Eco-Friendly",
+    highlight: "Solar Panel Cleaning",
+    description: "Boost efficiency and save energy with spotless solar panels.",
+    link: "#solar-cleaning",
+  },
+  {
+    id: 3,
+    image: "/images/window.jpg",
+    title: "Shiny Windows,",
+    highlight: "Clear Views",
+    description: "Professional window cleaning that brightens your home or office.",
+    link: "#windows-cleaning",
+  },
+  {
+    id: 4,
+    image: "/images/pressure.png",
+    title: "Powerful",
+    highlight: "Pressure Washing",
+    description: "Bring back the beauty of your driveway, roof, and outdoor spaces.",
+    link: "#driveway-cleaning",
+  },
+  {
+    id: 5,
+    image: "/images/renovation.jpeg",
+    title: "Roof & Home",
+    highlight: "Renovation Experts",
+    description: "Restore your property with our top-rated roof and home cleaning solutions.",
+    link: "#roof-cleaning",
+  },
+];
+
+export default function HeroSlider() {
+  const [current, setCurrent] = useState(0);
+
+  const nextSlide = () => setCurrent((prev) => (prev + 1) % slides.length);
+  const prevSlide = () => setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
+
+  // Auto-slide every 7s
+  useEffect(() => {
+    const timer = setInterval(nextSlide, 7000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") nextSlide();
+      if (e.key === "ArrowLeft") prevSlide();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
 
   return (
-    <>
-      <Section id="hero" className="bg-gradient-to-br from-blue-50 to-cyan-50 pt-8 pb-16">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Content */}
-          <div className="space-y-8">
-            {/* Eyebrow */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-              <Shield className="w-4 h-4" />
-              Melbourne Registered • Sydney Operating
-            </div>
-
-            {/* Headline */}
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                Sydney's #1 Professional{' '}
-                <span className="text-blue-600 relative">
-                  Cleaning Services
-                  <div className="absolute -bottom-2 left-0 right-0 h-3 bg-cyan-200 opacity-30 rounded-lg"></div>
-                </span>
-              </h1>
-              <p className="text-xl text-slate-600 leading-relaxed">
-                Solar Panels • Roofs & Gutters • Windows • Pressure Washing
-              </p>
-            </div>
-
-            {/* Badges */}
-            <div className="flex flex-wrap gap-3">
-              {["Same-Day Service Available", "Fully Insured", "100% Guarantee"].map((badge, index) => (
-                <div key={index} className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-sm font-medium text-slate-700">{badge}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Metrics */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {[
-                { label: "Fully Insured", value: "$10M Coverage" },
-                { label: "5-Star Rated", value: "200+ Reviews" },
-                { label: "1000+ Customers", value: "This Year" },
-                { label: "Licensed", value: "ABN Verified" }
-              ].map((metric, index) => (
-                <div key={index} className="bg-white p-4 rounded-xl shadow-sm border text-center">
-                  <div className="text-sm text-slate-500 mb-1">{metric.label}</div>
-                  <div className="font-bold text-blue-600">{metric.value}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                size="lg" 
-                onClick={() => setIsQuoteModalOpen(true)}
-                className="cursor-pointer"
+    <div className="relative w-full h-screen overflow-hidden">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={slides[current].id}
+          className="absolute inset-0 w-full h-full"
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
+          style={{
+            backgroundImage: `url(${slides[current].image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-center px-6">
+            {/* Title + Highlight on 2 lines */}
+            <motion.h1
+              className="text-5xl md:text-7xl font-extrabold text-white leading-tight drop-shadow-lg"
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1 }}
+            >
+              {slides[current].title}
+              <br />
+              <motion.span
+                className="text-[#f79029]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.4 }}
               >
-                Get Free Quote Now
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                href="tel:0414203262"
-                className="group"
-              >
-                <Phone className="w-5 h-5 mr-2 group-hover:animate-pulse" />
-                0414 203 262
-              </Button>
-            </div>
+                {slides[current].highlight}
+              </motion.span>
+            </motion.h1>
 
-            {/* Trust Indicators */}
-            <div className="flex items-center gap-6 text-sm text-slate-600">
-              <div className="flex items-center gap-2">
-                <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                <span className="font-medium">5.0 Stars</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Shield className="w-4 h-4 text-green-500" />
-                <span>Fully Insured</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Users className="w-4 h-4 text-blue-500" />
-                <span>1000+ Customers</span>
-              </div>
-            </div>
+            {/* Description */}
+            <motion.p
+              className="mt-4 text-lg md:text-2xl text-gray-200 max-w-2xl"
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1, delay: 0.6 }}
+            >
+              {slides[current].description}
+            </motion.p>
+
+            {/* CTA Button */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+              className="mt-6"
+            >
+              <a href={slides[current].link}>
+                <Button className="bg-[#44b149] hover:bg-[#314085] text-white px-6 py-3 text-lg rounded-2xl shadow-lg transition-transform hover:scale-105">
+                  View More
+                </Button>
+              </a>
+            </motion.div>
           </div>
+        </motion.div>
+      </AnimatePresence>
 
-          {/* Image - Fixed aspect ratio */}
-          <div className="relative">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl transform rotate-3 hover:rotate-1 transition-transform duration-300">
-              <img 
-                src={hero.image.src}
-                alt={hero.image.alt}
-                className="w-full h-[500px] object-cover"
-                loading="eager"
-                sizes="(min-width: 768px) 50vw, 100vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-            </div>
-            
-            {/* Floating Badge */}
-            <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-lg border">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <CheckCircle className="w-6 h-6 text-green-600" />
-                </div>
-                <div>
-                  <div className="font-bold text-slate-900">Same-Day Available</div>
-                  <div className="text-sm text-slate-600">Call before 2 PM</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Floating Review */}
-            <div className="absolute -top-6 -right-6 bg-white p-4 rounded-xl shadow-lg border max-w-xs">
-              <div className="flex items-center gap-1 mb-2">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                ))}
-              </div>
-              <p className="text-sm text-slate-600 mb-2">
-                "Professional service, amazing results!"
-              </p>
-              <div className="text-xs text-slate-500">- Sarah M., Bondi</div>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* Quote Modal */}
-      <QuoteModal 
-        isOpen={isQuoteModalOpen} 
-        onClose={() => setIsQuoteModalOpen(false)} 
-      />
-    </>
+      {/* Arrows */}
+      <button
+        onClick={prevSlide}
+        className="absolute top-1/2 left-6 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-3 rounded-full transition"
+      >
+        <ArrowLeft size={28} />
+      </button>
+      <button
+        onClick={nextSlide}
+        className="absolute top-1/2 right-6 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-3 rounded-full transition"
+      >
+        <ArrowRight size={28} />
+      </button>
+    </div>
   );
-};
-
-export default Hero;
+}

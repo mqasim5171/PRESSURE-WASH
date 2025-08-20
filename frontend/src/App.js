@@ -10,8 +10,8 @@ import Footer from "./components/layout/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Areas from "./pages/Areas";
-import GalleryPage from "./pages/GalleryPage";
+
+
 import ServiceDetail from "./pages/ServiceDetail";
 import Blog from "./pages/Blog";
 
@@ -24,9 +24,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/areas" element={<Areas />} />
+          
           <Route path="/blog" element={<Blog />} />
-          <Route path="/gallery" element={<GalleryPage />} />
+          
           <Route path="/services/:slug" element={<ServiceDetail />} />
         </Routes>
         <Footer />
