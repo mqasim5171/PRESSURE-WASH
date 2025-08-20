@@ -12,7 +12,7 @@ const ServiceDetail = () => {
 
   if (!service) {
     return (
-      <main>
+      <main className="pt-24">
         <Section className="text-center py-20">
           <h1 className="text-3xl font-bold text-slate-900 mb-4">Service Not Found</h1>
           <p className="text-slate-600 mb-8">The service you're looking for doesn't exist.</p>
@@ -25,7 +25,8 @@ const ServiceDetail = () => {
   }
 
   return (
-    <main>
+    // pt-24 ensures the whole page starts below the fixed navbar
+    <main className="pt-24">
       {/* Hero Section */}
       <Section className="bg-gradient-to-br from-blue-50 to-cyan-50 pt-12">
         <div className="max-w-4xl mx-auto">
@@ -152,9 +153,6 @@ const ServiceDetail = () => {
           </div>
         </div>
       </Section>
-
-      
-      
 
       <CTA />
     </main>

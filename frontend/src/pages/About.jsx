@@ -11,7 +11,7 @@ const About = () => {
   return (
     <main className="bg-white">
       {/* Hero Section */}
-      <Section className="pt-12">
+      <Section className="pt-32 lg:pt-48">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
             <div>

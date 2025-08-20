@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+// Map slides directly to service slugs
 const slides = [
   {
     id: 1,
@@ -11,7 +12,7 @@ const slides = [
     title: "Sydney’s #01",
     highlight: "Cleaning Services",
     description: "Trusted experts in pressure washing, window cleaning, and solar panel care.",
-    link: "#services",
+    link: "/services", // main services page
   },
   {
     id: 2,
@@ -19,7 +20,7 @@ const slides = [
     title: "Eco-Friendly",
     highlight: "Solar Panel Cleaning",
     description: "Boost efficiency and save energy with spotless solar panels.",
-    link: "#solar-cleaning",
+    link: "/services/solar-panel-cleaning",
   },
   {
     id: 3,
@@ -27,7 +28,7 @@ const slides = [
     title: "Shiny Windows,",
     highlight: "Clear Views",
     description: "Professional window cleaning that brightens your home or office.",
-    link: "#windows-cleaning",
+    link: "/services/window-cleaning",
   },
   {
     id: 4,
@@ -35,7 +36,7 @@ const slides = [
     title: "Powerful",
     highlight: "Pressure Washing",
     description: "Bring back the beauty of your driveway, roof, and outdoor spaces.",
-    link: "#driveway-cleaning",
+    link: "/services/pressure-washing",
   },
   {
     id: 5,
@@ -43,7 +44,7 @@ const slides = [
     title: "Roof & Home",
     highlight: "Renovation Experts",
     description: "Restore your property with our top-rated roof and home cleaning solutions.",
-    link: "#roof-cleaning",
+    link: "/services/roof-gutter-cleaning",
   },
 ];
 
@@ -87,7 +88,7 @@ export default function HeroSlider() {
         >
           {/* Overlay */}
           <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-center px-6">
-            {/* Title + Highlight on 2 lines */}
+            {/* Title + Highlight */}
             <motion.h1
               className="text-5xl md:text-7xl font-extrabold text-white leading-tight drop-shadow-lg"
               initial={{ y: 30, opacity: 0 }}
