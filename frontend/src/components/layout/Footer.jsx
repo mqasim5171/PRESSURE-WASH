@@ -46,22 +46,25 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Quick Links */}
+                  {/* Quick Links */}
           <div className="space-y-4">
             <h4 className="font-semibold text-lg">Quick Links</h4>
             <ul className="space-y-2">
-              {copy.nav.map((item) => (
-                <li key={item.href}>
-                  <Link 
-                    to={item.href.replace('/#', '/')}
-                    className="text-slate-300 hover:text-blue-400 transition-colors text-sm"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              {copy.nav
+                .filter((item) => item.label !== "Gallery" && item.label !== "Areas") // <-- filter them out
+                .map((item) => (
+                  <li key={item.href}>
+                    <Link 
+                      to={item.href.replace('/#', '/')}
+                      className="text-slate-300 hover:text-blue-400 transition-colors text-sm"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
             </ul>
           </div>
+
 
           {/* Contact Info + Map */}
           <div className="space-y-4">
