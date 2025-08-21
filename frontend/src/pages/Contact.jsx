@@ -78,7 +78,7 @@ const Contact = () => {
   return (
     <main className="pt-28 bg-white"> {/* Padding top to avoid header overlap */}
       {/* Hero Section */}
-      <Section className="bg-gradient-to-br from-[#E1E5F5] to-[#D0E8F2] pt-12 pb-12 rounded-b-3xl shadow-md">
+      <Section className="bg-slate-50 pt-12 pb-12 rounded-b-3xl shadow-md">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-[#314085] mb-4">
             {copy.contact.title}

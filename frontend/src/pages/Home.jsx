@@ -7,6 +7,7 @@ import Process from '../components/sections/Process';
 import Testimonials from '../components/sections/Testimonials';
 import FAQ from '../components/sections/FAQ';
 import CTA from '../components/sections/CTA';
+import Areas from '@/components/sections/Areas';
 
 const Home = () => {
   return (
@@ -28,6 +29,10 @@ const Home = () => {
 
       {/* Customer Testimonials */}
       <Testimonials />
+
+      <Areas />
+
+      <FAQ />
 
       
 

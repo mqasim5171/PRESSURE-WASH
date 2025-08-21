@@ -11,7 +11,7 @@ const Services = () => {
     // pt-24 pushes content below fixed navbar (~96px). Adjust if your navbar is taller/shorter.
     <main className="pt-24">
       {/* Hero Section */}
-      <Section className="bg-gradient-to-br from-blue-50 to-cyan-50 pt-16 pb-20 text-center">
+      <Section className="bg-slate-50 to-cyan-50 pt-16 pb-20 text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
           Our Services
         </h1>

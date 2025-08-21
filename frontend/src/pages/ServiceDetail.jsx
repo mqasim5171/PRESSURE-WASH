@@ -28,7 +28,7 @@ const ServiceDetail = () => {
     // pt-24 ensures the whole page starts below the fixed navbar
     <main className="pt-24">
       {/* Hero Section */}
-      <Section className="bg-gradient-to-br from-blue-50 to-cyan-50 pt-12">
+      <Section className="bg-slate-50 to-cyan-50  pt-12">
         <div className="max-w-4xl mx-auto">
           {/* Breadcrumb */}
           <div className="mb-8">
