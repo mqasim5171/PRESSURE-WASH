@@ -66,6 +66,19 @@ const Header = () => {
               Contact
             </Link>
 
+            <Link
+              to="/areas"
+              className="text-gray-700 hover:text-[#F79029] transition-colors font-medium"
+            >
+              Areas
+            </Link>
+            <Link
+              to="/blog"
+              className="text-gray-700 hover:text-[#F79029] transition-colors font-medium"
+            >
+              Blog
+            </Link>
+
             {/* Get a Quote Button */}
             <Link
               to="/contact"

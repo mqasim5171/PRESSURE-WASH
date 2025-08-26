@@ -53,15 +53,16 @@ const Areas = () => {
               We serve all Sydney suburbs. Contact us to confirm availability in your area.
             </p>
           </div>
-          <Button 
-            variant="secondary" 
-            size="lg"
-            href={areas.cta.href}
-            className="whitespace-nowrap"
-          >
-            {areas.cta.label}
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
+          <Link to="/Areas">
+            <Button 
+              variant="secondary" 
+              size="lg"
+              className="whitespace-nowrap"
+            >
+              {areas.cta.label}
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </Link>
         </div>
       </div>
 

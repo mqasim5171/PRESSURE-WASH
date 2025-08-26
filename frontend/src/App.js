@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "./components/ui/toaster";
 
+
 // Layout components
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
@@ -12,6 +13,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Services from "./pages/Services";
 
+import AreasPage from "./pages/Areas";
 
 
 import ServiceDetail from "./pages/ServiceDetail";
@@ -35,6 +37,10 @@ function App() {
 
            {/* Dynamic route for each service detail */}
             <Route path="/services/:slug" element={<ServiceDetail />} />
+
+            <Route path="/areas" element={<AreasPage />} />
+            <Route path="/blog" element={<Blog />} />
+
           </Routes>
         </div>
         <Footer />

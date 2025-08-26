@@ -5,6 +5,7 @@ export const copy = {
     { href: "/gallery",   label: "Gallery" },
     { href: "/about",     label: "About" },
     { href: "/contact",   label: "Contact" },
+    { href: "/blog",      label: "Blog" }
   ],
   topbar: [
     "Limited Time: Same-Day Service Available",
@@ -65,6 +66,19 @@ export const copy = {
       bullets: ["Remove stubborn stains & mold","All surface types covered","Eco-friendly cleaning agents","No surface damage guarantee"],
       icon: "Droplets",
     },
+    {
+  slug: "drone-based-washing",
+  title: "Drone-Based Cleaning",
+  blurb: "Efficient and safe high-rise and hard-to-reach cleaning using advanced drone technology",
+  long: "Our state-of-the-art drones reach rooftops, solar panels, and building facades that are difficult or dangerous to access manually. Equipped with high-pressure water and eco-friendly cleaning solutions, they deliver precise cleaning while minimizing risks and disruption.",
+  bullets: [
+    "Access hard-to-reach areas safely",
+    "High precision cleaning with drones",
+    "Eco-friendly water and solutions",
+    "Reduces manual labor & safety risks"
+  ],
+  icon: "Drone", // You can pick an icon representing drones or flight
+}
   ],
   process: {
     title: "Why Choose Arcturus Services?",

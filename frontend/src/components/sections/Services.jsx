@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sun, Home, Square, Droplets } from 'lucide-react';
+import { ArrowRight, Sun, Home, Square, Droplets, Drone } from 'lucide-react';
 import Section from '../ui/Section';
 import { copy } from '../../lib/copy';
 
@@ -8,7 +8,8 @@ const iconMap = {
   Sun: Sun,
   Home: Home,
   Square: Square,
-  Droplets: Droplets
+  Droplets: Droplets,
+  Drone: Drone,
 };
 
 const Services = () => {
@@ -28,18 +29,21 @@ const Services = () => {
 
       {/* Services Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {services.map((service, index) => {
+        {services.map((service) => {
           const IconComponent = iconMap[service.icon];
+          const isComingSoon = service.slug === "drone-based-washing";
 
           return (
             <Link
               key={service.slug}
-              to={`/services/${service.slug}`}
-              className="group bg-white rounded-2xl p-8 border border-slate-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3"
+              to={isComingSoon ? "#" : `/services/${service.slug}`}
+              className={`group bg-white rounded-2xl p-8 border border-slate-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 relative ${
+                isComingSoon ? "pointer-events-none" : ""
+              }`}
             >
               {/* Icon */}
               <div className="w-16 h-16 bg-[#f79029]/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-[#f79029]/30 transition-colors">
-                <IconComponent className="w-8 h-8 text-[#f79029]" />
+                {IconComponent && <IconComponent className="w-8 h-8 text-[#f79029]" />}
               </div>
 
               {/* Content */}
@@ -47,9 +51,7 @@ const Services = () => {
                 <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#314085] transition-colors">
                   {service.title}
                 </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  {service.blurb}
-                </p>
+                <p className="text-slate-600 leading-relaxed">{service.blurb}</p>
 
                 {/* Bullets */}
                 <ul className="space-y-2">
@@ -69,6 +71,15 @@ const Services = () => {
                   </span>
                 </div>
               </div>
+
+              {/* Coming Soon Overlay - only for drone service */}
+              {isComingSoon && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-2xl">
+                  <span className="px-6 py-2 text-lg font-bold text-white bg-gradient-to-r from-[#f79029] to-[#44B149] rounded-full shadow-lg tracking-wide animate-pulse">
+                    Coming Soon
+                  </span>
+                </div>
+              )}
             </Link>
           );
         })}

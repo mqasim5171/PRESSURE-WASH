@@ -7,6 +7,7 @@ import Testimonials from "../components/sections/Testimonials";
 import FAQ from "../components/sections/FAQ";
 import CTA from "../components/sections/CTA";
 import PopupNotification from "../components/PopupNotification";
+import Areas from "@/components/sections/Areas";
 
 const Home = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -32,10 +33,10 @@ const Home = () => {
 
       {/* Our Process */}
       <Process />
-
+      <Areas />
       {/* Customer Testimonials */}
       <Testimonials />
-
+      
       {/* FAQ Section */}
       <FAQ />
 

@@ -6,7 +6,7 @@ const Blog = () => {
   return (
     <main>
       {/* Hero Section */}
-      <Section className="bg-gradient-to-br from-blue-50 to-cyan-50 pt-12">
+      <Section className="pt-32 lg:pt-48 bg-gradient-to-br from-blue-50 to-cyan-50 pt-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
             Cleaning Tips & Insights
