@@ -4,9 +4,10 @@ import { Calendar, ArrowRight } from 'lucide-react';
 
 const Blog = () => {
   return (
-    <main>
+    <main className="pt-28 bg-white"> {/* Offset for fixed navbar */}
+      
       {/* Hero Section */}
-      <Section className="pt-32 lg:pt-48 bg-gradient-to-br from-blue-50 to-cyan-50 pt-12">
+      <Section className="bg-gradient-to-br from-blue-50 to-cyan-50">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
             Cleaning Tips & Insights
