@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { X, Loader2, CheckCircle, Phone, Mail } from 'lucide-react';
+import { X, Loader2, CheckCircle } from 'lucide-react';
 import { copy } from '../lib/copy';
-import { mockQuotes } from '../mock/mockData';
 
 const QuoteModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -70,26 +69,17 @@ const QuoteModal = ({ isOpen, onClose }) => {
     setStatus('loading');
 
     try {
-      // Mock submission
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const newQuote = {
-        id: mockQuotes.length + 1,
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        service: formData.service,
-        suburb: formData.suburb,
-        message: formData.message,
-        contactPreference: formData.contactPreference,
-        propertyType: formData.propertyType,
-        status: 'new',
-        createdAt: new Date().toISOString()
-      };
-      
-      mockQuotes.push(newQuote);
+      // ✅ Call FastAPI backend instead of mockQuotes
+      const res = await fetch("http://localhost:8000/api/submit-quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error("Failed to submit");
+
       setStatus('success');
-      
+
       // Reset form and close modal after success
       setTimeout(() => {
         setFormData({
@@ -108,6 +98,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
       }, 2000);
 
     } catch (error) {
+      console.error("Error submitting:", error);
       setStatus('error');
       setTimeout(() => setStatus(null), 5000);
     }

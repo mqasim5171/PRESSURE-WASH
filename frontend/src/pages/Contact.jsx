@@ -4,7 +4,6 @@ import Section from '../components/ui/Section';
 import Button from '../components/ui/button';
 import { copy } from '../lib/copy';
 import { biz } from '../lib/config';
-import { mockQuotes } from '../mock/mockData';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -40,20 +39,18 @@ const Contact = () => {
     setStatus('loading');
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const newQuote = {
-        id: mockQuotes.length + 1,
-        ...formData,
-        status: 'new',
-        createdAt: new Date().toISOString()
-      };
-      
-      mockQuotes.push(newQuote);
-      console.log('Quote submitted:', newQuote);
+      // ✅ send to FastAPI (same as QuoteModal)
+      const res = await fetch("http://localhost:8000/api/submit-quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error("Failed to submit");
 
       setStatus('success');
 
+      // Reset form
       setFormData({
         name: '',
         email: '',
