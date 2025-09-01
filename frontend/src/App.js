@@ -6,6 +6,7 @@ import { Toaster } from "./components/ui/toaster";
 // Layout components
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
+import AreaDetailPage from "./pages/AreaDetailPage";
 
 // Pages
 import Home from "./pages/Home";
@@ -39,6 +40,7 @@ function App() {
             <Route path="/services/:slug" element={<ServiceDetail />} />
 
             <Route path="/areas" element={<AreasPage />} />
+            <Route path="/areas/:slug" element={<AreaDetailPage />} />
             <Route path="/blog" element={<Blog />} />
 
           </Routes>

@@ -48,7 +48,7 @@ const AreasPage = () => {
       </Section>
 
       {/* Reuse the Areas Section */}
-      <Areas />
+      <Areas showCTA={false} />
 
       {/* FAQ */}
       <FAQ />

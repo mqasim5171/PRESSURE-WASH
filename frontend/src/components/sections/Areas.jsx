@@ -1,11 +1,12 @@
+// src/components/sections/Areas.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { MapPin, ArrowRight } from 'lucide-react';
 import Section from '../ui/Section';
 import Button from '../ui/button';
 import { copy } from '../../lib/copy';
+import { Link } from 'react-router-dom';
 
-const Areas = () => {
+const Areas = ({ showCTA = true }) => {   // 👈 new prop with default = true
   const { areas } = copy;
 
   return (
@@ -42,29 +43,31 @@ const Areas = () => {
         ))}
       </div>
 
-      {/* All Areas CTA */}
-      <div className="text-center">
-        <div className="inline-flex flex-col sm:flex-row items-center gap-4 bg-slate-900 text-white p-8 rounded-2xl">
-          <div className="text-center sm:text-left">
-            <h3 className="text-xl font-bold mb-2">
-              Don't see your area listed?
-            </h3>
-            <p className="text-slate-300">
-              We serve all Sydney suburbs. Contact us to confirm availability in your area.
-            </p>
+      {/* ✅ Conditionally render CTA */}
+      {showCTA && (
+        <div className="text-center">
+          <div className="inline-flex flex-col sm:flex-row items-center gap-4 bg-slate-900 text-white p-8 rounded-2xl">
+            <div className="text-center sm:text-left">
+              <h3 className="text-xl font-bold mb-2">
+                Don't see your area listed?
+              </h3>
+              <p className="text-slate-300">
+                We serve all Sydney suburbs. Contact us to confirm availability in your area.
+              </p>
+            </div>
+            <Link to="/Areas">
+              <Button 
+                variant="secondary" 
+                size="lg"
+                className="whitespace-nowrap"
+              >
+                {areas.cta.label}
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
           </div>
-          <Link to="/Areas">
-            <Button 
-              variant="secondary" 
-              size="lg"
-              className="whitespace-nowrap"
-            >
-              {areas.cta.label}
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </Link>
         </div>
-      </div>
+      )}
 
       {/* Service Coverage Map */}
       <div className="mt-16 bg-blue-50 rounded-2xl p-8">

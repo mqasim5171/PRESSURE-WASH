@@ -1,4 +1,128 @@
 export const copy = {
+
+  
+  areas: {
+    title: "Our Service Areas",
+    sub: "We provide professional cleaning services across greater Sydney suburbs.",
+    featured: [
+      {
+        name: "Eastern Suburbs",
+        slug: "eastern-suburbs",
+        postcode: "2021",
+        tagline: "Complete cleaning solutions for the Eastern Suburbs.",
+        description: "Our Eastern Suburbs team delivers top-tier residential and commercial cleaning across suburbs like Bondi, Randwick, Maroubra and more.",
+        lat: -33.8928,
+        lng: 151.2643
+      },
+      {
+        name: "Northern Beaches",
+        slug: "northern-beaches",
+        postcode: "2095",
+        tagline: "Trusted cleaning services for the Northern Beaches.",
+        description: "From Manly to Palm Beach, our expert cleaners ensure your coastal home stays fresh and sparkling.",
+        lat: -33.7980,
+        lng: 151.2874
+      },
+      {
+        name: "North Shore",
+        slug: "north-shore",
+        postcode: "2064",
+        tagline: "Premium cleaning services across the North Shore.",
+        description: "Serving Chatswood, Mosman, Lane Cove and beyond with professional residential and commercial cleans.",
+        lat: -33.7970,
+        lng: 151.1837
+      },
+      {
+        name: "Inner West",
+        slug: "inner-west",
+        postcode: "2042",
+        tagline: "Reliable cleaning solutions for the Inner West.",
+        description: "From Newtown to Marrickville and Leichhardt, our team brings thorough, dependable cleaning to your doorstep.",
+        lat: -33.9005,
+        lng: 151.1643
+      },
+      {
+        name: "South Sydney",
+        slug: "south-sydney",
+        postcode: "2032",
+        tagline: "Expert cleaning services for South Sydney.",
+        description: "Covering Coogee, Maroubra, Mascot and more with deep cleans and maintenance services.",
+        lat: -33.9230,
+        lng: 151.2628
+      },
+      {
+        name: "Western Sydney",
+        slug: "western-sydney",
+        postcode: "2153",
+        tagline: "Comprehensive cleaning across Western Sydney.",
+        description: "Serving Penrith, Blacktown, and surrounding areas with reliable residential and commercial cleaning.",
+        lat: -33.7513,
+        lng: 150.6900
+      },
+      {
+        name: "Hills District",
+        slug: "hills-district",
+        postcode: "2155",
+        tagline: "Professional cleaning solutions in the Hills District.",
+        description: "From Castle Hill to Kellyville, our experienced team ensures pristine results every time.",
+        lat: -33.7550,
+        lng: 150.9880
+      },
+      {
+        name: "Canterbury-Bankstown",
+        slug: "canterbury-bankstown",
+        postcode: "2193",
+        tagline: "Affordable and reliable cleaning for Canterbury-Bankstown.",
+        description: "Supporting households and businesses across the Canterbury-Bankstown area with quality service.",
+        lat: -33.9162,
+        lng: 151.0645
+      },
+      {
+        name: "Sutherland Shire",
+        slug: "sutherland-shire",
+        postcode: "2224",
+        tagline: "Local cleaning experts serving the Sutherland Shire.",
+        description: "From Cronulla to Miranda, our team provides trusted cleaning for coastal and suburban homes.",
+        lat: -34.0300,
+        lng: 151.1442
+      },
+      {
+        name: "Blacktown",
+        slug: "blacktown",
+        postcode: "2148",
+        tagline: "Dependable cleaning services in Blacktown.",
+        description: "Specializing in home, office, and commercial cleans across the Blacktown region.",
+        lat: -33.7738,
+        lng: 150.9086
+      },
+      {
+        name: "Parramatta",
+        slug: "parramatta",
+        postcode: "2150",
+        tagline: "Top-notch cleaning services across Parramatta.",
+        description: "Our Parramatta cleaners offer expert and reliable solutions for homes and businesses.",
+        lat: -33.8150,
+        lng: 151.0020
+      },
+      {
+        name: "Liverpool",
+        slug: "liverpool",
+        postcode: "2170",
+        tagline: "Expert cleaning across Liverpool suburbs.",
+        description: "Proudly serving Liverpool with high-quality cleaning for households, offices, and retail spaces.",
+        lat: -33.9249,
+        lng: 150.9267
+      }
+    ],
+    cta: {
+      label: "View All Service Areas"
+    }
+  },
+
+
+
+
+
   nav: [
     { href: "/#services", label: "Services" },
     { href: "/areas",     label: "Areas" },
@@ -112,19 +236,7 @@ export const copy = {
       },
     ],
   },
-  areas: {
-    title: "Serving All Sydney Suburbs",
-    sub: "Professional cleaning services across Eastern Suburbs, Northern Beaches, North Shore, Inner West, South Sydney & Western Sydney",
-    featured: [
-      { name:"Bondi & Eastern Suburbs", blurb:"Premium coastal cleaning services for beachside properties" },
-      { name:"Manly & Northern Beaches", blurb:"Specialized service for coastal salt and sand cleaning" },
-      { name:"Chatswood & North Shore", blurb:"Professional cleaning for prestigious North Shore homes" },
-      { name:"Parramatta & Western Sydney", blurb:"Comprehensive cleaning across Western Sydney suburbs" },
-      { name:"Coogee & South Sydney", blurb:"Expert cleaning services for South Sydney properties" },
-      { name:"Mosman & Lower North Shore", blurb:"Premium residential cleaning in harbourside suburbs" },
-    ],
-    cta: { label:"View All Service Areas", href:"/areas" },
-  },
+  
   gallery: {
     title: "Before & After Results",
     subtitle: "See the dramatic difference our professional cleaning makes",
@@ -201,3 +313,4 @@ Licensed, insured, and available 7 days a week with same-day service options.`,
     emergencyNote: "For urgent same-day requests, please call directly: 0414 203 262"
   },
 };
+
