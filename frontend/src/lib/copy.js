@@ -1,6 +1,4 @@
 export const copy = {
-
-  
   areas: {
     title: "Our Service Areas",
     sub: "We provide professional cleaning services across greater Sydney suburbs.",
@@ -10,118 +8,168 @@ export const copy = {
         slug: "eastern-suburbs",
         postcode: "2021",
         tagline: "Complete cleaning solutions for the Eastern Suburbs.",
-        description: "Our Eastern Suburbs team delivers top-tier residential and commercial cleaning across suburbs like Bondi, Randwick, Maroubra and more.",
+        description:
+          "Our Eastern Suburbs team delivers top-tier residential and commercial cleaning across suburbs like Bondi, Randwick, Maroubra and more.",
         lat: -33.8928,
-        lng: 151.2643
+        lng: 151.2643,
+        coverageDetails: [
+          { name: "Bondi", note: "Premium beachside cleaning services" },
+          { name: "Coogee", note: "Coastal property specialists" },
+          { name: "Maroubra", note: "Residential and commercial cleaning" },
+          { name: "Double Bay", note: "Luxury property maintenance" },
+          { name: "Rose Bay", note: "Harbourside cleaning experts" },
+          { name: "Vaucluse", note: "High-end residential services" },
+          { name: "Woollahra", note: "Heritage property care" },
+          { name: "Paddington", note: "Terrace house specialists" },
+        ],
+        coverageSuburbs: [
+          "Bondi","Coogee","Maroubra","Double Bay","Rose Bay","Vaucluse","Woollahra","Paddington",
+        ],
       },
       {
         name: "Northern Beaches",
         slug: "northern-beaches",
         postcode: "2095",
         tagline: "Trusted cleaning services for the Northern Beaches.",
-        description: "From Manly to Palm Beach, our expert cleaners ensure your coastal home stays fresh and sparkling.",
+        description:
+          "From Manly to Palm Beach, our expert cleaners ensure your coastal home stays fresh and sparkling.",
         lat: -33.7980,
-        lng: 151.2874
+        lng: 151.2874,
+        coverageDetails: [
+          { name: "Manly", note: "Beachfront property experts" },
+          { name: "Dee Why", note: "Northern beaches specialists" },
+          { name: "Avalon", note: "Premium coastal cleaning" },
+          { name: "Palm Beach", note: "Exclusive beachside service" },
+          { name: "Mona Vale", note: "Comprehensive cleaning solutions" },
+          { name: "Freshwater", note: "Local beach community service" },
+          { name: "Curl Curl", note: "Residential cleaning experts" },
+          { name: "Narrabeen", note: "Family home specialists" },
+        ],
+        coverageSuburbs: [
+          "Manly","Dee Why","Avalon","Palm Beach","Mona Vale","Freshwater","Curl Curl","Narrabeen",
+        ],
       },
       {
         name: "North Shore",
         slug: "north-shore",
         postcode: "2064",
         tagline: "Premium cleaning services across the North Shore.",
-        description: "Serving Chatswood, Mosman, Lane Cove and beyond with professional residential and commercial cleans.",
+        description:
+          "Serving Chatswood, Mosman, Lane Cove and beyond with professional residential and commercial cleans.",
         lat: -33.7970,
-        lng: 151.1837
+        lng: 151.1837,
+        coverageDetails: [
+          { name: "Chatswood", note: "Commercial and residential hub" },
+          { name: "Lane Cove", note: "Leafy suburb specialists" },
+          { name: "North Sydney", note: "Business district cleaning" },
+          { name: "Mosman", note: "Premium harbour views" },
+          { name: "Neutral Bay", note: "Harbourside apartments" },
+          { name: "Cremorne", note: "Waterfront property care" },
+          { name: "Willoughby", note: "Family suburb cleaning" },
+          { name: "Artarmon", note: "Residential and office cleaning" },
+        ],
+        coverageSuburbs: [
+          "Chatswood","Lane Cove","North Sydney","Mosman","Neutral Bay","Cremorne","Willoughby","Artarmon",
+        ],
       },
       {
         name: "Inner West",
         slug: "inner-west",
         postcode: "2042",
         tagline: "Reliable cleaning solutions for the Inner West.",
-        description: "From Newtown to Marrickville and Leichhardt, our team brings thorough, dependable cleaning to your doorstep.",
+        description:
+          "From Newtown to Marrickville and Leichhardt, our team brings thorough, dependable cleaning to your doorstep.",
         lat: -33.9005,
-        lng: 151.1643
+        lng: 151.1643,
+        coverageDetails: [
+          { name: "Newtown", note: "Creative quarter cleaning" },
+          { name: "Leichhardt", note: "Italian heritage area" },
+          { name: "Balmain", note: "Historic harbour suburb" },
+          { name: "Rozelle", note: "Trendy inner west hub" },
+          { name: "Glebe", note: "Student and family area" },
+          { name: "Surry Hills", note: "Urban apartment specialists" },
+          { name: "Redfern", note: "Cultural district cleaning" },
+          { name: "Marrickville", note: "Multicultural community service" },
+        ],
+        coverageSuburbs: [
+          "Newtown","Leichhardt","Balmain","Rozelle","Glebe","Surry Hills","Redfern","Marrickville",
+        ],
       },
       {
         name: "South Sydney",
+        displayName: "Southern Sydney", // for UI titles
         slug: "south-sydney",
         postcode: "2032",
         tagline: "Expert cleaning services for South Sydney.",
-        description: "Covering Coogee, Maroubra, Mascot and more with deep cleans and maintenance services.",
+        description:
+          "Covering Coogee, Maroubra, Mascot and more with deep cleans and maintenance services.",
         lat: -33.9230,
-        lng: 151.2628
+        lng: 151.2628,
+        coverageDetails: [
+          { name: "Cronulla", note: "Beach suburb specialists" },
+          { name: "Sutherland", note: "Shire area headquarters" },
+          { name: "Hurstville", note: "Commercial district cleaning" },
+          { name: "Kogarah", note: "St George area service" },
+          { name: "Rockdale", note: "Industrial and residential" },
+          { name: "Miranda", note: "Shopping hub specialists" },
+          { name: "Caringbah", note: "Family suburb cleaning" },
+          { name: "Engadine", note: "Growing residential area" },
+        ],
+        coverageSuburbs: [
+          "Cronulla","Sutherland","Hurstville","Kogarah","Rockdale","Miranda","Caringbah","Engadine",
+        ],
       },
       {
         name: "Western Sydney",
         slug: "western-sydney",
         postcode: "2153",
         tagline: "Comprehensive cleaning across Western Sydney.",
-        description: "Serving Penrith, Blacktown, and surrounding areas with reliable residential and commercial cleaning.",
+        description:
+          "Serving Penrith, Blacktown, and surrounding areas with reliable residential and commercial cleaning.",
         lat: -33.7513,
-        lng: 150.6900
+        lng: 150.6900,
+        coverageDetails: [
+          { name: "Parramatta", note: "Major business district" },
+          { name: "Blacktown", note: "Growing suburban area" },
+          { name: "Liverpool", note: "Diverse community hub" },
+          { name: "Penrith", note: "Western gateway cleaning" },
+          { name: "Mount Druitt", note: "Family suburb specialists" },
+          { name: "Fairfield", note: "Multicultural area service" },
+          { name: "Bankstown", note: "Commercial and residential" },
+          { name: "Auburn", note: "Community-focused cleaning" },
+        ],
+        coverageSuburbs: [
+          "Parramatta","Blacktown","Liverpool","Penrith","Mount Druitt","Fairfield","Bankstown","Auburn",
+        ],
       },
       {
         name: "Hills District",
         slug: "hills-district",
         postcode: "2155",
         tagline: "Professional cleaning solutions in the Hills District.",
-        description: "From Castle Hill to Kellyville, our experienced team ensures pristine results every time.",
+        description:
+          "From Castle Hill to Kellyville, our experienced team ensures pristine results every time.",
         lat: -33.7550,
-        lng: 150.9880
+        lng: 150.9880,
+        coverageDetails: [
+          { name: "Castle Hill", note: "Family-friendly cleaning" },
+          { name: "Hornsby", note: "Bushland suburb care" },
+          { name: "Ryde", note: "Riverside property service" },
+          { name: "Epping", note: "Growing family area" },
+          { name: "Carlingford", note: "Premium residential cleaning" },
+          { name: "West Pennant Hills", note: "Leafy hills suburb" },
+          { name: "Thornleigh", note: "Natural bush setting" },
+          { name: "Wahroonga", note: "Upper north shore luxury" },
+        ],
+        coverageSuburbs: [
+          "Castle Hill","Hornsby","Ryde","Epping","Carlingford","West Pennant Hills","Thornleigh","Wahroonga",
+        ],
       },
-      {
-        name: "Canterbury-Bankstown",
-        slug: "canterbury-bankstown",
-        postcode: "2193",
-        tagline: "Affordable and reliable cleaning for Canterbury-Bankstown.",
-        description: "Supporting households and businesses across the Canterbury-Bankstown area with quality service.",
-        lat: -33.9162,
-        lng: 151.0645
-      },
-      {
-        name: "Sutherland Shire",
-        slug: "sutherland-shire",
-        postcode: "2224",
-        tagline: "Local cleaning experts serving the Sutherland Shire.",
-        description: "From Cronulla to Miranda, our team provides trusted cleaning for coastal and suburban homes.",
-        lat: -34.0300,
-        lng: 151.1442
-      },
-      {
-        name: "Blacktown",
-        slug: "blacktown",
-        postcode: "2148",
-        tagline: "Dependable cleaning services in Blacktown.",
-        description: "Specializing in home, office, and commercial cleans across the Blacktown region.",
-        lat: -33.7738,
-        lng: 150.9086
-      },
-      {
-        name: "Parramatta",
-        slug: "parramatta",
-        postcode: "2150",
-        tagline: "Top-notch cleaning services across Parramatta.",
-        description: "Our Parramatta cleaners offer expert and reliable solutions for homes and businesses.",
-        lat: -33.8150,
-        lng: 151.0020
-      },
-      {
-        name: "Liverpool",
-        slug: "liverpool",
-        postcode: "2170",
-        tagline: "Expert cleaning across Liverpool suburbs.",
-        description: "Proudly serving Liverpool with high-quality cleaning for households, offices, and retail spaces.",
-        lat: -33.9249,
-        lng: 150.9267
-      }
+      
+     
     ],
-    cta: {
-      label: "View All Service Areas"
-    }
+    cta: { label: "View All Service Areas" }
   },
-
-
-
-
 
   nav: [
     { href: "/#services", label: "Services" },
@@ -158,49 +206,47 @@ export const copy = {
     sub: "Expert cleaning solutions that protect and enhance your property's value with guaranteed results and same-day availability",
   },
   services: [
-  {
-    slug: "solar-panel-cleaning",
-    title: "Solar Panel Cleaning",
-    blurb: "Increase energy efficiency by 30% with professional solar panel cleaning.",
-    bullets: ["30% efficiency boost", "Warranty compliance", "Professional equipment"],
-    icon: "Sun",
-    image: "/images/solar.avif",   // <-- add this
-  },
-  {
-    slug: "roof-gutter-cleaning",
-    title: "Roof & Gutter Cleaning",
-    blurb: "Protect your property from water damage with comprehensive roof cleaning.",
-    bullets: ["Prevent water damage", "Remove debris", "Safety first"],
-    icon: "Home",
-    image: "/images/hero2.jpg",
-  },
-  {
-    slug: "window-cleaning",
-    title: "Window Cleaning",
-    blurb: "Crystal clear windows for homes and businesses across Sydney.",
-    bullets: ["Streak-free results", "Inside & outside", "Regular maintenance"],
-    icon: "Square",
-    image: "/images/window.jpg",
-  },
-  {
-    slug: "pressure-washing",
-    title: "Pressure Washing",
-    blurb: "Restore driveways, patios, and external surfaces to like-new condition.",
-    bullets: ["Remove tough stains", "All surface types", "Eco-friendly"],
-    icon: "Droplets",
-    image: "/images/pressure.png",
-  },
-  {
-    slug: "drone-based-washing",
-    title: "Drone Cleaning",
-    blurb: "Advanced drone-powered cleaning for high-rise buildings and hard-to-reach areas.",
-    bullets: ["Safe & efficient", "Access difficult areas", "Eco-friendly technology"],
-    icon: "Drone",
-    image: "/images/d2.avif",
-  },
-]
-
-  ,
+    {
+      slug: "solar-panel-cleaning",
+      title: "Solar Panel Cleaning",
+      blurb: "Increase energy efficiency by 30% with professional solar panel cleaning.",
+      bullets: ["30% efficiency boost", "Warranty compliance", "Professional equipment"],
+      icon: "Sun",
+      image: "/images/solar.avif",
+    },
+    {
+      slug: "roof-gutter-cleaning",
+      title: "Roof & Gutter Cleaning",
+      blurb: "Protect your property from water damage with comprehensive roof cleaning.",
+      bullets: ["Prevent water damage", "Remove debris", "Safety first"],
+      icon: "Home",
+      image: "/images/hero2.jpg",
+    },
+    {
+      slug: "window-cleaning",
+      title: "Window Cleaning",
+      blurb: "Crystal clear windows for homes and businesses across Sydney.",
+      bullets: ["Streak-free results", "Inside & outside", "Regular maintenance"],
+      icon: "Square",
+      image: "/images/window.jpg",
+    },
+    {
+      slug: "pressure-washing",
+      title: "Pressure Washing",
+      blurb: "Restore driveways, patios, and external surfaces to like-new condition.",
+      bullets: ["Remove tough stains", "All surface types", "Eco-friendly"],
+      icon: "Droplets",
+      image: "/images/pressure.png",
+    },
+    {
+      slug: "drone-based-washing",
+      title: "Drone Cleaning",
+      blurb: "Advanced drone-powered cleaning for high-rise buildings and hard-to-reach areas.",
+      bullets: ["Safe & efficient", "Access difficult areas", "Eco-friendly technology"],
+      icon: "Drone",
+      image: "/images/d2.avif",
+    },
+  ],
   process: {
     title: "Why Choose Arcturus Services?",
     subtitle: "Professional, reliable, and committed to exceeding expectations every time",
@@ -216,24 +262,14 @@ export const copy = {
     rating: "5.0 Stars",
     sub: "Based on 247+ verified Google reviews",
     items: [
-      { 
-        name:"Sarah M.", 
-        location:"Bondi",
-        text:"Had my solar panels cleaned by Arcturus Services and couldn't be happier! They increased our energy output by 28% and were incredibly professional throughout. Highly recommend to anyone wanting to maximize their solar investment." 
-      },
-      { 
-        name:"Michael T.", 
-        location:"Chatswood",
-        text:"Absolutely fantastic pressure washing service! My concrete driveway looked terrible after years of stains and weathering. Now it looks like we have a brand new driveway. Professional, punctual and worth every penny!" 
-      },
-      { 
-        name:"Lisa K.", 
-        location:"Manly",
-        text:"Called Arcturus for an urgent roof and gutter clean before the storm season. They came same-day, cleared everything perfectly and potentially saved us from serious water damage. Professional service at its absolute best!" 
-      },
+      { name:"Sarah M.", location:"Bondi",
+        text:"Had my solar panels cleaned by Arcturus Services and couldn't be happier! They increased our energy output by 28% and were incredibly professional throughout. Highly recommend to anyone wanting to maximize their solar investment." },
+      { name:"Michael T.", location:"Chatswood",
+        text:"Absolutely fantastic pressure washing service! My concrete driveway looked terrible after years of stains and weathering. Now it looks like we have a brand new driveway. Professional, punctual and worth every penny!" },
+      { name:"Lisa K.", location:"Manly",
+        text:"Called Arcturus for an urgent roof and gutter clean before the storm season. They came same-day, cleared everything perfectly and potentially saved us from serious water damage. Professional service at its absolute best!" },
     ],
   },
-  
   gallery: {
     title: "Before & After Results",
     subtitle: "See the dramatic difference our professional cleaning makes",
@@ -249,30 +285,15 @@ export const copy = {
       { src:"https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", alt:"Pavers restored to original condition", caption: "Paver Restoration" },
     ],
   },
-  faq: { 
-    title:"Frequently Asked Questions", 
+  faq: {
+    title:"Frequently Asked Questions",
     items: [
-      {
-        q: "Do you provide same-day service?",
-        a: "Yes! We offer same-day service across most Sydney suburbs, subject to availability. Contact us before 2 PM for potential same-day scheduling."
-      },
-      {
-        q: "Are you fully insured?",
-        a: "Absolutely. We carry $10 million public liability insurance and full workers compensation coverage. All our technicians are licensed and insured."
-      },
-      {
-        q: "What's included in your satisfaction guarantee?",
-        a: "If you're not completely satisfied with our work, we'll return at no extra charge to make it right. Your satisfaction is 100% guaranteed."
-      },
-      {
-        q: "Do you clean solar panels safely?",
-        a: "Yes, we use specialized soft-brush techniques and deionized water to safely clean solar panels without voiding manufacturer warranties. All work maintains compliance."
-      },
-      {
-        q: "How often should I have my gutters cleaned?",
-        a: "We recommend gutter cleaning every 6-12 months, or more frequently if you have overhanging trees. Regular maintenance prevents water damage and costly repairs."
-      }
-    ] 
+      { q: "Do you provide same-day service?", a: "Yes! We offer same-day service across most Sydney suburbs, subject to availability. Contact us before 2 PM for potential same-day scheduling." },
+      { q: "Are you fully insured?", a: "Absolutely. We carry $10 million public liability insurance and full workers compensation coverage. All our technicians are licensed and insured." },
+      { q: "What's included in your satisfaction guarantee?", a: "If you're not completely satisfied with our work, we'll return at no extra charge to make it right. Your satisfaction is 100% guaranteed." },
+      { q: "Do you clean solar panels safely?", a: "Yes, we use specialized soft-brush techniques and deionized water to safely clean solar panels without voiding manufacturer warranties. All work maintains compliance." },
+      { q: "How often should I have my gutters cleaned?", a: "We recommend gutter cleaning every 6-12 months, or more frequently if you have overhanging trees. Regular maintenance prevents water damage and costly repairs." }
+    ]
   },
   cta: {
     line: "Ready for Professional Results?",
@@ -310,4 +331,3 @@ Licensed, insured, and available 7 days a week with same-day service options.`,
     emergencyNote: "For urgent same-day requests, please call directly: 0414 203 262"
   },
 };
-
