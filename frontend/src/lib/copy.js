@@ -158,52 +158,49 @@ export const copy = {
     sub: "Expert cleaning solutions that protect and enhance your property's value with guaranteed results and same-day availability",
   },
   services: [
-    {
-      slug: "solar-panel-cleaning",
-      title: "Solar Panel Cleaning",
-      blurb: "Increase energy efficiency by up to 30% with professional solar panel cleaning using specialized equipment",
-      long: "Our certified technicians safely remove dust, bird droppings, and environmental residues to restore optimal solar output while maintaining manufacturer warranty compliance. Using deionized water and soft-brush techniques.",
-      bullets: ["Up to 30% efficiency boost","Warranty compliance guaranteed","Professional equipment & insurance","Before/after performance reports"],
-      icon: "Sun",
-    },
-    {
-      slug: "roof-gutter-cleaning",
-      title: "Roof & Gutter Cleaning", 
-      blurb: "Protect your property from water damage with comprehensive roof and gutter cleaning services",
-      long: "Complete debris removal, downpipe clearing, and controlled rinse system to keep water flowing freely and prevent costly structural damage. Safety-first approach with full insurance coverage.",
-      bullets: ["Prevent expensive water damage","Complete debris removal","Safety equipment used","Downpipe clearing included"],
-      icon: "Home",
-    },
-    {
-      slug: "window-cleaning",
-      title: "Window Cleaning",
-      blurb: "Crystal clear windows for homes and businesses across Sydney with interior and exterior service",
-      long: "Streak-free professional finish using purified water systems and premium squeegee techniques. Interior and exterior service available with scheduled maintenance programs for ongoing clarity.",
-      bullets: ["Streak-free guaranteed results","Interior & exterior service","Scheduled maintenance available","Commercial & residential"],
-      icon: "Square",
-    },
-    {
-      slug: "pressure-washing",
-      title: "Pressure Washing",
-      blurb: "Restore driveways, patios, and external surfaces to like-new condition with professional pressure cleaning",
-      long: "Calibrated PSI settings and eco-friendly detergents for concrete, pavers, brick, composite decking and more. No zebra striping or surface damage - just professional results that last.",
-      bullets: ["Remove stubborn stains & mold","All surface types covered","Eco-friendly cleaning agents","No surface damage guarantee"],
-      icon: "Droplets",
-    },
-    {
-  slug: "drone-based-washing",
-  title: "Drone-Based Cleaning",
-  blurb: "Efficient and safe high-rise and hard-to-reach cleaning using advanced drone technology",
-  long: "Our state-of-the-art drones reach rooftops, solar panels, and building facades that are difficult or dangerous to access manually. Equipped with high-pressure water and eco-friendly cleaning solutions, they deliver precise cleaning while minimizing risks and disruption.",
-  bullets: [
-    "Access hard-to-reach areas safely",
-    "High precision cleaning with drones",
-    "Eco-friendly water and solutions",
-    "Reduces manual labor & safety risks"
-  ],
-  icon: "Drone", // You can pick an icon representing drones or flight
-}
-  ],
+  {
+    slug: "solar-panel-cleaning",
+    title: "Solar Panel Cleaning",
+    blurb: "Increase energy efficiency by 30% with professional solar panel cleaning.",
+    bullets: ["30% efficiency boost", "Warranty compliance", "Professional equipment"],
+    icon: "Sun",
+    image: "/images/solar.avif",   // <-- add this
+  },
+  {
+    slug: "roof-gutter-cleaning",
+    title: "Roof & Gutter Cleaning",
+    blurb: "Protect your property from water damage with comprehensive roof cleaning.",
+    bullets: ["Prevent water damage", "Remove debris", "Safety first"],
+    icon: "Home",
+    image: "/images/hero2.jpg",
+  },
+  {
+    slug: "window-cleaning",
+    title: "Window Cleaning",
+    blurb: "Crystal clear windows for homes and businesses across Sydney.",
+    bullets: ["Streak-free results", "Inside & outside", "Regular maintenance"],
+    icon: "Square",
+    image: "/images/window.jpg",
+  },
+  {
+    slug: "pressure-washing",
+    title: "Pressure Washing",
+    blurb: "Restore driveways, patios, and external surfaces to like-new condition.",
+    bullets: ["Remove tough stains", "All surface types", "Eco-friendly"],
+    icon: "Droplets",
+    image: "/images/pressure.png",
+  },
+  {
+    slug: "drone-based-washing",
+    title: "Drone Cleaning",
+    blurb: "Advanced drone-powered cleaning for high-rise buildings and hard-to-reach areas.",
+    bullets: ["Safe & efficient", "Access difficult areas", "Eco-friendly technology"],
+    icon: "Drone",
+    image: "/images/d2.avif",
+  },
+]
+
+  ,
   process: {
     title: "Why Choose Arcturus Services?",
     subtitle: "Professional, reliable, and committed to exceeding expectations every time",
