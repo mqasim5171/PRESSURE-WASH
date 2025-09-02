@@ -6,11 +6,20 @@ import Button from '../ui/button';
 import { copy } from '../../lib/copy';
 import { Link } from 'react-router-dom';
 
-const Areas = ({ showCTA = true }) => {   // 👈 new prop with default = true
+// ✅ Slugify helper (same as AreasPage.jsx)
+const slugify = (str) =>
+  String(str)
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+const Areas = ({ showCTA = true }) => {
   const { areas } = copy;
 
   return (
     <Section id="areas" className="bg-white">
+      {/* Header */}
       <div className="text-center mb-16">
         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
           {areas.title}
@@ -20,11 +29,13 @@ const Areas = ({ showCTA = true }) => {   // 👈 new prop with default = true
         </p>
       </div>
 
+      {/* ✅ Featured Area Cards (Clickable) */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
         {areas.featured.map((area, index) => (
-          <div
+          <Link
             key={index}
-            className="bg-slate-50 rounded-2xl p-8 hover:bg-blue-50 transition-colors duration-300 border border-slate-100 hover:border-blue-200"
+            to={`/areas/${slugify(area.name)}`}
+            className="block bg-slate-50 rounded-2xl p-8 hover:bg-blue-50 transition-colors duration-300 border border-slate-100 hover:border-blue-200"
           >
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -39,11 +50,11 @@ const Areas = ({ showCTA = true }) => {   // 👈 new prop with default = true
                 </p>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
-      {/* ✅ Conditionally render CTA */}
+      {/* ✅ CTA */}
       {showCTA && (
         <div className="text-center">
           <div className="inline-flex flex-col sm:flex-row items-center gap-4 bg-slate-900 text-white p-8 rounded-2xl">
@@ -69,7 +80,7 @@ const Areas = ({ showCTA = true }) => {   // 👈 new prop with default = true
         </div>
       )}
 
-      {/* Service Coverage Map */}
+      {/* ✅ Service Coverage Map (Clickable Buttons) */}
       <div className="mt-16 bg-blue-50 rounded-2xl p-8">
         <div className="text-center mb-8">
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
@@ -95,9 +106,14 @@ const Areas = ({ showCTA = true }) => {   // 👈 new prop with default = true
             "Parramatta",
             "Liverpool"
           ].map((region, index) => (
-            <div key={index} className="bg-white rounded-lg p-4 text-sm font-medium text-slate-700">
+            <Link
+              key={index}
+              to={`/areas/${slugify(region)}`}
+              className="block bg-white rounded-lg p-4 text-sm font-medium text-slate-700 
+                         hover:bg-blue-100 hover:text-blue-700 transition shadow-sm border border-slate-200"
+            >
               {region}
-            </div>
+            </Link>
           ))}
         </div>
       </div>
