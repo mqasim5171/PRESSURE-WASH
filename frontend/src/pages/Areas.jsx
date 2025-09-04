@@ -263,10 +263,10 @@ const AvailabilityForm = ({ services }) => {
         <p className="mb-3">Prefer to speak directly? Call us now!</p>
         <div className="flex items-center justify-center gap-3">
           <a
-            href="tel:0414203262"
+            href="tel:0280001080"
             className="inline-flex items-center gap-2 rounded-lg px-4 py-2 bg-[#1D2B6F] text-white font-semibold"
           >
-            <Phone className="w-4 h-4" /> 0414 203 262
+            <Phone className="w-4 h-4" /> 0280 001 080
           </a>
           <a
             href="mailto:info@example.com"

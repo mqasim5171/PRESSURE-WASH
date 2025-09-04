@@ -260,48 +260,64 @@ export default function ServiceDetail() {
       </Section>
 
       {/* SERVICE AREAS */}
-      <Section tone="white" className="py-20">
-        <div className="text-center mb-10">
-          <h2 className="text-4xl font-bold">{headline} Service Areas Across Sydney</h2>
-          <p className="text-slate-600 mt-3">
-            Professional {headline.toLowerCase()} available throughout Sydney NSW
-          </p>
-        </div>
+      {/* SERVICE AREAS */}
+<Section tone="white" className="py-20">
+  <div className="text-center mb-10">
+    <h2 className="text-4xl font-bold">{headline} Service Areas Across Sydney</h2>
+    <p className="text-slate-600 mt-3">
+      Professional {headline.toLowerCase()} available throughout Sydney NSW
+    </p>
+  </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-7">
-          {suburbs.map((name) => {
-            const s = slugify(name);
-            return (
-              <div key={name} className="rounded-2xl bg-white shadow-md ring-1 ring-slate-200 p-5 hover:shadow-lg transition">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="inline-flex items-center gap-1 text-blue-600">
-                    <MapPin className="w-4 h-4" /><span className="text-xs font-medium">Sydney</span>
-                  </div>
-                  <Star className="w-4 h-4 text-yellow-400" />
-                </div>
-                <div className="font-semibold text-slate-900 text-lg">{name}</div>
-                <div className="text-sm text-slate-600 mt-1">
-                  {`Professional ${headline.toLowerCase()} in ${name}`}
-                </div>
-                <div className="mt-4 flex items-center gap-2">
-                  <Link
-                    to="/contact"
-                    className="inline-flex justify-center items-center px-3.5 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700"
-                  >
-                    Book Service
-                  </Link>
-                  <Link
-                    to={`/areas/${s}`}
-                    className="inline-flex justify-center items-center px-3.5 py-2.5 rounded-lg border text-sm font-semibold hover:bg-slate-50"
-                  >
-                    Explore
-                  </Link>
-                </div>
-              </div>
-            );
-          })}
+  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-7">
+    {suburbs.map((name) => {
+      const s = slugify(name);
+      return (
+        <div
+          key={name}
+          className="rounded-2xl bg-white shadow-md ring-1 ring-slate-200 p-5 hover:shadow-lg transition"
+        >
+          <div className="flex items-center justify-between mb-3">
+            <div className="inline-flex items-center gap-1 text-blue-600">
+              <MapPin className="w-4 h-4" />
+              <span className="text-xs font-medium">Sydney</span>
+            </div>
+            <Star className="w-4 h-4 text-yellow-400" />
+          </div>
+          <div className="font-semibold text-slate-900 text-lg">{name}</div>
+          <div className="text-sm text-slate-600 mt-1">
+            {`Professional ${headline.toLowerCase()} in ${name}`}
+          </div>
+          <div className="mt-4 flex items-center gap-2">
+            <Link
+              to="/contact"
+              className="inline-flex justify-center items-center px-3.5 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700"
+            >
+              Book Service
+            </Link>
+            <Link
+              to={`/areas/${s}`}
+              className="inline-flex justify-center items-center px-3.5 py-2.5 rounded-lg border text-sm font-semibold hover:bg-slate-50"
+            >
+              Explore
+            </Link>
+          </div>
         </div>
-      </Section>
+      );
+    })}
+  </div>
+
+  {/* See All Areas button */}
+  <div className="text-center mt-12">
+    <Link
+      to="/areas"
+      className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 shadow-md"
+    >
+      See All Areas
+    </Link>
+  </div>
+</Section>
+
 
       {/* CLOSING CTA */}
       <Section tone="slate" className="py-20">
