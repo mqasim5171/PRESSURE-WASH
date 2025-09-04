@@ -1,9 +1,8 @@
 fastapi
-uvicorn
 google-api-python-client
 google-auth
 google-auth-oauthlib
 python-dotenv
-python-dotenv
 gspread
-pydantic
+uvicorn[standard]
+pydantic[email]
