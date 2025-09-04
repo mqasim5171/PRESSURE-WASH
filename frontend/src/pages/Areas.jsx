@@ -87,7 +87,7 @@ const AvailabilityForm = ({ services }) => {
     }
     setStatus("loading");
     try {
-      const res = await fetch("http://localhost:8000/api/submit-quote", {
+      const res = await fetch("https://your-service.onrender.com/api/submit-quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
