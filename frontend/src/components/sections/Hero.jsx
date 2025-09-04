@@ -41,7 +41,7 @@ const slides = [
   },
   {
     id: 5,
-    image: "/images/renovation.jpeg",
+    image: "/images/pressurewash.png",
     title: "Roof & Home",
     highlight: "Renovation Experts",
     description: "Restore your property with our top-rated roof and home cleaning solutions.",

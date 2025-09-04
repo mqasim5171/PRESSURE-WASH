@@ -244,7 +244,7 @@ export const copy = {
       blurb: "Advanced drone-powered cleaning for high-rise buildings and hard-to-reach areas.",
       bullets: ["Safe & efficient", "Access difficult areas", "Eco-friendly technology"],
       icon: "Drone",
-      image: "/images/d2.avif",
+      image: "/images/drone.png",
     },
   ],
   process: {

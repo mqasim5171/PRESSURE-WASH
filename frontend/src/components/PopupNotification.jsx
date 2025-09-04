@@ -26,7 +26,7 @@ export default function PopupNotification() {
         {/* Image Section */}
         <div className="relative w-full sm:h-[70%] h-48">
           <img
-            src="/images/d2.avif" // Update your image path
+            src="/images/drone.png" // Update your image path
             alt="Drone Cleaning Services"
             className="w-full h-full object-cover rounded-t-2xl"
           />
