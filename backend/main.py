@@ -54,9 +54,12 @@ class ContactForm(BaseModel):
     suburb: str = ""
     service: str = ""
     propertyType: str = "Residential"
+    contactMethod: str | None = None   # <- new field
     contactPreference: str = "Call"
-    message: str
+    notes: str | None = None           # <- new field
+    message: str = ""
     consent: bool
+
 
 # -----------------------------
 # Alert Email Function

@@ -177,6 +177,67 @@ export default function ServiceDetail() {
         </div>
       </Section>
 
+      {/* SOLAR DRONE INSPECTION (only for solar cleaning) */}
+{service.slug === "solar-panel-cleaning" && (
+  <Section tone="slate" className="py-20">
+    <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      
+      {/* Left side - text */}
+      <div>
+        <h2 className="text-4xl font-bold text-slate-900 mb-6">
+          Advanced Thermal Drone Inspection
+        </h2>
+        <p className="text-lg text-slate-600 mb-6">
+          We use cutting-edge thermal IVR drone technology to detect faults, dirt,
+          and hotspots on your solar panels — ensuring maximum efficiency and performance.
+        </p>
+
+        <ul className="space-y-4">
+          <li className="flex items-start gap-3">
+            <Zap className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
+            <div>
+              <p className="font-semibold text-slate-900">Thermal Hotspot Detection</p>
+              <p className="text-slate-600 text-sm">
+                Identify overheating cells before they cause long-term damage.
+              </p>
+            </div>
+          </li>
+          <li className="flex items-start gap-3">
+            <Shield className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
+            <div>
+              <p className="font-semibold text-slate-900">Precision Fault Analysis</p>
+              <p className="text-slate-600 text-sm">
+                Pinpoint cracks, shading, and dirt build-up invisible to the eye.
+              </p>
+            </div>
+          </li>
+          <li className="flex items-start gap-3">
+            <Star className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
+            <div>
+              <p className="font-semibold text-slate-900">Maximised Efficiency</p>
+              <p className="text-slate-600 text-sm">
+                Keep your solar system performing at peak capacity year-round.
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      {/* Right side - image */}
+      <div className="rounded-2xl overflow-hidden shadow-lg ring-1 ring-slate-200">
+        <img
+          src="/solardrone.jpg"
+          alt="Thermal drone inspecting solar panels"
+          className="w-full h-[380px] object-cover"
+        />
+      </div>
+    </div>
+  </Section>
+)}
+
+
+
+
       {/* PROCESS */}
       <Section tone="slate" className="py-20">
         <h2 className="text-4xl font-bold text-slate-900 mb-14 text-center">Our Professional Process</h2>

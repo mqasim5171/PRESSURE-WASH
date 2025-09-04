@@ -130,9 +130,52 @@ const LeftRail = ({ areaName, whyPoints = [] }) => {
 
 /* ---------------- Quote form ---------------- */
 const QuoteForm = ({ areaName = "Parramatta", services = [], propertyTypes = [] }) => {
-  const [form, setForm] = useState({ name: "", phone: "", email: "", suburb: "", service: "", propertyType: "", contactMethod: "", notes: "" });
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    suburb: "",
+    service: "",
+    propertyType: "",
+    contactMethod: "",
+    notes: ""
+  });
+  const [status, setStatus] = useState(null); // null | 'loading' | 'success' | 'error'
+
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-  const onSubmit = (e) => { e.preventDefault(); alert("Thanks! We’ll be in touch shortly."); };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    // Basic validation
+    if (!form.name || !form.phone || !form.email || !form.suburb || !form.service) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+    setStatus("loading");
+    try {
+      const res = await fetch("http://localhost:8000/api/submit-quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("Failed to submit");
+      setStatus("success");
+      setForm({
+        name: "",
+        phone: "",
+        email: "",
+        suburb: "",
+        service: "",
+        propertyType: "",
+        contactMethod: "",
+        notes: ""
+      });
+      setTimeout(() => setStatus(null), 5000);
+    } catch (err) {
+      setStatus("error");
+      setTimeout(() => setStatus(null), 5000);
+    }
+  };
 
   return (
     <div className="bg-white rounded-2xl shadow-sm ring-1 ring-slate-100 p-6 md:p-8">
@@ -171,7 +214,23 @@ const QuoteForm = ({ areaName = "Parramatta", services = [], propertyTypes = [] 
               placeholder="Tell us about your specific requirements, property size, or any special instructions..." />
           </div>
         </div>
-        <button type="submit" className="w-full rounded-lg bg-[#F79029] hover:bg-[#e27f17] text-white font-semibold py-3">Get Free Quote</button>
+        <button
+          type="submit"
+          className="w-full rounded-lg bg-[#F79029] hover:bg-[#e27f17] text-white font-semibold py-3"
+          disabled={status === "loading"}
+        >
+          {status === "loading" ? "Sending..." : "Get Free Quote"}
+        </button>
+        {status === "success" && (
+          <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded text-green-800 text-center">
+            Thank you! Your request was sent successfully.
+          </div>
+        )}
+        {status === "error" && (
+          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded text-red-800 text-center">
+            Sorry, there was a problem submitting your request. Please try again.
+          </div>
+        )}
       </form>
       <div className="text-center mt-6 text-sm">
         <p className="mb-3">Prefer to speak directly? Call us now!</p>

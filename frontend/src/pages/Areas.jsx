@@ -62,75 +62,216 @@ const AreaGroupCard = ({ area }) => {
 
 const AvailabilityForm = ({ services }) => {
   const [form, setForm] = useState({
-    name: "", phone: "", email: "", suburb: "", service: "", propertyType: "", contactMethod: "", notes: ""
+    name: "",
+    phone: "",
+    email: "",
+    suburb: "",
+    service: "",
+    propertyType: "",
+    contactMethod: "",
+    notes: "",
+    consent: true,
   });
-  const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-  const onSubmit  = (e) => { e.preventDefault(); alert("Thanks! We’ll confirm availability ASAP."); };
+  const [status, setStatus] = useState(null); // null | 'loading' | 'success' | 'error'
+
+  const onChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setForm({ ...form, [name]: type === "checkbox" ? checked : value });
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (!form.name || !form.phone || !form.email || !form.suburb || !form.service) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+    setStatus("loading");
+    try {
+      const res = await fetch("http://localhost:8000/api/submit-quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("Failed to submit");
+      setStatus("success");
+      setForm({
+        name: "",
+        phone: "",
+        email: "",
+        suburb: "",
+        service: "",
+        propertyType: "",
+        contactMethod: "",
+        notes: "",
+        consent: true,
+      });
+      setTimeout(() => setStatus(null), 5000);
+    } catch (err) {
+      setStatus("error");
+      setTimeout(() => setStatus(null), 5000);
+    }
+  };
 
   return (
     <div className="bg-white rounded-2xl shadow-xl ring-1 ring-slate-100 p-6 md:p-8">
       <h3 className="text-xl md:text-2xl font-bold mb-1">Check Service Availability</h3>
-      <p className="text-gray-600 mb-6 text-sm">Get in touch to confirm service in your area and receive a free quote</p>
+      <p className="text-gray-600 mb-6 text-sm">
+        Get in touch to confirm service in your area and receive a free quote
+      </p>
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[
-            { label:"Full Name *", name:"name" },
-            { label:"Phone Number *", name:"phone", placeholder:"0414 203 262" },
-            { label:"Email Address *", name:"email", type:"email", placeholder:"your.email@example.com" },
-            { label:"Suburb *", name:"suburb", placeholder:"Enter your suburb" },
-          ].map((f) => (
-            <div key={f.name}>
-              <label className="block text-sm font-medium mb-1">{f.label}</label>
-              <input
-                type={f.type || "text"} name={f.name} required
-                value={form[f.name]} onChange={onChange} placeholder={f.placeholder}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#F79029]"
-              />
-            </div>
-          ))}
+          <div>
+            <label className="block text-sm font-medium mb-1">Full Name *</label>
+            <input
+              type="text"
+              name="name"
+              required
+              value={form.name}
+              onChange={onChange}
+              placeholder="Enter your full name"
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#F79029]"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Phone Number *</label>
+            <input
+              type="text"
+              name="phone"
+              required
+              value={form.phone}
+              onChange={onChange}
+              placeholder="0414 203 262"
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#F79029]"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Email Address *</label>
+            <input
+              type="email"
+              name="email"
+              required
+              value={form.email}
+              onChange={onChange}
+              placeholder="your.email@example.com"
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#F79029]"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Suburb *</label>
+            <input
+              type="text"
+              name="suburb"
+              required
+              value={form.suburb}
+              onChange={onChange}
+              placeholder="Enter your suburb"
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#F79029]"
+            />
+          </div>
           <div>
             <label className="block text-sm font-medium mb-1">Service Required *</label>
-            <select name="service" required value={form.service} onChange={onChange}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#F79029]">
+            <select
+              name="service"
+              required
+              value={form.service}
+              onChange={onChange}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#F79029]"
+            >
               <option value="">Select a service</option>
-              {(copy.services || []).map((s) => <option key={s.slug} value={s.title}>{s.title}</option>)}
+              {(services || []).map((s) => (
+                <option key={s.slug} value={s.title}>
+                  {s.title}
+                </option>
+              ))}
             </select>
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Property Type</label>
-            <select name="propertyType" value={form.propertyType} onChange={onChange}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#F79029]">
+            <select
+              name="propertyType"
+              value={form.propertyType}
+              onChange={onChange}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#F79029]"
+            >
               <option value="">Select property type</option>
-              <option>House</option><option>Apartment</option><option>Townhouse</option><option>Commercial</option>
+              <option>House</option>
+              <option>Apartment</option>
+              <option>Townhouse</option>
+              <option>Commercial</option>
             </select>
           </div>
           <div className="md:col-span-2">
             <label className="block text-sm font-medium mb-1">Preferred Contact Method</label>
-            <select name="contactMethod" value={form.contactMethod} onChange={onChange}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#F79029]">
+            <select
+              name="contactMethod"
+              value={form.contactMethod}
+              onChange={onChange}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#F79029]"
+            >
               <option value="">How would you like us to contact you?</option>
-              <option>Phone</option><option>SMS</option><option>Email</option><option>WhatsApp</option>
+              <option>Phone</option>
+              <option>SMS</option>
+              <option>Email</option>
+              <option>WhatsApp</option>
             </select>
           </div>
           <div className="md:col-span-2">
             <label className="block text-sm font-medium mb-1">Additional Information</label>
-            <textarea name="notes" rows="4" value={form.notes} onChange={onChange}
+            <textarea
+              name="notes"
+              rows="4"
+              value={form.notes}
+              onChange={onChange}
+              placeholder="Tell us about your requirements, property size, or any special instructions..."
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#F79029]"
-              placeholder="Tell us about your requirements, property size, or any special instructions..." />
+            />
+          </div>
+          <div className="md:col-span-2 flex items-center">
+            <input
+              type="checkbox"
+              id="consent"
+              name="consent"
+              checked={form.consent}
+              onChange={onChange}
+              className="mr-2"
+            />
+            <label htmlFor="consent" className="text-sm">
+              I agree to be contacted for this quote
+            </label>
           </div>
         </div>
-        <button type="submit" className="w-full rounded-lg bg-[#F79029] hover:bg-[#e27f17] text-white font-semibold py-3">
-          Get Free Quote
+        <button
+          type="submit"
+          className="w-full rounded-lg bg-[#F79029] hover:bg-[#e27f17] text-white font-semibold py-3"
+          disabled={status === "loading"}
+        >
+          {status === "loading" ? "Sending..." : "Get Free Quote"}
         </button>
+        {status === "success" && (
+          <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded text-green-800 text-center">
+            Thank you! Your request was sent successfully.
+          </div>
+        )}
+        {status === "error" && (
+          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded text-red-800 text-center">
+            Sorry, there was a problem submitting your request. Please try again.
+          </div>
+        )}
       </form>
 
       <div className="text-center mt-6 text-sm">
         <p className="mb-3">Prefer to speak directly? Call us now!</p>
         <div className="flex items-center justify-center gap-3">
-          <a href="tel:0414203262" className="inline-flex items-center gap-2 rounded-lg px-4 py-2 bg-[#1D2B6F] text-white font-semibold">
+          <a
+            href="tel:0414203262"
+            className="inline-flex items-center gap-2 rounded-lg px-4 py-2 bg-[#1D2B6F] text-white font-semibold"
+          >
             <Phone className="w-4 h-4" /> 0414 203 262
           </a>
-          <a href="mailto:info@example.com" className="inline-flex items-center gap-2 rounded-lg px-4 py-2 bg-gray-100 text-gray-800 font-semibold">
+          <a
+            href="mailto:info@example.com"
+            className="inline-flex items-center gap-2 rounded-lg px-4 py-2 bg-gray-100 text-gray-800 font-semibold"
+          >
             Email Us
           </a>
         </div>
@@ -138,6 +279,7 @@ const AvailabilityForm = ({ services }) => {
     </div>
   );
 };
+
 
 const AreasPage = () => {
   const areas = copy.areas?.featured || [];
