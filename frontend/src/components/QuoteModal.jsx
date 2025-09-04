@@ -70,7 +70,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
 
     try {
       // ✅ Call FastAPI backend instead of mockQuotes
-      const res = await fetch("https://your-service.onrender.com/api/submit-quote", {
+      const res = await fetch("https://pressure-wash.onrender.com/api/submit-quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

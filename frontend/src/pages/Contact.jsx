@@ -40,7 +40,7 @@ const Contact = () => {
 
     try {
       // ✅ send to FastAPI (same as QuoteModal)
-      const res = await fetch("https://your-service.onrender.com/api/submit-quote", {
+      const res = await fetch("https://pressure-wash.onrender.com/api/submit-quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
