@@ -404,8 +404,8 @@ const AreaDetailPage = () => {
               <Link to="/contact" className="bg-[#F79029] text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-600 transition shadow-md">
                 Get Free Quote for {area.name}
               </Link>
-              <a href="tel:0414203262" className="bg-white text-[#1D2B6F] px-6 py-3 rounded-lg font-semibold shadow-md border hover:bg-gray-100">
-                Call 0414 203 262
+              <a href="tel:0280001080" className="bg-white text-[#1D2B6F] px-6 py-3 rounded-lg font-semibold shadow-md border hover:bg-gray-100">
+                Call 0280 001 080
               </a>
             </div>
           </div>
