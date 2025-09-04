@@ -54,7 +54,7 @@ const Blog = () => {
   const [selectedPost, setSelectedPost] = useState(null);
 
   return (
-    <div className="bg-white text-gray-900">
+    <main className="pt-32 bg-white"> {/* ✅ Padding added to avoid header overlap */}
       {/* ===== Hero Section ===== */}
       <section className="relative h-[70vh] w-full flex items-center justify-center text-white">
         {/* Background Video */}
@@ -101,44 +101,44 @@ const Blog = () => {
           </form>
         </div>
       </section>
+
       {/* ===== Soft & Pressure Washing Section ===== */}
-<section className="py-16 px-6 bg-slate-50">
-  <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-    {/* Text Content */}
-    <div>
-      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-        Soft Washing vs. Pressure Washing
-      </h2>
-      <p className="text-lg text-gray-700 leading-relaxed">
-        At <span className="font-semibold text-[#F79029]">Arcturus Cleaning</span>, 
-        we specialize in both <span className="font-medium">soft washing</span> and 
-        <span className="font-medium"> pressure washing</span> to deliver the 
-        perfect clean for your home or business.
-        <br /><br />
-         <span className="font-semibold">Soft Washing</span> uses low pressure 
-        combined with eco-friendly solutions, making it ideal for delicate 
-        surfaces like roofs, siding, and painted areas without causing damage.
-        <br /><br />
-         <span className="font-semibold">Pressure Washing</span> relies on 
-        high-powered water jets to remove stubborn dirt, grime, and stains from 
-        hard surfaces like driveways, decks, and concrete.
-        <br /><br />
-        Choosing the right method ensures your property stays clean, safe, and 
-        looking brand new.
-      </p>
-    </div>
+      <section className="py-16 px-6 bg-slate-50">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+          {/* Text Content */}
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+              Soft Washing vs. Pressure Washing
+            </h2>
+            <p className="text-lg text-gray-700 leading-relaxed">
+              At <span className="font-semibold text-[#F79029]">Arcturus Cleaning</span>, 
+              we specialize in both <span className="font-medium">soft washing</span> and 
+              <span className="font-medium"> pressure washing</span> to deliver the 
+              perfect clean for your home or business.
+              <br /><br />
+              <span className="font-semibold">Soft Washing</span> uses low pressure 
+              combined with eco-friendly solutions, making it ideal for delicate 
+              surfaces like roofs, siding, and painted areas without causing damage.
+              <br /><br />
+              <span className="font-semibold">Pressure Washing</span> relies on 
+              high-powered water jets to remove stubborn dirt, grime, and stains from 
+              hard surfaces like driveways, decks, and concrete.
+              <br /><br />
+              Choosing the right method ensures your property stays clean, safe, and 
+              looking brand new.
+            </p>
+          </div>
 
-    {/* Image Content */}
-    <div className="flex justify-center">
-      <img
-        src="/media/pressure.jpg"
-        alt="Soft vs Pressure Washing"
-        className="rounded-xl shadow-lg w-full max-h-[420px] object-cover"
-      />
-    </div>
-  </div>
-</section>
-
+          {/* Image Content */}
+          <div className="flex justify-center">
+            <img
+              src="/media/pressure.jpg"
+              alt="Soft vs Pressure Washing"
+              className="rounded-xl shadow-lg w-full max-h-[420px] object-cover"
+            />
+          </div>
+        </div>
+      </section>
 
       {/* ===== Blog Listing Section ===== */}
       <section className="py-16 px-6 max-w-6xl mx-auto">
@@ -166,60 +166,60 @@ const Blog = () => {
           ))}
         </div>
       </section>
+
       {/* ===== Real Work Videos Section ===== */}
-<section className="py-16 px-6 bg-white">
-  <div className="max-w-6xl mx-auto text-center">
-    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-      See Us in Action 🚀
-    </h2>
-    <p className="text-lg text-gray-700 mb-10">
-      Nothing speaks louder than results. Watch how{" "}
-      <span className="text-[#F79029] font-semibold">Arcturus Cleaning Services</span> 
-      transforms windows, solar panels, and outdoor surfaces with professional 
-      soft washing, pressure washing, and more.
-    </p>
+      <section className="py-16 px-6 bg-white">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            See Us in Action 🚀
+          </h2>
+          <p className="text-lg text-gray-700 mb-10">
+            Nothing speaks louder than results. Watch how{" "}
+            <span className="text-[#F79029] font-semibold">Arcturus Cleaning Services</span> 
+            transforms windows, solar panels, and outdoor surfaces with professional 
+            soft washing, pressure washing, and more.
+          </p>
 
-    {/* Video Grid */}
-    <div className="grid md:grid-cols-2 gap-8">
-      {/* Video 1 */}
-      <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
-        <video 
-          controls 
-          className="w-full h-full object-cover"
-          poster="/media/1.jpg"
-        >
-          <source src="/media/blog.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </div>
+          {/* Video Grid */}
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Video 1 */}
+            <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
+              <video 
+                controls 
+                className="w-full h-full object-cover"
+                poster="/media/1.jpg"
+              >
+                <source src="/media/blog.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
 
-      {/* Video 2 */}
-      <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
-        <video 
-          controls 
-          className="w-full h-full object-cover"
-          poster="/media/window.JPG"
-        >
-          <source src="/media/window.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </div>
+            {/* Video 2 */}
+            <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
+              <video 
+                controls 
+                className="w-full h-full object-cover"
+                poster="/media/window.JPG"
+              >
+                <source src="/media/window.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
 
-      {/* Video 3 */}
-      <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg md:col-span-2">
-        <video 
-          controls 
-          className="w-full h-full object-cover"
-          poster="/media/5.jpg"
-        >
-          <source src="/media/5.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    </div>
-  </div>
-</section>
-
+            {/* Video 3 */}
+            <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg md:col-span-2">
+              <video 
+                controls 
+                className="w-full h-full object-cover"
+                poster="/media/5.jpg"
+              >
+                <source src="/media/5.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ===== Modal for Blog Post ===== */}
       {selectedPost && (
@@ -245,7 +245,7 @@ const Blog = () => {
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 };
 
