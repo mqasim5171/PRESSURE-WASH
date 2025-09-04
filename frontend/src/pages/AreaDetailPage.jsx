@@ -71,7 +71,7 @@ const Textarea = ({ id, rows = 4, ...props }) => (
 const Bullet = ({ children }) => (
   <div className="flex items-start gap-2"><CheckCircle className="text-green-400 flex-shrink-0 mt-0.5" size={18} /><p className="text-gray-700 text-sm">{children}</p></div>
 );
-const TelButton = ({ number = "0414 203 262", className = "" }) => (
+const TelButton = ({ number = "0280 001 080", className = "" }) => (
   <a href={`tel:${number.replace(/\s+/g, "")}`}
     className={`inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 bg-white text-[#1D2B6F] font-semibold shadow border hover:bg-gray-100 ${className}`}>
     <Phone size={18} /> {number}
