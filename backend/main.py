@@ -3,6 +3,7 @@ import json
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
+from typing import Optional
 import smtplib
 from email.mime.text import MIMEText
 import gspread
@@ -51,15 +52,14 @@ class ContactForm(BaseModel):
     name: str
     email: EmailStr
     phone: str
-    suburb: str = ""
-    service: str = ""
-    propertyType: str = "Residential"
-    contactMethod: str | None = None   # <- new field
-    contactPreference: str = "Call"
-    notes: str | None = None           # <- new field
-    message: str = ""
-    consent: bool
-
+    suburb: Optional[str] = ""
+    service: Optional[str] = ""
+    propertyType: Optional[str] = "Residential"
+    contactMethod: Optional[str] = None
+    contactPreference: Optional[str] = "Call"
+    notes: Optional[str] = None
+    message: Optional[str] = ""
+    consent: Optional[bool] = False  # optional, default False
 
 # -----------------------------
 # Alert Email Function
@@ -82,22 +82,19 @@ def send_alert_email(error_message):
 # -----------------------------
 # API Endpoint
 # -----------------------------
-@app.post("/api/submit-quote")  # match React fetch
+@app.post("/api/submit-quote")
 async def submit_quote(form: ContactForm):
-    if not form.consent:
-        raise HTTPException(status_code=400, detail="Consent required.")
-
     try:
-        # Prepare row
+        # Prepare row for Google Sheets
         row = [
             form.name,
             form.email,
             form.phone,
-            form.suburb,
-            form.service,
-            form.propertyType,
-            form.contactPreference,
-            form.message,
+            form.suburb or "",
+            form.service or "",
+            form.propertyType or "Residential",
+            form.contactPreference or "Call",
+            form.message or "",
             str(form.consent),
             datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # timestamp
         ]
