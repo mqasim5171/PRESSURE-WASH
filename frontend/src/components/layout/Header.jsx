@@ -16,7 +16,7 @@ const Header = () => {
   const handleMouseLeave = () => {
     timeoutId = setTimeout(() => {
       setIsAreasOpen(false);
-    }, 150); // small delay so it doesn’t instantly disappear
+    }, 150);
   };
 
   return (
@@ -64,13 +64,12 @@ const Header = () => {
             <Link to="/about" className="text-gray-700 hover:text-[#F79029] font-medium transition-colors">About</Link>
             <Link to="/contact" className="text-gray-700 hover:text-[#F79029] font-medium transition-colors">Contact</Link>
 
-            {/* Areas Dropdown */}
+            {/* Areas Dropdown (Desktop hover) */}
             <div
               className="relative"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
-              {/* Parent clickable link to /areas */}
               <Link
                 to="/areas"
                 className="flex items-center text-gray-700 hover:text-[#F79029] font-medium"
@@ -80,7 +79,6 @@ const Header = () => {
 
               {isAreasOpen && (
                 <div className="absolute top-full left-0 w-[380px] bg-white shadow-2xl rounded-xl p-5 z-50">
-                  {/* Dropdown Header */}
                   <div className="mb-3">
                     <h4 className="text-base font-semibold text-gray-800">Service Areas</h4>
                     <p className="text-sm text-gray-500">
@@ -88,7 +86,6 @@ const Header = () => {
                     </p>
                   </div>
 
-                  {/* Two-column grid of areas */}
                   <div className="grid grid-cols-2 gap-2">
                     {copy.areas.featured.map((area) => (
                       <Link
@@ -102,7 +99,6 @@ const Header = () => {
                     ))}
                   </div>
 
-                  {/* Footer link */}
                   <div className="mt-4 pt-2 border-t border-gray-200">
                     <Link
                       to="/areas"
@@ -144,32 +140,42 @@ const Header = () => {
               <Link to="/about" className="text-gray-700 hover:text-[#F79029] font-medium">About</Link>
               <Link to="/contact" className="text-gray-700 hover:text-[#F79029] font-medium">Contact</Link>
 
-              {/* Mobile Areas Dropdown */}
-              <details className="group">
-                <summary className="flex justify-between items-center cursor-pointer text-gray-700 hover:text-[#F79029] font-medium">
+              {/* Mobile Areas Dropdown (Fixed) */}
+              <div className="flex flex-col">
+                <button
+                  onClick={() => setIsAreasOpen(!isAreasOpen)}
+                  className="flex justify-between items-center cursor-pointer text-gray-700 hover:text-[#F79029] font-medium w-full"
+                >
                   Areas
-                </summary>
-                <div className="pl-4 mt-2 flex flex-col space-y-1">
-                  {copy.areas.featured.map((area) => (
+                  <ChevronDown
+                    size={16}
+                    className={`ml-2 transition-transform ${isAreasOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+
+                {isAreasOpen && (
+                  <div className="pl-4 mt-2 flex flex-col space-y-1">
+                    {copy.areas.featured.map((area) => (
+                      <Link
+                        key={area.slug}
+                        to={`/areas/${area.slug}`}
+                        className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#F79029]"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <MapPin size={14} className="text-[#F79029]" />
+                        {area.name}
+                      </Link>
+                    ))}
                     <Link
-                      key={area.slug}
-                      to={`/areas/${area.slug}`}
-                      className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#F79029]"
+                      to="/areas"
+                      className="mt-2 text-sm font-medium text-[#314085] hover:text-[#F79029]"
                       onClick={() => setIsOpen(false)}
                     >
-                      <MapPin size={14} className="text-[#F79029]" />
-                      {area.name}
+                      View All Service Areas →
                     </Link>
-                  ))}
-                  <Link
-                    to="/areas"
-                    className="mt-2 text-sm font-medium text-[#314085] hover:text-[#F79029]"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    View All Service Areas →
-                  </Link>
-                </div>
-              </details>
+                  </div>
+                )}
+              </div>
 
               <Link to="/blog" className="text-gray-700 hover:text-[#F79029] font-medium">Blog</Link>
               <Link to="/contact" className="bg-[#F79029] text-white px-4 py-2 rounded-md font-semibold hover:bg-orange-600 transition-colors shadow-md">
