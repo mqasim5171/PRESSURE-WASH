@@ -344,7 +344,7 @@ const AreasPage = () => {
             <div className="bg-white rounded-xl shadow p-6 ring-1 ring-slate-100">
               <h3 className="font-semibold text-slate-900 mb-4">Quick Contact Options</h3>
               <a href="tel:0414203262" className="inline-flex items-center gap-2 w-full justify-center rounded-lg py-3 bg-[#F79029] text-white font-semibold">
-                <Phone className="w-5 h-5" /> Call 0414 203 262
+                <Phone className="w-5 h-5" /> Call 0280 001 080
               </a>
               <div className="mt-4 text-sm">
                 <div className="font-semibold text-slate-900 mb-2">Business Hours:</div>
