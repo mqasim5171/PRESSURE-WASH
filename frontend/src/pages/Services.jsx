@@ -7,6 +7,10 @@ import CTA from "../components/sections/CTA";
 import ServicesGrid from "../components/sections/Services";
 import Button from "../components/ui/button";
 import { copy } from "../lib/copy";
+import Meta from '../Meta';
+
+
+
 
 const slugify = (s) =>
   String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -56,7 +60,8 @@ export default function Services() {
   }, []);
 
   return (
-    <main className="pt-24">
+    
+      <><Meta title="Cleaning Services in Sydney | Arcturus Services" desc="Solar panels, roof & gutters, windows, pressure washing and drone cleaning. Fast quotes. Same-day service." path="/services" /><main className="pt-24">
       {/* HERO with collage */}
       <Section className="bg-white pt-12 pb-0">
         <div className="max-w-7xl mx-auto px-6">
@@ -140,8 +145,7 @@ export default function Services() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {areas.map((a) => {
-              const subs =
-                (a.coverageDetails?.map((d) => d.name) || a.coverageSuburbs || []).slice(0, 3);
+              const subs = (a.coverageDetails?.map((d) => d.name) || a.coverageSuburbs || []).slice(0, 3);
               return (
                 <div
                   key={a.slug}
@@ -209,6 +213,6 @@ export default function Services() {
       </Section>
 
       <CTA />
-    </main>
+    </main></>
   );
 }

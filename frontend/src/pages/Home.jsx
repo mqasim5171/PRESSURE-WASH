@@ -9,7 +9,11 @@ import CTA from "../components/sections/CTA";
 import PopupNotification from "../components/PopupNotification";
 import Areas from "@/components/sections/Areas";
 
-const Home = () => {
+
+import Meta from '../Meta'
+
+export default function Home(){
+
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
@@ -19,8 +23,26 @@ const Home = () => {
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
-
   return (
+    <>
+      <Meta
+        title="Pressure Washing & Exterior Cleaning Sydney | Arcturus Services"
+        desc="Pressure washing, solar panel, roof & gutter, and window cleaning across Sydney. Same-day service. Call 0414 203 262."
+        path="/"
+      >
+        <script type="application/ld+json">{JSON.stringify({
+          "@context":"https://schema.org",
+          "@type":"LocalBusiness",
+          name:"Arcturus Services",
+          url:"https://arcturusservices.com.au",
+          telephone:"+61 02 8000 1080",
+          areaServed:"Sydney, NSW",
+          address:{ "@type":"PostalAddress", addressLocality:"Sydney", addressRegion:"NSW", addressCountry:"AU" }
+        })}</script>
+      </Meta>
+
+      <h1>Pressure Washing & Cleaning in Sydney</h1>
+      {/* your existing home UI */}
     <main className="relative">
       {/* Popup Notification */}
       {showPopup && <PopupNotification />}
@@ -43,7 +65,7 @@ const Home = () => {
       {/* Final Call To Action */}
       <CTA />
     </main>
-  );
-};
 
-export default Home;
+    </>
+  )
+}

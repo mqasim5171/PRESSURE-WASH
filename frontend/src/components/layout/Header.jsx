@@ -34,7 +34,7 @@ const Header = () => {
           </div>
           <div className="flex items-center gap-1 sm:gap-2">
             <Phone size={14} />
-            <span> Call Now: 0280 001 080</span>
+            <span> Call Now: 02 8000 1080</span>
           </div>
         </div>
       </div>

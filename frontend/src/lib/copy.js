@@ -207,7 +207,7 @@ export const copy = {
   },
   services: [
     {
-      slug: "solar-panel-cleaning",
+      slug: "solar-cleaning-maintenance",
       title: "Solar Panel Cleaning",
       blurb: "Increase energy efficiency by 30% with professional solar panel cleaning.",
       bullets: ["30% efficiency boost", "Warranty compliance", "Professional equipment"],

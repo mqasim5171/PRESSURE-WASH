@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Meta from '../Meta';
 
 // Mock blog posts with full content
 const blogPosts = [
@@ -54,7 +55,8 @@ const Blog = () => {
   const [selectedPost, setSelectedPost] = useState(null);
 
   return (
-    <main className="pt-32 bg-white"> {/* ✅ Padding added to avoid header overlap */}
+    
+      <><Meta title="Cleaning Tips & Updates | Arcturus Sydney" desc="Guides and updates on pressure washing, solar panel, roof & gutter, and window cleaning in Sydney." path="/blog" /><main className="pt-32 bg-white"> {/* ✅ Padding added to avoid header overlap */}
       {/* ===== Hero Section ===== */}
       <section className="relative h-[70vh] w-full flex items-center justify-center text-white">
         {/* Background Video */}
@@ -89,8 +91,7 @@ const Blog = () => {
               type="email"
               placeholder="Enter your email"
               className="px-4 py-3 w-full sm:w-72 rounded-lg text-black focus:outline-none"
-              required
-            />
+              required />
             <button
               type="submit"
               style={{ backgroundColor: "#F79029" }}
@@ -111,20 +112,20 @@ const Blog = () => {
               Soft Washing vs. Pressure Washing
             </h2>
             <p className="text-lg text-gray-700 leading-relaxed">
-              At <span className="font-semibold text-[#F79029]">Arcturus Cleaning</span>, 
-              we specialize in both <span className="font-medium">soft washing</span> and 
-              <span className="font-medium"> pressure washing</span> to deliver the 
+              At <span className="font-semibold text-[#F79029]">Arcturus Cleaning</span>,
+              we specialize in both <span className="font-medium">soft washing</span> and
+              <span className="font-medium"> pressure washing</span> to deliver the
               perfect clean for your home or business.
               <br /><br />
-              <span className="font-semibold">Soft Washing</span> uses low pressure 
-              combined with eco-friendly solutions, making it ideal for delicate 
+              <span className="font-semibold">Soft Washing</span> uses low pressure
+              combined with eco-friendly solutions, making it ideal for delicate
               surfaces like roofs, siding, and painted areas without causing damage.
               <br /><br />
-              <span className="font-semibold">Pressure Washing</span> relies on 
-              high-powered water jets to remove stubborn dirt, grime, and stains from 
+              <span className="font-semibold">Pressure Washing</span> relies on
+              high-powered water jets to remove stubborn dirt, grime, and stains from
               hard surfaces like driveways, decks, and concrete.
               <br /><br />
-              Choosing the right method ensures your property stays clean, safe, and 
+              Choosing the right method ensures your property stays clean, safe, and
               looking brand new.
             </p>
           </div>
@@ -134,8 +135,7 @@ const Blog = () => {
             <img
               src="/media/pressure.jpg"
               alt="Soft vs Pressure Washing"
-              className="rounded-xl shadow-lg w-full max-h-[420px] object-cover"
-            />
+              className="rounded-xl shadow-lg w-full max-h-[420px] object-cover" />
           </div>
         </div>
       </section>
@@ -156,8 +156,7 @@ const Blog = () => {
               <img
                 src={post.image}
                 alt={post.title}
-                className="w-full h-48 object-cover"
-              />
+                className="w-full h-48 object-cover" />
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
                 <p className="text-gray-600">{post.excerpt}</p>
@@ -175,8 +174,8 @@ const Blog = () => {
           </h2>
           <p className="text-lg text-gray-700 mb-10">
             Nothing speaks louder than results. Watch how{" "}
-            <span className="text-[#F79029] font-semibold">Arcturus Cleaning Services</span> 
-            transforms windows, solar panels, and outdoor surfaces with professional 
+            <span className="text-[#F79029] font-semibold">Arcturus Cleaning Services</span>
+            transforms windows, solar panels, and outdoor surfaces with professional
             soft washing, pressure washing, and more.
           </p>
 
@@ -184,8 +183,8 @@ const Blog = () => {
           <div className="grid md:grid-cols-2 gap-8">
             {/* Video 1 */}
             <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
-              <video 
-                controls 
+              <video
+                controls
                 className="w-full h-full object-cover"
                 poster="/media/1.jpg"
               >
@@ -196,10 +195,10 @@ const Blog = () => {
 
             {/* Video 2 */}
             <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
-              <video 
-                controls 
+              <video
+                controls
                 className="w-full h-full object-cover"
-                poster="/media/window.JPG"
+                poster="/media/window.jpg"
               >
                 <source src="/media/window.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
@@ -208,8 +207,8 @@ const Blog = () => {
 
             {/* Video 3 */}
             <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg md:col-span-2">
-              <video 
-                controls 
+              <video
+                controls
                 className="w-full h-full object-cover"
                 poster="/media/5.jpg"
               >
@@ -236,8 +235,7 @@ const Blog = () => {
             <img
               src={selectedPost.image}
               alt={selectedPost.title}
-              className="w-full h-56 object-cover rounded-lg mb-4"
-            />
+              className="w-full h-56 object-cover rounded-lg mb-4" />
             <h2 className="text-2xl font-bold mb-3">{selectedPost.title}</h2>
             <p className="text-gray-700 whitespace-pre-line">
               {selectedPost.content}
@@ -245,7 +243,7 @@ const Blog = () => {
           </div>
         </div>
       )}
-    </main>
+    </main></>
   );
 };
 

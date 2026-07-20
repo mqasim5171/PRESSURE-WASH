@@ -6,7 +6,9 @@ import {
   Leaf, Zap, BadgeCheck, MapPin
 } from "lucide-react";
 import { copy } from "../lib/copy";
+import Meta from "../Meta";
 
+// --- helpers ---
 const slugify = (s) =>
   String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
@@ -49,293 +51,245 @@ const collectPopularSuburbs = () => {
   return Array.from(set).slice(0, 8);
 };
 
+// --- main component ---
 export default function ServiceDetail() {
   const { slug } = useParams();
   const service = (copy.services || []).find((s) => s.slug === slug);
 
+  // fallback meta
+  const title = service
+    ? `${service.title} Sydney | Arcturus Services`
+    : "Cleaning Services Sydney | Arcturus Services";
+  const desc = service
+    ? `${service.blurb} Same-day service. Fully insured. Call 0414 203 262.`
+    : "Professional cleaning across Sydney. Same-day service.";
+  const canon = service ? `/services/${service.slug}` : `/services`;
+  const jsonLd = service && {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": service.title,
+    "areaServed": "Sydney, NSW",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "Arcturus Services",
+      "url": "https://arcturusservices.com.au"
+    }
+  };
+
+  // service not found
   if (!service) {
     return (
-      <main className="pt-24">
-        <Section className="py-24 text-center">
-          <h1 className="text-4xl font-bold text-slate-900 mb-3">Service Not Found</h1>
-          <p className="text-slate-600 mb-6">The service you’re looking for doesn’t exist.</p>
-          <Link to="/services" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium">
-            <ArrowLeft className="w-4 h-4" /> Back to Services
-          </Link>
-        </Section>
-      </main>
+      <>
+        <Meta title={title} desc={desc} canon={canon} jsonLd={jsonLd} />
+        <main className="pt-24">
+          <Section className="py-24 text-center">
+            <h1 className="text-4xl font-bold text-slate-900 mb-3">Service Not Found</h1>
+            <p className="text-slate-600 mb-6">The service you’re looking for doesn’t exist.</p>
+            <Link
+              to="/services"
+              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+            >
+              <ArrowLeft className="w-4 h-4" /> Back to Services
+            </Link>
+          </Section>
+        </main>
+      </>
     );
   }
 
+  // destructure service
   const headline = service.title;
   const sub = service.long || service.blurb || "Professional, reliable, and eco-friendly cleaning solutions.";
   const heroImg = service.image;
   const suburbs = collectPopularSuburbs();
 
   return (
-    <main className="pt-24">
-      {/* HERO */}
-      <Section className="pt-10 pb-0">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-6">
-            <Link to="/services" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium">
-              <ArrowLeft className="w-4 h-4" /> Back to Services
-            </Link>
-          </div>
+    <>
+      <Meta title={title} desc={desc} canon={canon} jsonLd={jsonLd} />
 
-          <div className="text-center mb-6">
-            <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900">{headline}</h1>
-            <p className="text-xl text-slate-600 mt-3">{sub}</p>
-          </div>
-
-          {/* Dominant banner */}
-          <div className="relative overflow-hidden rounded-3xl shadow-xl ring-1 ring-slate-200">
-            <div className="relative h-[460px] md:h-[520px]">
-              {heroImg && <img src={heroImg} alt={headline} className="absolute inset-0 w-full h-full object-cover" />}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-              <div className="absolute bottom-6 left-8 right-8">
-                <h2 className="text-white text-3xl font-bold drop-shadow">{headline}</h2>
-                <p className="text-white/85 text-sm">Expert {headline.toLowerCase()} across Sydney</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Soft divider under hero */}
-        <div className="w-full">
-          <svg viewBox="0 0 1440 72" className="w-full -mb-1 text-white" preserveAspectRatio="none">
-            <path fill="currentColor" d="M0,32 C240,72 480,0 720,24 C960,48 1200,72 1440,32 L1440,72 L0,72 Z" />
-          </svg>
-        </div>
-
-        {/* Floating tray with stats + CTAs */}
-        <div className="max-w-7xl mx-auto -mt-10 md:-mt-12 px-0">
-          <div className="bg-white/95 backdrop-blur rounded-3xl shadow-xl ring-1 ring-slate-200 px-6 py-8 md:px-10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <StatCard icon={Clock} title="Same Day" sub="Service Available" tone="blue" />
-              <StatCard icon={Shield} title="Fully Insured" sub="$10M Coverage" tone="green" />
-              <StatCard icon={Star} title="5-Star Rated" sub="247+ Reviews" tone="yellow" />
-              <div className="bg-white p-7 rounded-2xl text-center shadow-md ring-1 ring-slate-100">
-                <div className="text-2xl font-bold text-purple-600 mb-2">100%</div>
-                <div className="font-semibold text-slate-900">Satisfaction</div>
-                <div className="text-sm text-slate-600">Guaranteed</div>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+      <main className="pt-24">
+        {/* HERO */}
+        <Section className="pt-10 pb-0">
+          <div className="max-w-7xl mx-auto">
+            <div className="mb-6">
               <Link
-                to="/contact"
-                className="inline-flex items-center justify-center rounded-xl bg-[#F79029] text-white font-semibold px-7 py-3.5 hover:bg-[#e27f17] shadow-md"
+                to="/services"
+                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
               >
-                Get Free Quote Now
+                <ArrowLeft className="w-4 h-4" /> Back to Services
               </Link>
-              <a
-                href="tel:0414203262"
-                className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-7 py-3.5 font-semibold text-slate-800 hover:bg-slate-50 shadow-sm"
-              >
-                <Phone className="w-5 h-5 mr-2" />
-                Call for Same-Day Service
-              </a>
             </div>
-          </div>
-        </div>
-      </Section>
 
-      {/* WHAT’S INCLUDED — airy cards + chips */}
-      <Section tone="white" className="py-20">
-        <h2 className="text-4xl font-bold text-slate-900 mb-12 text-center">
-          What’s Included in Our {headline}
-        </h2>
+            <div className="text-center mb-6">
+              <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900">
+                {headline}
+              </h1>
+              <p className="text-xl text-slate-600 mt-3">{sub}</p>
+            </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {(service.bullets || []).map((b, i) => (
-            <div
-              key={i}
-              className="rounded-2xl p-6 bg-white shadow-md ring-1 ring-slate-200 hover:shadow-lg transition"
-            >
-              <div className="flex items-start gap-4">
-                <div className="w-11 h-11 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <CheckCircle className="w-6 h-6 text-blue-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg text-slate-900">{b}</h3>
-                  <p className="text-slate-600 text-sm mt-1">
-                    Professional service with attention to detail and guaranteed results.
+            {/* Banner */}
+            <div className="relative overflow-hidden rounded-3xl shadow-xl ring-1 ring-slate-200">
+              <div className="relative h-[460px] md:h-[520px]">
+                {heroImg && (
+                  <img
+                    src={heroImg}
+                    alt={headline}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                <div className="absolute bottom-6 left-8 right-8">
+                  <h2 className="text-white text-3xl font-bold drop-shadow">{headline}</h2>
+                  <p className="text-white/85 text-sm">
+                    Expert {headline.toLowerCase()} across Sydney
                   </p>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        </Section>
 
-        {/* chips row with spacing */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <Pill icon={Star} tone="yellow">5.0 rating</Pill>
-          <Pill icon={Zap} tone="orange">Same-day available</Pill>
-          <Pill icon={BadgeCheck} tone="green">100% Satisfaction</Pill>
-          <Pill icon={Leaf}>Eco-friendly</Pill>
-        </div>
-      </Section>
-
-      {/* SOLAR DRONE INSPECTION (only for solar cleaning) */}
-{service.slug === "solar-panel-cleaning" && (
-  <Section tone="slate" className="py-20">
-    <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-      
-      {/* Left side - text */}
-      <div>
-        <h2 className="text-4xl font-bold text-slate-900 mb-6">
-          Advanced Thermal Drone Inspection
-        </h2>
-        <p className="text-lg text-slate-600 mb-6">
-          We use cutting-edge thermal IVR drone technology to detect faults, dirt,
-          and hotspots on your solar panels — ensuring maximum efficiency and performance.
-        </p>
-
-        <ul className="space-y-4">
-          <li className="flex items-start gap-3">
-            <Zap className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
-            <div>
-              <p className="font-semibold text-slate-900">Thermal Hotspot Detection</p>
-              <p className="text-slate-600 text-sm">
-                Identify overheating cells before they cause long-term damage.
-              </p>
-            </div>
-          </li>
-          <li className="flex items-start gap-3">
-            <Shield className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
-            <div>
-              <p className="font-semibold text-slate-900">Precision Fault Analysis</p>
-              <p className="text-slate-600 text-sm">
-                Pinpoint cracks, shading, and dirt build-up invisible to the eye.
-              </p>
-            </div>
-          </li>
-          <li className="flex items-start gap-3">
-            <Star className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
-            <div>
-              <p className="font-semibold text-slate-900">Maximised Efficiency</p>
-              <p className="text-slate-600 text-sm">
-                Keep your solar system performing at peak capacity year-round.
-              </p>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      {/* Right side - image */}
-      <div className="rounded-2xl overflow-hidden shadow-lg ring-1 ring-slate-200">
-        <img
-          src="/solardrone.jpg"
-          alt="Thermal drone inspecting solar panels"
-          className="w-full h-[380px] object-cover"
-        />
-      </div>
-    </div>
-  </Section>
-)}
-
-
-
-
-      {/* PROCESS */}
-      <Section tone="slate" className="py-20">
-        <h2 className="text-4xl font-bold text-slate-900 mb-14 text-center">Our Professional Process</h2>
-        <div className="grid md:grid-cols-4 gap-10 max-w-5xl mx-auto">
-          {[
-            { step: "1", title: "Free Assessment", desc: "We evaluate your property and provide a detailed quote with no hidden costs." },
-            { step: "2", title: "Professional Setup", desc: "Our team arrives with all necessary equipment and safety gear." },
-            { step: "3", title: "Expert Cleaning", desc: "We use proven techniques and eco-friendly products for optimal results." },
-            { step: "4", title: "Quality Check", desc: "Final inspection to ensure everything meets our high standards." },
-          ].map((it) => (
-            <div key={it.step} className="text-center">
-              <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-md">
-                <span className="text-white font-bold text-xl">{it.step}</span>
+        {/* WHAT’S INCLUDED */}
+        <Section tone="white" className="py-20">
+          <h2 className="text-4xl font-bold text-slate-900 mb-12 text-center">
+            What’s Included in Our {headline}
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            {(service.bullets || []).map((b, i) => (
+              <div
+                key={i}
+                className="rounded-2xl p-6 bg-white shadow-md ring-1 ring-slate-200 hover:shadow-lg transition"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-11 h-11 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <CheckCircle className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg text-slate-900">{b}</h3>
+                    <p className="text-slate-600 text-sm mt-1">
+                      Professional service with attention to detail and guaranteed results.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">{it.title}</h3>
-              <p className="text-slate-600 text-sm">{it.desc}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* SERVICE AREAS */}
-      {/* SERVICE AREAS */}
-<Section tone="white" className="py-20">
-  <div className="text-center mb-10">
-    <h2 className="text-4xl font-bold">{headline} Service Areas Across Sydney</h2>
-    <p className="text-slate-600 mt-3">
-      Professional {headline.toLowerCase()} available throughout Sydney NSW
-    </p>
-  </div>
-
-  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-7">
-    {suburbs.map((name) => {
-      const s = slugify(name);
-      return (
-        <div
-          key={name}
-          className="rounded-2xl bg-white shadow-md ring-1 ring-slate-200 p-5 hover:shadow-lg transition"
-        >
-          <div className="flex items-center justify-between mb-3">
-            <div className="inline-flex items-center gap-1 text-blue-600">
-              <MapPin className="w-4 h-4" />
-              <span className="text-xs font-medium">Sydney</span>
-            </div>
-            <Star className="w-4 h-4 text-yellow-400" />
+            ))}
           </div>
-          <div className="font-semibold text-slate-900 text-lg">{name}</div>
-          <div className="text-sm text-slate-600 mt-1">
-            {`Professional ${headline.toLowerCase()} in ${name}`}
+
+          {/* Pills */}
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            <Pill icon={Star} tone="yellow">5.0 rating</Pill>
+            <Pill icon={Zap} tone="orange">Same-day available</Pill>
+            <Pill icon={BadgeCheck} tone="green">100% Satisfaction</Pill>
+            <Pill icon={Leaf}>Eco-friendly</Pill>
           </div>
-          <div className="mt-4 flex items-center gap-2">
+        </Section>
+
+        {/* PROCESS */}
+        <Section tone="slate" className="py-20">
+          <h2 className="text-4xl font-bold text-slate-900 mb-14 text-center">
+            Our Professional Process
+          </h2>
+          <div className="grid md:grid-cols-4 gap-10 max-w-5xl mx-auto">
+            {[
+              { step: "1", title: "Free Assessment", desc: "We evaluate your property and provide a detailed quote with no hidden costs." },
+              { step: "2", title: "Professional Setup", desc: "Our team arrives with all necessary equipment and safety gear." },
+              { step: "3", title: "Expert Cleaning", desc: "We use proven techniques and eco-friendly products for optimal results." },
+              { step: "4", title: "Quality Check", desc: "Final inspection to ensure everything meets our high standards." },
+            ].map((it) => (
+              <div key={it.step} className="text-center">
+                <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-md">
+                  <span className="text-white font-bold text-xl">{it.step}</span>
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">{it.title}</h3>
+                <p className="text-slate-600 text-sm">{it.desc}</p>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        {/* SERVICE AREAS */}
+        <Section tone="white" className="py-20">
+          <div className="text-center mb-10">
+            <h2 className="text-4xl font-bold">{headline} Service Areas Across Sydney</h2>
+            <p className="text-slate-600 mt-3">
+              Professional {headline.toLowerCase()} available throughout Sydney NSW
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-7">
+            {suburbs.map((name) => {
+              const s = slugify(name);
+              return (
+                <div
+                  key={name}
+                  className="rounded-2xl bg-white shadow-md ring-1 ring-slate-200 p-5 hover:shadow-lg transition"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="inline-flex items-center gap-1 text-blue-600">
+                      <MapPin className="w-4 h-4" />
+                      <span className="text-xs font-medium">Sydney</span>
+                    </div>
+                    <Star className="w-4 h-4 text-yellow-400" />
+                  </div>
+                  <div className="font-semibold text-slate-900 text-lg">{name}</div>
+                  <div className="text-sm text-slate-600 mt-1">
+                    {`Professional ${headline.toLowerCase()} in ${name}`}
+                  </div>
+                  <div className="mt-4 flex items-center gap-2">
+                    <Link
+                      to="/contact"
+                      className="inline-flex justify-center items-center px-3.5 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700"
+                    >
+                      Book Service
+                    </Link>
+                    <Link
+                      to={`/areas/${s}`}
+                      className="inline-flex justify-center items-center px-3.5 py-2.5 rounded-lg border text-sm font-semibold hover:bg-slate-50"
+                    >
+                      Explore
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="text-center mt-12">
             <Link
-              to="/contact"
-              className="inline-flex justify-center items-center px-3.5 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700"
+              to="/areas"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 shadow-md"
             >
-              Book Service
-            </Link>
-            <Link
-              to={`/areas/${s}`}
-              className="inline-flex justify-center items-center px-3.5 py-2.5 rounded-lg border text-sm font-semibold hover:bg-slate-50"
-            >
-              Explore
+              See All Areas
             </Link>
           </div>
-        </div>
-      );
-    })}
-  </div>
+        </Section>
 
-  {/* See All Areas button */}
-  <div className="text-center mt-12">
-    <Link
-      to="/areas"
-      className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 shadow-md"
-    >
-      See All Areas
-    </Link>
-  </div>
-</Section>
-
-
-      {/* CLOSING CTA */}
-      <Section tone="slate" className="py-20">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-[#F79029] text-white rounded-3xl shadow-xl p-10 text-center ring-1 ring-orange-200">
-            <h3 className="text-3xl font-bold mb-3">Ready to book {headline}?</h3>
-            <p className="mb-7 text-white/95 text-lg">Get a fast, no-obligation quote — same-day slots often available.</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/contact" className="inline-flex items-center justify-center rounded-xl bg-white text-[#F79029] font-semibold px-7 py-3.5 hover:bg-gray-100 shadow">
-                Get Free Quote
-              </Link>
-              <a href="tel:0414203262" className="inline-flex items-center justify-center rounded-xl border border-white/60 bg-transparent px-7 py-3.5 font-semibold text-white hover:bg-white/10">
-                <Phone className="w-5 h-5 mr-2" /> Call 0414 203 262
-              </a>
+        {/* CTA */}
+        <Section tone="slate" className="py-20">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-[#F79029] text-white rounded-3xl shadow-xl p-10 text-center ring-1 ring-orange-200">
+              <h3 className="text-3xl font-bold mb-3">Ready to book {headline}?</h3>
+              <p className="mb-7 text-white/95 text-lg">
+                Get a fast, no-obligation quote — same-day slots often available.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center justify-center rounded-xl bg-white text-[#F79029] font-semibold px-7 py-3.5 hover:bg-gray-100 shadow"
+                >
+                  Get Free Quote
+                </Link>
+                <a
+                  href="tel:0414203262"
+                  className="inline-flex items-center justify-center rounded-xl border border-white/60 bg-transparent px-7 py-3.5 font-semibold text-white hover:bg-white/10"
+                >
+                  <Phone className="w-5 h-5 mr-2" /> Call 02 8000 1080
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      </Section>
-    </main>
+        </Section>
+      </main>
+    </>
   );
 }

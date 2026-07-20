@@ -3,6 +3,7 @@ import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { copy } from "../lib/copy";
 import { MapPin, Phone, Shield, Clock, Star, CheckCircle } from "lucide-react";
+import Meta from '../Meta';
 
 const slugify = (str) =>
   String(str).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -49,14 +50,15 @@ const AreaGroupCard = ({ area }) => {
       : (area.coverageSuburbs || []).map((n) => ({ name: n, note: "" }));
 
   return (
-    <div className="rounded-2xl p-6 bg-slate-50 shadow-sm ring-1 ring-slate-100">
+    
+      <><Meta title="Service Areas in Sydney | Arcturus Services" desc="Eastern Suburbs, Northern Beaches, North Shore, Inner West, South Sydney, Western Sydney, Hills District." path="/areas" /><div className="rounded-2xl p-6 bg-slate-50 shadow-sm ring-1 ring-slate-100">
       <h3 className="text-xl font-bold text-slate-900 mb-4">{title}</h3>
       <ul className="grid gap-3">
         {details.map(({ name, note }) => (
           <AreaListItem key={name} name={name} note={note} />
         ))}
       </ul>
-    </div>
+    </div></>
   );
 };
 
@@ -266,7 +268,7 @@ const AvailabilityForm = ({ services }) => {
             href="tel:0280001080"
             className="inline-flex items-center gap-2 rounded-lg px-4 py-2 bg-[#1D2B6F] text-white font-semibold"
           >
-            <Phone className="w-4 h-4" /> 0280 001 080
+            <Phone className="w-4 h-4" /> 02 8000 1080
           </a>
           <a
             href="mailto:info@example.com"
@@ -343,8 +345,8 @@ const AreasPage = () => {
             </div>
             <div className="bg-white rounded-xl shadow p-6 ring-1 ring-slate-100">
               <h3 className="font-semibold text-slate-900 mb-4">Quick Contact Options</h3>
-              <a href="tel:0414203262" className="inline-flex items-center gap-2 w-full justify-center rounded-lg py-3 bg-[#F79029] text-white font-semibold">
-                <Phone className="w-5 h-5" /> Call 0280 001 080
+              <a href="tel:0280001080" className="inline-flex items-center gap-2 w-full justify-center rounded-lg py-3 bg-[#F79029] text-white font-semibold">
+                <Phone className="w-5 h-5" /> Call 02 8000 1080
               </a>
               <div className="mt-4 text-sm">
                 <div className="font-semibold text-slate-900 mb-2">Business Hours:</div>

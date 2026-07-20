@@ -4,12 +4,14 @@ import Section from '../components/ui/Section';
 import Button from '../components/ui/button';
 import CTA from '../components/sections/CTA';
 import { copy } from '../lib/copy';
+import Meta from '../Meta';
 
 const About = () => {
   const { about } = copy;
 
   return (
-    <main className="bg-white">
+    
+      <><Meta title="About Arcturus Services | Sydney Cleaning Experts" desc="Melbourne registered, Sydney operating. Fully insured, same-day availability, 100% satisfaction guarantee." path="/about" /><main className="bg-white">
       {/* Hero Section */}
       <Section className="pt-32 lg:pt-48">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -42,10 +44,10 @@ const About = () => {
               <Button
                 variant="outline"
                 size="lg"
-                href="tel:0414203262"
+                href="tel:0280001080"
                 className="border-[#314085] text-[#314085] hover:bg-[#314085] hover:text-white"
               >
-                Call 0414 203 262
+                Call 02 8000 1080
               </Button>
             </div>
           </div>
@@ -54,8 +56,7 @@ const About = () => {
             <img
               src={about.image.src}
               alt={about.image.alt}
-              className="w-full h-[500px] object-cover rounded-2xl shadow-2xl"
-            />
+              className="w-full h-[500px] object-cover rounded-2xl shadow-2xl" />
             <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-lg">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-[#44B149]/20 rounded-full flex items-center justify-center">
@@ -233,7 +234,7 @@ const About = () => {
       </Section>
 
       <CTA />
-    </main>
+    </main></>
   );
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Clock, Star } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Star, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { FaTiktok } from 'react-icons/fa';   // TikTok icon
 import { biz } from '../../lib/config';
 import { copy } from '../../lib/copy';
 
@@ -12,7 +13,6 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              {/* Logo */}
               <img 
                 src="/logo.png"   // <-- replace with your actual logo path
                 alt={biz.name}
@@ -26,6 +26,54 @@ const Footer = () => {
             <div className="flex items-center gap-2 text-yellow-400">
               <Star className="w-4 h-4 fill-current" />
               <span className="text-sm font-semibold">5.0 Stars • 247+ Reviews</span>
+            </div>
+
+            {/* Socials Section */}
+            <div className="flex gap-4 mt-3">
+              {biz.socials.facebook && (
+                <a 
+                  href={biz.socials.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-slate-300 hover:text-blue-500 transition-colors"
+                  aria-label="Facebook"
+                >
+                  <Facebook className="w-5 h-5" />
+                </a>
+              )}
+              {biz.socials.instagram && (
+                <a 
+                  href={biz.socials.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-slate-300 hover:text-pink-500 transition-colors"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="w-5 h-5" />
+                </a>
+              )}
+              {biz.socials.tiktok && (
+                <a 
+                  href={biz.socials.tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-slate-300 hover:text-gray-200 transition-colors"
+                  aria-label="TikTok"
+                >
+                  <FaTiktok className="w-5 h-5" />
+                </a>
+              )}
+              {biz.socials.linkedin && (
+                <a 
+                  href={biz.socials.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-slate-300 hover:text-blue-400 transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
+              )}
             </div>
           </div>
 
@@ -46,12 +94,12 @@ const Footer = () => {
             </ul>
           </div>
 
-                  {/* Quick Links */}
+          {/* Quick Links */}
           <div className="space-y-4">
             <h4 className="font-semibold text-lg">Quick Links</h4>
             <ul className="space-y-2">
               {copy.nav
-                .filter((item) => item.label !== "Gallery" && item.label !== "Areas") // <-- filter them out
+                .filter((item) => item.label !== "Gallery" && item.label !== "Areas")
                 .map((item) => (
                   <li key={item.href}>
                     <Link 
@@ -64,7 +112,6 @@ const Footer = () => {
                 ))}
             </ul>
           </div>
-
 
           {/* Contact Info + Map */}
           <div className="space-y-4">
@@ -102,7 +149,7 @@ const Footer = () => {
                 width="100%"
                 height="200"
                 style={{ border: 0 }}
-                allowFullScreen=""
+                allowFullScreen={true}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
@@ -126,7 +173,7 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} {biz.name}. All rights reserved.
           </p>
           <div className="flex items-center gap-6 text-slate-400 text-sm">
-            <span>ABN: 123 456 789</span>
+            <span>ACN: 670 852 963</span>
             <span>Licensed & Insured</span>
           </div>
         </div>

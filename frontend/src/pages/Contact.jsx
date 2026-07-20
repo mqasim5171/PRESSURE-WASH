@@ -4,6 +4,7 @@ import Section from '../components/ui/Section';
 import Button from '../components/ui/button';
 import { copy } from '../lib/copy';
 import { biz } from '../lib/config';
+import Meta from '../Meta';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -73,7 +74,8 @@ const Contact = () => {
   };
 
   return (
-    <main className="pt-28 bg-white"> {/* Padding top to avoid header overlap */}
+    
+      <><Meta title="Contact Arcturus Services | Free Quote Sydney" desc="Get a free quote for pressure washing, solar, roof & gutter, and window cleaning. Call 0414 203 262." path="/contact" /><main className="pt-28 bg-white"> {/* Padding top to avoid header overlap */}
       {/* Hero Section */}
       <Section className="bg-slate-50 pt-12 pb-12 rounded-b-3xl shadow-md">
         <div className="text-center mb-12">
@@ -103,8 +105,7 @@ const Contact = () => {
                       onChange={handleInputChange}
                       required
                       placeholder="Your full name"
-                      className="w-full px-4 py-3 border border-[#314085]/40 rounded-lg focus:ring-2 focus:ring-[#314085] outline-none transition-all"
-                    />
+                      className="w-full px-4 py-3 border border-[#314085]/40 rounded-lg focus:ring-2 focus:ring-[#314085] outline-none transition-all" />
                   </div>
 
                   {/* Phone */}
@@ -118,9 +119,8 @@ const Contact = () => {
                       value={formData.phone}
                       onChange={handleInputChange}
                       required
-                      placeholder="0412 345 678"
-                      className="w-full px-4 py-3 border border-[#314085]/40 rounded-lg focus:ring-2 focus:ring-[#314085] outline-none transition-all"
-                    />
+                      placeholder="02 8000 1080"
+                      className="w-full px-4 py-3 border border-[#314085]/40 rounded-lg focus:ring-2 focus:ring-[#314085] outline-none transition-all" />
                   </div>
 
                   {/* Email */}
@@ -135,8 +135,7 @@ const Contact = () => {
                       onChange={handleInputChange}
                       required
                       placeholder="your.email@example.com"
-                      className="w-full px-4 py-3 border border-[#314085]/40 rounded-lg focus:ring-2 focus:ring-[#314085] outline-none transition-all"
-                    />
+                      className="w-full px-4 py-3 border border-[#314085]/40 rounded-lg focus:ring-2 focus:ring-[#314085] outline-none transition-all" />
                   </div>
 
                   {/* Suburb */}
@@ -150,8 +149,7 @@ const Contact = () => {
                       value={formData.suburb}
                       onChange={handleInputChange}
                       placeholder="e.g. Bondi, Manly, Chatswood"
-                      className="w-full px-4 py-3 border border-[#314085]/40 rounded-lg focus:ring-2 focus:ring-[#314085] outline-none transition-all"
-                    />
+                      className="w-full px-4 py-3 border border-[#314085]/40 rounded-lg focus:ring-2 focus:ring-[#314085] outline-none transition-all" />
                   </div>
 
                   {/* Service */}
@@ -206,8 +204,7 @@ const Contact = () => {
                           value={option}
                           checked={formData.contactPreference === option}
                           onChange={handleInputChange}
-                          className="text-[#314085] focus:ring-[#314085]"
-                        />
+                          className="text-[#314085] focus:ring-[#314085]" />
                         <span className="text-sm text-[#314085]">{option}</span>
                       </label>
                     ))}
@@ -226,8 +223,7 @@ const Contact = () => {
                     required
                     rows={5}
                     placeholder="Please describe what needs cleaning..."
-                    className="w-full px-4 py-3 border border-[#314085]/40 rounded-lg focus:ring-2 focus:ring-[#314085] outline-none transition-all resize-none"
-                  />
+                    className="w-full px-4 py-3 border border-[#314085]/40 rounded-lg focus:ring-2 focus:ring-[#314085] outline-none transition-all resize-none" />
                 </div>
 
                 {/* Consent */}
@@ -239,8 +235,7 @@ const Contact = () => {
                     checked={formData.consent}
                     onChange={handleInputChange}
                     required
-                    className="mt-1 text-[#314085] focus:ring-[#314085] rounded"
-                  />
+                    className="mt-1 text-[#314085] focus:ring-[#314085] rounded" />
                   <label htmlFor="consent" className="text-sm text-[#314085]/80">
                     {copy.contact.consent}
                   </label>
@@ -288,7 +283,7 @@ const Contact = () => {
                 Get Instant Response
               </h3>
               <div className="space-y-6">
-                <a 
+                <a
                   href={`tel:${biz.phone.replace(/\s+/g, '')}`}
                   className="flex items-center gap-4 p-4 bg-[#314085]/10 rounded-lg hover:bg-[#314085]/20 transition-colors"
                 >
@@ -301,7 +296,7 @@ const Contact = () => {
                   </div>
                 </a>
 
-                <a 
+                <a
                   href={`mailto:${biz.email}`}
                   className="flex items-center gap-4 p-4 bg-[#44B149]/10 rounded-lg hover:bg-[#44B149]/20 transition-colors"
                 >
@@ -350,7 +345,7 @@ const Contact = () => {
           </div>
         </div>
       </Section>
-    </main>
+    </main></>
   );
 };
 

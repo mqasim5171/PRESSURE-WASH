@@ -74,10 +74,10 @@ const FAQ = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
-                href="tel:0414203262"
+                href="tel:0280001080"
                 className="inline-flex items-center justify-center px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors"
               >
-                Call 0414 203 262
+                Call 02 8000 1080
               </a>
               <a 
                 href="/contact"

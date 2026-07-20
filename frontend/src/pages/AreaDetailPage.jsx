@@ -6,6 +6,7 @@ import {
   CheckCircle, Phone, Mail, MapPin, Clock,
   ShieldCheck, Zap, Leaf, BadgeCheck, Star, Users
 } from "lucide-react";
+import Meta from "../Meta"; // <-- SEO
 
 /* ---------------- helpers ---------------- */
 const slugify = (str) =>
@@ -71,7 +72,7 @@ const Textarea = ({ id, rows = 4, ...props }) => (
 const Bullet = ({ children }) => (
   <div className="flex items-start gap-2"><CheckCircle className="text-green-400 flex-shrink-0 mt-0.5" size={18} /><p className="text-gray-700 text-sm">{children}</p></div>
 );
-const TelButton = ({ number = "0280 001 080", className = "" }) => (
+const TelButton = ({ number = "02 8000 1080", className = "" }) => (
   <a href={`tel:${number.replace(/\s+/g, "")}`}
     className={`inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 bg-white text-[#1D2B6F] font-semibold shadow border hover:bg-gray-100 ${className}`}>
     <Phone size={18} /> {number}
@@ -146,7 +147,6 @@ const QuoteForm = ({ areaName = "Parramatta", services = [], propertyTypes = [] 
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    // Basic validation
     if (!form.name || !form.phone || !form.email || !form.suburb || !form.service) {
       alert("Please fill in all required fields.");
       return;
@@ -368,12 +368,32 @@ const AreaDetailPage = () => {
   const { slug } = useParams();
   const { vm: area, parent } = resolveAreaOrSuburb(slug);
 
+  // ---- SEO bits (added) ----
+  const hasArea = !!area;
+  const seoTitle = hasArea
+    ? `Cleaning Services ${area.name} Sydney | Arcturus`
+    : "Service Areas in Sydney | Arcturus";
+  const seoDesc = hasArea
+    ? `Professional cleaning in ${area.name}: pressure washing, solar, roof & gutter, windows. Same-day service. Call 0414 203 262.`
+    : "Professional cleaning across Sydney suburbs. Same-day service. Call 0414 203 262.";
+  const canonicalPath = hasArea ? `/areas/${slug}` : `/areas`;
+  const jsonLd = hasArea ? {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": `Cleaning Services in ${area.name}`,
+    "areaServed": `${area.name}, Sydney NSW`,
+    "provider": { "@type": "LocalBusiness", "name": "Arcturus Services", "url": "https://arcturusservices.com.au" }
+  } : null;
+
   if (!area) {
     return (
-      <div className="max-w-5xl mx-auto py-20 text-center">
-        <h1 className="text-3xl font-bold text-gray-800">Area Not Found</h1>
-        <Link to="/areas" className="text-[#F79029] underline mt-4 block">Back to All Areas</Link>
-      </div>
+      <>
+        <Meta title={seoTitle} desc={seoDesc} path={canonicalPath} />
+        <div className="max-w-5xl mx-auto py-20 text-center">
+          <h1 className="text-3xl font-bold text-gray-800">Area Not Found</h1>
+          <Link to="/areas" className="text-[#F79029] underline mt-4 block">Back to All Areas</Link>
+        </div>
+      </>
     );
   }
 
@@ -390,145 +410,148 @@ const AreaDetailPage = () => {
   ];
 
   return (
-    <div className="pt-24">
-      {/* HERO */}
-      <section className="bg-[#1D2B6F] text-white py-12 md:py-20 px-6">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
-          <div>
-            <h1 className="text-3xl md:text-5xl font-bold leading-tight mb-4">
-              Professional Cleaning Services <span className="text-[#F79029]">{area.name}</span>
-            </h1>
-            {area.tagline && <p className="text-lg mb-6">{area.tagline}</p>}
-            <HeroMeta areaName={area.name} postcode={area.postcode} />
-            <div className="flex flex-wrap gap-3">
-              <Link to="/contact" className="bg-[#F79029] text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-600 transition shadow-md">
-                Get Free Quote for {area.name}
-              </Link>
-              <a href="tel:0280001080" className="bg-white text-[#1D2B6F] px-6 py-3 rounded-lg font-semibold shadow-md border hover:bg-gray-100">
-                Call 0280 001 080
+    <>
+      {/* SEO head */}
+      <Meta title={seoTitle} desc={seoDesc} path={canonicalPath}>
+        {jsonLd && <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>}
+      </Meta>
+
+      <div className="pt-24">
+        {/* HERO */}
+        <section className="bg-[#1D2B6F] text-white py-12 md:py-20 px-6">
+          <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+            <div>
+              <h1 className="text-3xl md:text-5xl font-bold leading-tight mb-4">
+                Professional Cleaning Services <span className="text-[#F79029]">{area.name}</span>
+              </h1>
+              {area.tagline && <p className="text-lg mb-6">{area.tagline}</p>}
+              <HeroMeta areaName={area.name} postcode={area.postcode} />
+              <div className="flex flex-wrap gap-3">
+                <Link to="/contact" className="bg-[#F79029] text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-600 transition shadow-md">
+                  Get Free Quote for {area.name}
+                </Link>
+                <a href="tel:0280001080" className="bg-white text-[#1D2B6F] px-6 py-3 rounded-lg font-semibold shadow-md border hover:bg-gray-100">
+                  Call 02 8000 1080
+                </a>
+              </div>
+            </div>
+            <div>
+              {(area.lat && area.lng) ? (
+                <iframe
+                  title={`${area.name} map`}
+                  src={`https://www.google.com/maps?q=${area.lat},${area.lng}&z=14&output=embed`}
+                  className="w-full h-80 md:h-96 rounded-xl shadow-lg"
+                  loading="lazy"
+                  allowFullScreen
+                />
+              ) : (
+                <div className="bg-gray-200 w-full h-80 md:h-96 flex items-center justify-center rounded-xl shadow-lg">
+                  <p className="text-gray-700">Map not available</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* SERVICES — premium cards */}
+        <SectionBlock tone="light">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold">Premium Cleaning Services in {area.name}</h2>
+            <p className="text-slate-600 mt-2">
+              Professional, reliable, and eco-friendly cleaning solutions tailored for {area.name} properties
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {services.map((svc) => (
+              <article
+                key={svc.slug}
+                className="rounded-2xl overflow-hidden shadow-md ring-1 ring-slate-100 bg-white"
+              >
+                <div className="relative h-52 w-full">
+                  {svc.image && (
+                    <img
+                      src={svc.image}
+                      alt={svc.title}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute bottom-3 left-4 right-4">
+                    <h3 className="text-white font-bold text-xl drop-shadow">{svc.title}</h3>
+                    <p className="text-white/80 text-sm">
+                      Professional {svc.title.toLowerCase()} in {area.name}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-5">
+                  <p className="text-sm text-slate-700 leading-relaxed">
+                    {svc.blurb} Our professional team uses advanced equipment and eco-friendly
+                    solutions to deliver outstanding results for {area.name} residents and businesses.
+                  </p>
+
+                  <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] text-slate-700">
+                    <span className="inline-flex items-center gap-1">
+                      <Star className="w-4 h-4 text-yellow-400" /> 5.0 rating
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <Users className="w-4 h-4 text-blue-500" /> 200+ happy customers
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <Zap className="w-4 h-4 text-orange-500" /> Same-day available
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-green-600">
+                      <ShieldCheck className="w-4 h-4" /> 100% Satisfaction Guarantee
+                    </span>
+                  </div>
+
+                  <div className="mt-5 flex justify-end">
+                    <Link
+                      to="/contact"
+                      className="inline-flex items-center justify-center rounded-lg bg-[#F79029] text-white font-semibold px-4 py-2 hover:bg-[#e27f17] shadow"
+                    >
+                      Get Quote
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </SectionBlock>
+
+        {/* INSIGHTS + COVERAGE */}
+        <SectionBlock tone="subtle">
+          <AreaInsightsAndCoverage area={parent || area} brandShort="Arcturus" />
+        </SectionBlock>
+
+        {/* QUOTE SECTION */}
+        <SectionBlock tone="light">
+          <div className="grid md:grid-cols-2 gap-8 items-start">
+            <LeftRail areaName={area.name} whyPoints={area.whyChoose} />
+            <QuoteForm areaName={area.name} services={copy.services || []} propertyTypes={area.propertyTypes || []} />
+          </div>
+        </SectionBlock>
+
+        {/* FAQ */}
+        <SectionBlock tone="subtle">
+          <FAQGrid title={`Frequently Asked Questions - ${area.name} Cleaning Services`} faqs={faqs} />
+        </SectionBlock>
+
+        {/* CTA */}
+        <section className="py-16 px-6 bg-white">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-[#F79029] text-white rounded-2xl shadow-lg p-10 text-center ring-1 ring-orange-200">
+              <h2 className="text-3xl font-bold mb-6">Ready to Book Your {area.name} Cleaning Service?</h2>
+              <p className="mb-6 text-lg">Get your free, no-obligation quote today. Our {area.name} cleaning experts are standing by.</p>
+              <a href="/contact" className="bg-white text-[#F79029] font-semibold py-3 px-8 rounded-lg shadow hover:bg-gray-100 transition">
+                Get Free Quote
               </a>
             </div>
           </div>
-          <div>
-            {(area.lat && area.lng) ? (
-              <iframe
-                title={`${area.name} map`}
-                src={`https://www.google.com/maps?q=${area.lat},${area.lng}&z=14&output=embed`}
-                className="w-full h-80 md:h-96 rounded-xl shadow-lg"
-                loading="lazy"
-                allowFullScreen
-              />
-            ) : (
-              <div className="bg-gray-200 w-full h-80 md:h-96 flex items-center justify-center rounded-xl shadow-lg">
-                <p className="text-gray-700">Map not available</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICES — premium cards */}
-      <SectionBlock tone="light">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold">Premium Cleaning Services in {area.name}</h2>
-          <p className="text-slate-600 mt-2">
-            Professional, reliable, and eco-friendly cleaning solutions tailored for {area.name} properties
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          {services.map((svc) => (
-            <article
-              key={svc.slug}
-              className="rounded-2xl overflow-hidden shadow-md ring-1 ring-slate-100 bg-white"
-            >
-              {/* image banner with overlay title */}
-              <div className="relative h-52 w-full">
-                {svc.image && (
-                  <img
-                    src={svc.image}
-                    alt={svc.title}
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-3 left-4 right-4">
-                  <h3 className="text-white font-bold text-xl drop-shadow">{svc.title}</h3>
-                  <p className="text-white/80 text-sm">
-                    Professional {svc.title.toLowerCase()} in {area.name}
-                  </p>
-                </div>
-              </div>
-
-              {/* body */}
-              <div className="p-5">
-                <p className="text-sm text-slate-700 leading-relaxed">
-                  {svc.blurb} Our professional team uses advanced equipment and eco-friendly
-                  solutions to deliver outstanding results for {area.name} residents and businesses.
-                </p>
-
-                {/* trust badges */}
-                <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] text-slate-700">
-                  <span className="inline-flex items-center gap-1">
-                    <Star className="w-4 h-4 text-yellow-400" /> 5.0 rating
-                  </span>
-                  <span className="inline-flex items-center gap-1">
-                    <Users className="w-4 h-4 text-blue-500" /> 200+ happy customers
-                  </span>
-                  <span className="inline-flex items-center gap-1">
-                    <Zap className="w-4 h-4 text-orange-500" /> Same-day available
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-green-600">
-                    <ShieldCheck className="w-4 h-4" /> 100% Satisfaction Guarantee
-                  </span>
-                </div>
-
-                {/* CTA */}
-                <div className="mt-5 flex justify-end">
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center justify-center rounded-lg bg-[#F79029] text-white font-semibold px-4 py-2 hover:bg-[#e27f17] shadow"
-                  >
-                    Get Quote
-                  </Link>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </SectionBlock>
-
-      {/* INSIGHTS + COVERAGE */}
-      <SectionBlock tone="subtle">
-        <AreaInsightsAndCoverage area={parent || area} brandShort="Arcturus" />
-      </SectionBlock>
-
-      {/* QUOTE SECTION */}
-      <SectionBlock tone="light">
-        <div className="grid md:grid-cols-2 gap-8 items-start">
-          <LeftRail areaName={area.name} whyPoints={area.whyChoose} />
-          <QuoteForm areaName={area.name} services={copy.services || []} propertyTypes={area.propertyTypes || []} />
-        </div>
-      </SectionBlock>
-
-      {/* FAQ */}
-      <SectionBlock tone="subtle">
-        <FAQGrid title={`Frequently Asked Questions - ${area.name} Cleaning Services`} faqs={faqs} />
-      </SectionBlock>
-
-      {/* CTA */}
-      <section className="py-16 px-6 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-[#F79029] text-white rounded-2xl shadow-lg p-10 text-center ring-1 ring-orange-200">
-            <h2 className="text-3xl font-bold mb-6">Ready to Book Your {area.name} Cleaning Service?</h2>
-            <p className="mb-6 text-lg">Get your free, no-obligation quote today. Our {area.name} cleaning experts are standing by.</p>
-            <a href="/contact" className="bg-white text-[#F79029] font-semibold py-3 px-8 rounded-lg shadow hover:bg-gray-100 transition">
-              Get Free Quote
-            </a>
-          </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   );
 };
 
