@@ -192,8 +192,8 @@ const Header = () => {
           // instead of staying invisible-transparent over nothing.
           className={`max-w-7xl mx-auto rounded-2xl transition-colors duration-300 mobile-nav-capsule ${
             pastHero
-              ? "bg-[#02060c]/90 backdrop-blur-xl border border-white/10"
-              : "bg-black/10"
+              ? "bg-[#02060c]/90 backdrop-blur-xl border border-white/10 mobile-nav-solid"
+              : "bg-black/10 mobile-nav-hero"
           }`}
         >
           {navContent}
