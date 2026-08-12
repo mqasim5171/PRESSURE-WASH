@@ -48,44 +48,45 @@ const scenes = [
   {
     image: "/images/drone-sequence/scene-1-front.webp",
     mobileImage: "/images/drone-sequence-mobile/scene-1-front-mobile.webp",
-    eyebrow: "01 — Approach",
+    eyebrow: "Sydney · Solar Inspection",
     titleLead: "See what your",
     titleAccent: "solar roof is hiding.",
-    caption: "Every clean starts with a scan, not a guess.",
+    caption: "Thermal drone inspections that expose hotspots, faults and lost output — before they cost you a season of generation.",
   },
   {
     image: "/images/drone-sequence/scene-2-rising.webp",
     mobileImage: "/images/drone-sequence-mobile/scene-2-rising-mobile.webp",
-    eyebrow: "02 — Ascending",
-    titleLead: "Advanced",
-    titleAccent: "aerial inspection.",
-    caption: "The drone lifts for a wider view of the array.",
+    eyebrow: "02 / Ascent",
+    titleLead: "Lift off",
+    titleAccent: "",
+    caption: "The drone climbs to 40 metres and locks a survey grid over the property.",
   },
   {
     image: "/images/drone-sequence/scene-3-elevated.webp",
     mobileImage: "/images/drone-sequence-mobile/scene-3-elevated-mobile.webp",
-    eyebrow: "03 — Elevated",
-    titleLead: "Every panel.",
-    titleAccent: "Every cell.",
-    caption: "Rising above the roofline for full coverage.",
+    eyebrow: "03 / Overhead",
+    titleLead: "Roof plane captured",
+    titleAccent: "",
+    caption: "Centimetre-accurate visual pass across every module on the roof.",
   },
   {
     image: "/images/drone-sequence/scene-4-isometric.webp",
     mobileImage: "/images/drone-sequence-mobile/scene-4-isometric-mobile.webp",
-    eyebrow: "04 — Aerial Profile",
-    titleLead: "A complete",
-    titleAccent: "rooftop map.",
-    caption: "Full panel layout, captured in detail.",
+    eyebrow: "04 / Isometric",
+    titleLead: "45° detail sweep",
+    titleAccent: "",
+    caption: "Mounting rails, cabling and frame integrity checked from an angled orbit.",
   },
   {
     image: "/images/drone-sequence/scene-5-drone.webp",
-    // No dedicated mobile crop yet for this one - falls back to the
-    // cover-cropped desktop photo until it's supplied.
-    mobileImage: null,
-    eyebrow: "05 — Scanning",
-    titleLead: "Thermal imaging",
-    titleAccent: "reveals hidden problems.",
-    caption: "Precision drone scanning, before we ever clean a panel.",
+    // Use the supplied portrait isometric frame on mobile so the complete
+    // roof and drone-detection composition remains visible instead of the
+    // ultra-wide desktop image being aggressively cropped.
+    mobileImage: "/images/drone-sequence-mobile/scene-4-isometric-mobile.webp",
+    eyebrow: "05 / Thermal",
+    titleLead: "Heat signature",
+    titleAccent: "",
+    caption: "Radiometric imaging turns invisible resistance into visible colour.",
   },
   {
     image: "/images/drone-sequence/scene-6-thermal.webp",
@@ -256,7 +257,7 @@ export default function ScrollDroneSequence() {
   return (
     <section
       ref={containerRef}
-      style={{ height: `${N * (isCompact ? 65 : 90)}vh` }}
+      style={{ height: `${N * (isCompact ? 100 : 90)}vh` }}
       className="relative"
     >
       {/* 100svh (not 100vh) so mobile browser toolbars showing/hiding
@@ -323,7 +324,7 @@ export default function ScrollDroneSequence() {
             so the swap feels continuous with the camera move instead of flashing
             to empty between scenes. Absolutely positioned so the overlap during
             the crossfade doesn't push either copy out of place. */}
-        <div className="absolute inset-0 z-50 flex flex-col items-start justify-end px-6 md:px-16 pb-20 md:pb-28">
+        <div className="absolute inset-0 z-50 flex flex-col items-start justify-end px-6 md:px-16 pb-20 md:pb-28 mobile-scene-copy">
           <div className="relative w-full max-w-2xl">
           <AnimatePresence>
             <motion.div
@@ -351,7 +352,7 @@ export default function ScrollDroneSequence() {
                     to="/contact"
                     className="inline-flex items-center gap-2 rounded-full px-6 py-3 bg-[#22d3ee] text-black font-semibold hover:bg-white transition"
                   >
-                    Get Your Free Quote
+                    Book Your Solar Inspection
                     <Zap className="w-4 h-4" />
                   </Link>
                   <span className="text-white/40 text-sm hidden sm:inline">Same-day quotes • Sydney-wide</span>
@@ -365,7 +366,7 @@ export default function ScrollDroneSequence() {
         </div>
 
         {/* Progress dots */}
-        <div className="absolute right-6 md:right-10 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
+        <div className="absolute right-6 md:right-10 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3 mobile-progress-dots">
           {scenes.map((_, i) => (
             <span
               key={i}

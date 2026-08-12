@@ -5,10 +5,10 @@ import Section from "../ui/Section";
 // elsewhere on the site (copy.hero.metrics, servicesIntro) rather than
 // inventing new figures, so nothing here contradicts the rest of the page.
 const stats = [
-  { value: "1000+", label: "Customers served this year" },
-  { value: "30%", label: "Avg. solar output gained after a clean" },
-  { value: "$10M", label: "Public liability coverage" },
-  { value: "247+", label: "Verified 5-star reviews" },
+  { value: "2400+", label: "Arrays inspected across Sydney" },
+  { value: "98%", label: "Faults found on first flight" },
+  { value: "48h", label: "From scan to detailed report" },
+  { value: "21°C", label: "Typical hotspot delta detected" },
 ];
 
 export default function Stats() {

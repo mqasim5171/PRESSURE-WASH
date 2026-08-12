@@ -28,18 +28,21 @@ export default function BeforeAfterSlider() {
   const onPointerDown = (e) => {
     dragging.current = true;
     updateFromClientX(e.clientX);
-    e.currentTarget.setPointerCapture?.(e.pointerId);
+    containerRef.current?.setPointerCapture?.(e.pointerId);
   };
   const onPointerMove = (e) => {
     if (!dragging.current) return;
     updateFromClientX(e.clientX);
   };
-  const onPointerUp = () => {
+  const onPointerUp = (e) => {
     dragging.current = false;
+    if (containerRef.current?.hasPointerCapture?.(e.pointerId)) {
+      containerRef.current.releasePointerCapture(e.pointerId);
+    }
   };
 
   return (
-    <Section className="relative overflow-hidden bg-[#050910] py-24 border-t border-white/5">
+    <Section className="relative overflow-hidden bg-[#050910] py-24 border-t border-white/5 mobile-before-after">
       <Glow color="#22d3ee" className="w-[440px] h-[440px] top-0 right-0" />
       <div className="relative max-w-5xl mx-auto px-6">
         <div className="max-w-2xl mb-10">
@@ -55,30 +58,36 @@ export default function BeforeAfterSlider() {
 
         <div
           ref={containerRef}
-          className="relative w-full aspect-[16/9] rounded-3xl overflow-hidden select-none cursor-ew-resize border border-white/10"
+          className="relative w-full aspect-[16/9] rounded-3xl overflow-hidden select-none cursor-ew-resize border border-white/10 mobile-comparison-slider"
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           onPointerLeave={onPointerUp}
         >
           {/* Base layer: normal drone photo */}
-          <img
-            src="/images/drone-sequence/scene-5-drone.webp"
-            alt="Normal drone photo of a solar array"
-            draggable={false}
-            className="absolute inset-0 h-full w-full object-cover"
-          />
+          <picture>
+            <source media="(max-width: 768px)" srcSet="/images/drone-sequence-mobile/scene-4-isometric-mobile.webp" />
+            <img
+              src="/images/drone-sequence/scene-5-drone.webp"
+              alt="Normal view of a solar array"
+              draggable={false}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </picture>
           {/* Thermal layer, revealed by clip-path up to the handle position */}
           <div
             className="absolute inset-0 h-full w-full overflow-hidden"
             style={{ clipPath: `inset(0 0 0 ${pos}%)` }}
           >
-            <img
-              src="/images/drone-sequence/scene-6-thermal.webp"
-              alt="Thermal scan of the same solar array showing hotspots"
-              draggable={false}
-              className="absolute inset-0 h-full w-full object-cover"
-            />
+            <picture>
+              <source media="(max-width: 768px)" srcSet="/images/drone-sequence-mobile/scene-6-thermal-mobile.webp" />
+              <img
+                src="/images/drone-sequence/scene-6-thermal.webp"
+                alt="Thermal scan of the same solar array showing hotspots"
+                draggable={false}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </picture>
           </div>
 
           {/* Labels */}

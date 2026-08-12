@@ -52,16 +52,17 @@ const Header = () => {
   const linkCls = "font-medium text-sm tracking-wide text-white/70 hover:text-white transition-colors";
 
   const navContent = (
-    <div className="max-w-7xl mx-auto flex items-center justify-between py-2.5 px-4 sm:px-6">
+    <div className="max-w-7xl mx-auto flex items-center justify-between py-2.5 px-4 sm:px-6 mobile-nav-inner">
       {/* Logo - dot + wordmark carries most of the weight, image mark kept
           small so it reads as a mark next to the name rather than competing
           with it for attention. */}
       <Link to="/" className="flex items-center space-x-2 sm:space-x-3">
-        <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: CYAN }} />
-        <img src="/logo.png" alt="" className="h-7 sm:h-8 w-auto" />
-        <span className="text-base sm:text-lg font-bold tracking-wider text-white">
+        <span className="w-2 h-2 rounded-full flex-shrink-0 mobile-brand-dot" style={{ background: CYAN }} />
+        <img src="/logo.png" alt="" className="h-7 sm:h-8 w-auto mobile-logo-mark" />
+        <span className="text-base sm:text-lg font-bold tracking-wider text-white mobile-wordmark">
           Arcturus <span style={{ color: CYAN }}>Services</span>
         </span>
+        <span className="mobile-aperture" aria-hidden="true">APERTURE</span>
       </Link>
 
       {/* Desktop Nav */}
@@ -116,7 +117,7 @@ const Header = () => {
 
       {/* Mobile Menu Button */}
       <div className="md:hidden">
-        <button onClick={() => setIsOpen(!isOpen)} className="text-white">
+        <button onClick={() => setIsOpen(!isOpen)} className="text-white mobile-menu-button" aria-label="Toggle menu">
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
@@ -180,7 +181,7 @@ const Header = () => {
     // Floating capsule nav, inset from the viewport edges, sitting on top
     // of the hero rather than a flush full-width bar.
     return (
-      <header className="fixed w-full top-4 z-50 px-4">
+      <header className="fixed w-full top-4 z-50 px-4 mobile-floating-header">
         <div
           // Transparent (no border, no blur - a stroke reads as a hard
           // outline over a photo, and backdrop-blur creates its own visible
@@ -189,7 +190,7 @@ const Header = () => {
           // past the hero into flat dark page content, switches to the same
           // solid glass pill every other page uses, so it stays legible
           // instead of staying invisible-transparent over nothing.
-          className={`max-w-7xl mx-auto rounded-2xl transition-colors duration-300 ${
+          className={`max-w-7xl mx-auto rounded-2xl transition-colors duration-300 mobile-nav-capsule ${
             pastHero
               ? "bg-[#02060c]/90 backdrop-blur-xl border border-white/10"
               : "bg-black/10"

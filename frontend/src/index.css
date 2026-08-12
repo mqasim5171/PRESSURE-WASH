@@ -83,6 +83,149 @@ code {
     }
 }
 
+/* Mobile editorial layout, matched to the supplied 788px-wide reference. */
+@media (max-width: 768px) {
+  html { background: #02060c; }
+  body { background: #02060c; color: #f7f8fb; }
+
+  .mobile-floating-header { top: 15px; padding-inline: 40px; }
+  .mobile-nav-capsule {
+    height: 123px;
+    border-radius: 999px !important;
+    background: linear-gradient(110deg, rgba(9,16,27,.94), rgba(19,18,17,.91)) !important;
+    border: 2px solid rgba(148,163,184,.2) !important;
+    backdrop-filter: blur(18px);
+    box-shadow: none;
+  }
+  .mobile-nav-inner { height: 100%; padding: 0 32px; }
+  .mobile-logo-mark, .mobile-wordmark { display: none; }
+  .mobile-brand-dot {
+    width: 22px; height: 22px;
+    box-shadow: 0 0 0 4px rgba(34,211,238,.15);
+  }
+  .mobile-aperture {
+    display: inline-block;
+    margin-left: 18px;
+    color: white;
+    font-size: 29px;
+    font-weight: 700;
+    letter-spacing: .23em;
+    line-height: 1;
+  }
+  .mobile-menu-button {
+    width: 80px; height: 80px;
+    border-radius: 999px;
+    border: 2px solid rgba(148,163,184,.22);
+    display: grid; place-items: center;
+  }
+  .mobile-menu-button svg { width: 31px; height: 31px; stroke-width: 2; }
+
+  .mobile-scene-copy { padding: 0 40px 48px; }
+  .mobile-scene-copy > div { max-width: none; }
+  .mobile-scene-copy [class*="tracking-widest"] { font-size: 22px; letter-spacing: .25em; }
+  .mobile-scene-copy h2 { margin-top: 36px; font-size: clamp(48px, 10.5vw, 82px); line-height: .96; letter-spacing: -.045em; }
+  .mobile-scene-copy p { margin-top: 48px; max-width: 680px; font-size: 29px; line-height: 1.8; color: rgba(226,232,240,.68); }
+  .mobile-scene-copy a { margin-top: 8px; min-height: 84px; padding: 0 48px; font-size: 27px; }
+  .mobile-progress-dots { display: none; }
+
+  .mobile-how-it-works { padding: 112px 0 80px; }
+  .mobile-how-it-works > div { padding-inline: 40px; }
+  .mobile-how-it-works > div:first-child { margin-bottom: 90px; }
+  .mobile-how-it-works h2 { font-size: 68px; line-height: 1.03; letter-spacing: -.045em; }
+  .mobile-how-it-works [class*="space-y"] { display: flex; flex-direction: column; gap: 92px; }
+  .mobile-how-it-works [class*="space-y"] > div { gap: 42px; }
+  .mobile-how-it-works [class*="aspect-"] { aspect-ratio: 1.6 / 1; border-radius: 38px; }
+  .mobile-how-it-works .step-image-number {
+    top: 22px;
+    left: 22px;
+    min-width: 72px;
+    height: 46px;
+    padding: 0 16px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(2, 6, 12, .68);
+    border: 1px solid rgba(255,255,255,.22);
+    backdrop-filter: blur(10px);
+    color: rgba(255,255,255,.92);
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: .12em;
+    box-shadow: 0 8px 24px rgba(0,0,0,.2);
+  }
+  .mobile-how-it-works h3 { font-size: 58px; line-height: 1.05; letter-spacing: -.035em; }
+  .mobile-how-it-works p { font-size: 28px; line-height: 1.65; }
+  .mobile-how-it-works .h-px { display: none; }
+
+  .mobile-before-after { padding: 120px 0 180px; }
+  .mobile-before-after > div { padding-inline: 40px; }
+  .mobile-before-after h2 { font-size: 70px; line-height: 1; letter-spacing: -.045em; }
+  .mobile-before-after p { font-size: 28px; line-height: 1.6; }
+  .mobile-comparison-slider {
+    width: calc(100% + 32px) !important;
+    max-width: none !important;
+    margin: 64px -16px 0 !important;
+    aspect-ratio: 4 / 3 !important;
+    border-radius: 38px;
+    touch-action: none;
+    overscroll-behavior: contain;
+  }
+  .mobile-comparison-slider img { object-position: center; }
+  .mobile-comparison-slider .w-11 { width: 64px; height: 64px; }
+  .mobile-comparison-slider .w-11 svg { width: 28px; height: 28px; }
+
+  .mobile-hotspot-detection { padding: 120px 0 150px; }
+  .mobile-hotspot-detection > div { padding-inline: 40px; }
+  .mobile-hotspot-image {
+    aspect-ratio: 4 / 5 !important;
+    border-radius: 38px;
+  }
+  .mobile-hotspot-image > img { object-position: center; }
+  .mobile-hotspot-image > div:last-child {
+    left: 24px;
+    right: 24px;
+    bottom: 24px;
+    max-width: none;
+    padding: 28px 32px;
+  }
+  .mobile-hotspot-image > div:last-child h3 { font-size: 30px; }
+  .mobile-hotspot-image > div:last-child p { font-size: 23px; line-height: 1.55; }
+
+  #services { padding-top: 120px; }
+  #services > div { padding-inline: 40px; }
+  #services header h2, #services h3 { font-size: 60px; line-height: 1.03; }
+  #services header p, #services .mt-20 p { font-size: 27px; line-height: 1.65; }
+  #services .grid.md\:grid-cols-4 { gap: 24px; }
+  #services .grid.md\:grid-cols-4 > * { aspect-ratio: 1 / 1; border-radius: 38px; }
+
+  section[class*="py-24"], section[class*="py-20"] { scroll-margin-top: 150px; }
+}
+
+@media (max-width: 520px) {
+  .mobile-floating-header { padding-inline: 20px; }
+  .mobile-nav-capsule { height: 86px; }
+  .mobile-nav-inner { padding-inline: 22px; }
+  .mobile-brand-dot { width: 16px; height: 16px; }
+  .mobile-aperture { margin-left: 12px; font-size: 18px; }
+  .mobile-menu-button { width: 58px; height: 58px; }
+  .mobile-scene-copy { padding-inline: 24px; }
+  .mobile-scene-copy p { font-size: 19px; margin-top: 28px; }
+  .mobile-how-it-works > div, .mobile-before-after > div, .mobile-hotspot-detection > div, #services > div { padding-inline: 24px; }
+  .mobile-how-it-works h2, .mobile-before-after h2, #services header h2, #services h3 { font-size: 44px; }
+  .mobile-how-it-works h3 { font-size: 38px; }
+  .mobile-how-it-works p, .mobile-before-after p, #services header p, #services .mt-20 p { font-size: 19px; }
+  .mobile-hotspot-image > div:last-child { left: 16px; right: 16px; bottom: 16px; padding: 20px; }
+  .mobile-hotspot-image > div:last-child h3 { font-size: 22px; }
+  .mobile-hotspot-image > div:last-child p { font-size: 17px; }
+  .mobile-comparison-slider {
+    width: calc(100% + 16px) !important;
+    margin-left: -8px !important;
+    margin-right: -8px !important;
+    aspect-ratio: 1 / 1 !important;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;

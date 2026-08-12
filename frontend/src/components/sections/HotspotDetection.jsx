@@ -13,16 +13,16 @@ import Glow from "../Glow";
 const findings = [
   {
     id: 1,
-    label: "Soiling hotspot",
+    label: "Cell hotspot",
     severity: "Critical",
     tone: "#f79029",
     x: 52,
     y: 30,
-    detail: "Heavy dust buildup is blocking roughly a fifth of this panel's output.",
+    detail: "Module C4 running 21°C above array median — resistive junction, high fire-risk indicator.",
   },
   {
     id: 2,
-    label: "Bird debris",
+    label: "Bypass diode failure",
     severity: "High",
     tone: "#f79029",
     x: 60,
@@ -31,7 +31,7 @@ const findings = [
   },
   {
     id: 3,
-    label: "Pollen film",
+    label: "Soiling band",
     severity: "Moderate",
     tone: "#22d3ee",
     x: 45,
@@ -41,17 +41,18 @@ const findings = [
 ];
 
 export default function HotspotDetection() {
-  const [active, setActive] = useState(findings[0].id);
+  const [active, setActive] = useState(null);
   const finding = findings.find((f) => f.id === active);
+  const toggleFinding = (id) => setActive((current) => current === id ? null : id);
 
   return (
-    <Section className="relative overflow-hidden bg-[#03070d] py-24 border-t border-white/5">
+    <Section className="relative overflow-hidden bg-[#03070d] py-24 border-t border-white/5 mobile-hotspot-detection">
       <Glow color="#f79029" className="w-[420px] h-[420px] bottom-0 -left-32" opacity={0.06} />
       <div className="relative max-w-6xl mx-auto px-6">
         <div className="max-w-2xl mb-12">
           <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">Fault Detection</span>
           <h2 className="mt-3 text-3xl md:text-5xl font-bold text-white tracking-tight">
-            Three issues on one roof.
+            Three faults on one roof.
           </h2>
           <p className="text-white/60 mt-4 text-lg">
             Select a marker to see what the thermal pass found — and why a plain visual
@@ -67,7 +68,7 @@ export default function HotspotDetection() {
             {findings.map((f) => (
               <button
                 key={f.id}
-                onClick={() => setActive(f.id)}
+                onClick={() => toggleFinding(f.id)}
                 className={`flex-shrink-0 w-full text-left rounded-xl border px-5 py-4 transition-all ${
                   active === f.id
                     ? "bg-white/[0.06] border-[#22d3ee]/40"
@@ -100,7 +101,7 @@ export default function HotspotDetection() {
 
           {/* Stylized false-color thermal treatment over a normal drone photo -
               see the note above on why this isn't the literal thermal photo. */}
-          <div className="relative w-full aspect-[16/9] rounded-3xl overflow-hidden border border-white/10">
+          <div className="relative w-full aspect-[16/9] rounded-3xl overflow-hidden border border-white/10 mobile-hotspot-image">
             <img
               src="/images/drone-sequence/scene-4-isometric.webp"
               alt="Solar array with a false-color thermal overlay flagging soiling hotspots"
@@ -132,7 +133,7 @@ export default function HotspotDetection() {
             {findings.map((f) => (
               <button
                 key={f.id}
-                onClick={() => setActive(f.id)}
+                onClick={() => toggleFinding(f.id)}
                 className="absolute -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center"
                 style={{ left: `${f.x}%`, top: `${f.y}%` }}
                 aria-label={f.label}
@@ -149,18 +150,20 @@ export default function HotspotDetection() {
             ))}
 
             {/* Detail card */}
-            <div className="absolute bottom-4 left-4 right-4 sm:right-auto sm:max-w-sm rounded-2xl bg-black/60 backdrop-blur-xl border border-white/15 p-5">
-              <div className="flex items-center justify-between gap-4">
-                <h3 className="text-white font-bold">{finding.label}</h3>
-                <span
-                  className="text-[10px] font-bold tracking-widest uppercase"
-                  style={{ color: finding.tone }}
-                >
-                  {finding.severity}
-                </span>
+            {finding && (
+              <div className="absolute bottom-4 left-4 right-4 sm:right-auto sm:max-w-sm rounded-2xl bg-black/60 backdrop-blur-xl border border-white/15 p-5">
+                <div className="flex items-center justify-between gap-4">
+                  <h3 className="text-white font-bold">{finding.label}</h3>
+                  <span
+                    className="text-[10px] font-bold tracking-widest uppercase"
+                    style={{ color: finding.tone }}
+                  >
+                    {finding.severity}
+                  </span>
+                </div>
+                <p className="text-white/60 text-sm mt-2 leading-relaxed">{finding.detail}</p>
               </div>
-              <p className="text-white/60 text-sm mt-2 leading-relaxed">{finding.detail}</p>
-            </div>
+            )}
           </div>
         </div>
 
