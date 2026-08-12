@@ -2,39 +2,26 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import {
-  ArrowLeft, CheckCircle, Clock, Shield, Star, Phone,
+  ArrowLeft, CheckCircle, Star, Phone,
   Leaf, Zap, BadgeCheck, MapPin
 } from "lucide-react";
 import { copy } from "../lib/copy";
+import Glow from "../components/Glow";
 import Meta from "../Meta";
 
 // --- helpers ---
 const slugify = (s) =>
   String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
-const Section = ({ tone = "white", className = "", children }) => (
-  <section className={`${tone === "white" ? "bg-white" : "bg-slate-50"} ${className}`}>
+const Section = ({ tone = "dark", className = "", children }) => (
+  <section className={`${tone === "dark" ? "bg-[#02060c]" : "bg-[#050910]"} border-b border-white/5 ${className}`}>
     <div className="mx-auto max-w-7xl px-6">{children}</div>
   </section>
 );
 
-const StatCard = ({ icon: Icon, title, sub, tone }) => (
-  <div className="bg-white p-7 rounded-2xl text-center shadow-md ring-1 ring-slate-100">
-    <Icon className={`w-9 h-9 mx-auto mb-3 text-${tone}-600`} />
-    <div className="font-semibold text-slate-900">{title}</div>
-    <div className="text-sm text-slate-600">{sub}</div>
-  </div>
-);
-
-const Pill = ({ children, icon: Icon, tone = "slate" }) => (
-  <span
-    className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm shadow-sm ring-1
-    ${tone === "green" ? "bg-emerald-50 text-emerald-700 ring-emerald-200" :
-      tone === "orange" ? "bg-orange-50 text-orange-700 ring-orange-200" :
-      tone === "yellow" ? "bg-yellow-50 text-yellow-700 ring-yellow-200" :
-      "bg-slate-50 text-slate-700 ring-slate-200"}`}
-  >
-    {Icon && <Icon className="w-4 h-4" />}
+const Pill = ({ children, icon: Icon }) => (
+  <span className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm bg-white/[0.04] border border-white/10 text-white/70">
+    {Icon && <Icon className="w-4 h-4 text-[#22d3ee]" />}
     {children}
   </span>
 );
@@ -67,12 +54,21 @@ export default function ServiceDetail() {
   const jsonLd = service && {
     "@context": "https://schema.org",
     "@type": "Service",
+    "serviceType": service.title,
     "name": service.title,
-    "areaServed": "Sydney, NSW",
+    "description": service.blurb,
+    "image": service.image ? `https://arcturusservices.com.au${service.image}` : undefined,
+    "areaServed": (copy.areas?.featured || []).map((a) => ({
+      "@type": "City",
+      "name": a.name,
+      "containedInPlace": { "@type": "AdministrativeArea", "name": "Sydney, NSW" },
+    })),
     "provider": {
       "@type": "LocalBusiness",
       "name": "Arcturus Services",
-      "url": "https://arcturusservices.com.au"
+      "url": "https://arcturusservices.com.au",
+      "telephone": "+61-2-8000-1080",
+      "areaServed": "Sydney, NSW, Australia",
     }
   };
 
@@ -80,14 +76,14 @@ export default function ServiceDetail() {
   if (!service) {
     return (
       <>
-        <Meta title={title} desc={desc} canon={canon} jsonLd={jsonLd} />
-        <main className="pt-24">
+        <Meta title={title} desc={desc} path={canon} />
+        <main className="pt-24 bg-[#02060c] min-h-screen">
           <Section className="py-24 text-center">
-            <h1 className="text-4xl font-bold text-slate-900 mb-3">Service Not Found</h1>
-            <p className="text-slate-600 mb-6">The service you’re looking for doesn’t exist.</p>
+            <h1 className="text-4xl font-bold text-white mb-3">Service Not Found</h1>
+            <p className="text-white/60 mb-6">The service you’re looking for doesn’t exist.</p>
             <Link
               to="/services"
-              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+              className="inline-flex items-center gap-2 text-[#22d3ee] hover:text-white font-medium transition-colors"
             >
               <ArrowLeft className="w-4 h-4" /> Back to Services
             </Link>
@@ -105,68 +101,72 @@ export default function ServiceDetail() {
 
   return (
     <>
-      <Meta title={title} desc={desc} canon={canon} jsonLd={jsonLd} />
+      <Meta title={title} desc={desc} path={canon} image={service.image}>
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      </Meta>
 
-      <main className="pt-24">
+      <main className="pt-24 bg-[#02060c]">
         {/* HERO */}
-        <Section className="pt-10 pb-0">
-          <div className="max-w-7xl mx-auto">
-            <div className="mb-6">
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
-              >
-                <ArrowLeft className="w-4 h-4" /> Back to Services
-              </Link>
-            </div>
+        <Section className="relative overflow-hidden pt-10 pb-20">
+          <Glow color="#22d3ee" className="w-[480px] h-[480px] -top-32 -right-32" />
+          <div className="relative mb-6">
+            <Link
+              to="/services"
+              className="inline-flex items-center gap-2 text-[#22d3ee] hover:text-white font-medium transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" /> Back to Services
+            </Link>
+          </div>
 
-            <div className="text-center mb-6">
-              <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900">
-                {headline}
-              </h1>
-              <p className="text-xl text-slate-600 mt-3">{sub}</p>
-            </div>
+          <div className="text-center mb-6">
+            {service.flagship && (
+              <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">Flagship Service</span>
+            )}
+            <h1 className="mt-3 text-5xl md:text-6xl font-extrabold tracking-tight text-white">
+              {headline}
+            </h1>
+            <p className="text-xl text-white/60 mt-3">{sub}</p>
+          </div>
 
-            {/* Banner */}
-            <div className="relative overflow-hidden rounded-3xl shadow-xl ring-1 ring-slate-200">
-              <div className="relative h-[460px] md:h-[520px]">
-                {heroImg && (
-                  <img
-                    src={heroImg}
-                    alt={headline}
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                <div className="absolute bottom-6 left-8 right-8">
-                  <h2 className="text-white text-3xl font-bold drop-shadow">{headline}</h2>
-                  <p className="text-white/85 text-sm">
-                    Expert {headline.toLowerCase()} across Sydney
-                  </p>
-                </div>
+          {/* Banner */}
+          <div className="relative overflow-hidden rounded-3xl border border-white/10">
+            <div className="relative h-[460px] md:h-[520px]">
+              {heroImg && (
+                <img
+                  src={heroImg}
+                  alt={headline}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+              <div className="absolute bottom-6 left-8 right-8">
+                <h2 className="text-white text-3xl font-bold drop-shadow">{headline}</h2>
+                <p className="text-white/70 text-sm">
+                  Expert {headline.toLowerCase()} across Sydney
+                </p>
               </div>
             </div>
           </div>
         </Section>
 
         {/* WHAT’S INCLUDED */}
-        <Section tone="white" className="py-20">
-          <h2 className="text-4xl font-bold text-slate-900 mb-12 text-center">
+        <Section tone="alt" className="py-20">
+          <h2 className="text-4xl font-bold text-white mb-12 text-center">
             What’s Included in Our {headline}
           </h2>
-          <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-4 max-w-6xl mx-auto">
             {(service.bullets || []).map((b, i) => (
               <div
                 key={i}
-                className="rounded-2xl p-6 bg-white shadow-md ring-1 ring-slate-200 hover:shadow-lg transition"
+                className="rounded-2xl p-6 bg-white/[0.03] border border-white/10 hover:bg-white/[0.06] transition"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-11 h-11 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <CheckCircle className="w-6 h-6 text-blue-600" />
+                  <div className="w-11 h-11 rounded-full bg-[#22d3ee]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <CheckCircle className="w-6 h-6 text-[#22d3ee]" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg text-slate-900">{b}</h3>
-                    <p className="text-slate-600 text-sm mt-1">
+                    <h3 className="font-semibold text-lg text-white">{b}</h3>
+                    <p className="text-white/50 text-sm mt-1">
                       Professional service with attention to detail and guaranteed results.
                     </p>
                   </div>
@@ -177,16 +177,16 @@ export default function ServiceDetail() {
 
           {/* Pills */}
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-            <Pill icon={Star} tone="yellow">5.0 rating</Pill>
-            <Pill icon={Zap} tone="orange">Same-day available</Pill>
-            <Pill icon={BadgeCheck} tone="green">100% Satisfaction</Pill>
+            <Pill icon={Star}>5.0 rating</Pill>
+            <Pill icon={Zap}>Same-day available</Pill>
+            <Pill icon={BadgeCheck}>100% Satisfaction</Pill>
             <Pill icon={Leaf}>Eco-friendly</Pill>
           </div>
         </Section>
 
         {/* PROCESS */}
-        <Section tone="slate" className="py-20">
-          <h2 className="text-4xl font-bold text-slate-900 mb-14 text-center">
+        <Section className="py-20">
+          <h2 className="text-4xl font-bold text-white mb-14 text-center">
             Our Professional Process
           </h2>
           <div className="grid md:grid-cols-4 gap-10 max-w-5xl mx-auto">
@@ -197,54 +197,54 @@ export default function ServiceDetail() {
               { step: "4", title: "Quality Check", desc: "Final inspection to ensure everything meets our high standards." },
             ].map((it) => (
               <div key={it.step} className="text-center">
-                <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-md">
-                  <span className="text-white font-bold text-xl">{it.step}</span>
+                <div className="w-16 h-16 bg-white/[0.04] border border-white/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <span className="text-[#22d3ee] font-bold text-xl">{it.step}</span>
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">{it.title}</h3>
-                <p className="text-slate-600 text-sm">{it.desc}</p>
+                <h3 className="text-lg font-bold text-white mb-2">{it.title}</h3>
+                <p className="text-white/50 text-sm">{it.desc}</p>
               </div>
             ))}
           </div>
         </Section>
 
         {/* SERVICE AREAS */}
-        <Section tone="white" className="py-20">
+        <Section tone="alt" className="py-20">
           <div className="text-center mb-10">
-            <h2 className="text-4xl font-bold">{headline} Service Areas Across Sydney</h2>
-            <p className="text-slate-600 mt-3">
+            <h2 className="text-4xl font-bold text-white">{headline} Service Areas Across Sydney</h2>
+            <p className="text-white/60 mt-3">
               Professional {headline.toLowerCase()} available throughout Sydney NSW
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-7">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {suburbs.map((name) => {
               const s = slugify(name);
               return (
                 <div
                   key={name}
-                  className="rounded-2xl bg-white shadow-md ring-1 ring-slate-200 p-5 hover:shadow-lg transition"
+                  className="rounded-2xl bg-white/[0.03] border border-white/10 p-5 hover:bg-white/[0.06] transition"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <div className="inline-flex items-center gap-1 text-blue-600">
+                    <div className="inline-flex items-center gap-1 text-[#22d3ee]">
                       <MapPin className="w-4 h-4" />
                       <span className="text-xs font-medium">Sydney</span>
                     </div>
-                    <Star className="w-4 h-4 text-yellow-400" />
+                    <Star className="w-4 h-4 text-[#f79029]" />
                   </div>
-                  <div className="font-semibold text-slate-900 text-lg">{name}</div>
-                  <div className="text-sm text-slate-600 mt-1">
+                  <div className="font-semibold text-white text-lg">{name}</div>
+                  <div className="text-sm text-white/50 mt-1">
                     {`Professional ${headline.toLowerCase()} in ${name}`}
                   </div>
                   <div className="mt-4 flex items-center gap-2">
                     <Link
                       to="/contact"
-                      className="inline-flex justify-center items-center px-3.5 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700"
+                      className="inline-flex justify-center items-center px-3.5 py-2.5 rounded-full bg-[#22d3ee] text-black text-sm font-semibold hover:bg-white transition-colors"
                     >
                       Book Service
                     </Link>
                     <Link
                       to={`/areas/${s}`}
-                      className="inline-flex justify-center items-center px-3.5 py-2.5 rounded-lg border text-sm font-semibold hover:bg-slate-50"
+                      className="inline-flex justify-center items-center px-3.5 py-2.5 rounded-full border border-white/20 text-white text-sm font-semibold hover:border-white/50 transition-colors"
                     >
                       Explore
                     </Link>
@@ -257,7 +257,7 @@ export default function ServiceDetail() {
           <div className="text-center mt-12">
             <Link
               to="/areas"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 shadow-md"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#22d3ee] text-black font-semibold hover:bg-white transition-colors"
             >
               See All Areas
             </Link>
@@ -265,25 +265,25 @@ export default function ServiceDetail() {
         </Section>
 
         {/* CTA */}
-        <Section tone="slate" className="py-20">
+        <Section className="py-20">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-[#F79029] text-white rounded-3xl shadow-xl p-10 text-center ring-1 ring-orange-200">
-              <h3 className="text-3xl font-bold mb-3">Ready to book {headline}?</h3>
-              <p className="mb-7 text-white/95 text-lg">
+            <div className="bg-white/[0.04] border border-white/10 rounded-3xl p-10 text-center">
+              <h3 className="text-3xl font-bold mb-3 text-white">Ready to book {headline}?</h3>
+              <p className="mb-7 text-white/60 text-lg">
                 Get a fast, no-obligation quote — same-day slots often available.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   to="/contact"
-                  className="inline-flex items-center justify-center rounded-xl bg-white text-[#F79029] font-semibold px-7 py-3.5 hover:bg-gray-100 shadow"
+                  className="inline-flex items-center justify-center rounded-full bg-[#22d3ee] text-black font-semibold px-7 py-3.5 hover:bg-white transition-colors"
                 >
                   Get Free Quote
                 </Link>
                 <a
                   href="tel:0414203262"
-                  className="inline-flex items-center justify-center rounded-xl border border-white/60 bg-transparent px-7 py-3.5 font-semibold text-white hover:bg-white/10"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-7 py-3.5 font-semibold text-white hover:border-white/50 transition-colors"
                 >
-                  <Phone className="w-5 h-5 mr-2" /> Call 02 8000 1080
+                  <Phone className="w-5 h-5" /> Call 02 8000 1080
                 </a>
               </div>
             </div>

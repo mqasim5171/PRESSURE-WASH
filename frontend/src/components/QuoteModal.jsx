@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { X, Loader2, CheckCircle } from 'lucide-react';
 import { copy } from '../lib/copy';
 
+const inputCls =
+  "w-full px-4 py-3 bg-white/[0.04] border border-white/15 rounded-lg text-white placeholder:text-white/30 focus:ring-2 focus:ring-[#22d3ee] focus:border-transparent outline-none transition-all";
+const labelCls = "block text-sm font-semibold text-white/80 mb-2";
+
 const QuoteModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -60,7 +64,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.name || !formData.email || !formData.phone || !formData.message || !formData.consent) {
       alert('Please fill in all required fields and accept the consent.');
       return;
@@ -109,26 +113,26 @@ const QuoteModal = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       {/* Backdrop */}
-      <div 
-        className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+      <div
+        className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       ></div>
 
       {/* Modal */}
       <div className="flex min-h-full items-center justify-center p-4">
-        <div 
+        <div
           id="quote-modal"
-          className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+          className="relative bg-[#0a0f1a] border border-white/10 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-slate-200">
+          <div className="flex items-center justify-between p-6 border-b border-white/10">
             <div>
-              <h2 className="text-2xl font-bold text-slate-900">Get Free Quote</h2>
-              <p className="text-slate-600">Tell us about your cleaning needs</p>
+              <h2 className="text-2xl font-bold text-white">Get Free Quote</h2>
+              <p className="text-white/50">Tell us about your cleaning needs</p>
             </div>
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-slate-600 transition-colors p-2 hover:bg-slate-100 rounded-lg"
+              className="text-white/40 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
             >
               <X className="w-6 h-6" />
             </button>
@@ -139,7 +143,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="modal-name" className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label htmlFor="modal-name" className={labelCls}>
                     Name *
                   </label>
                   <input
@@ -149,13 +153,13 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className={inputCls}
                     placeholder="Your full name"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="modal-phone" className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label htmlFor="modal-phone" className={labelCls}>
                     Phone *
                   </label>
                   <input
@@ -165,13 +169,13 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     value={formData.phone}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className={inputCls}
                     placeholder="0412 345 678"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="modal-email" className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label htmlFor="modal-email" className={labelCls}>
                     Email *
                   </label>
                   <input
@@ -181,13 +185,13 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className={inputCls}
                     placeholder="your.email@example.com"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="modal-suburb" className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label htmlFor="modal-suburb" className={labelCls}>
                     Suburb
                   </label>
                   <input
@@ -196,13 +200,13 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     name="suburb"
                     value={formData.suburb}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className={inputCls}
                     placeholder="e.g. Bondi, Manly, Chatswood"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="modal-service" className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label htmlFor="modal-service" className={labelCls}>
                     Select a service
                   </label>
                   <select
@@ -210,7 +214,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     name="service"
                     value={formData.service}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className={`${inputCls} [&>option]:bg-[#0a0f1a]`}
                   >
                     <option value="">Select a service</option>
                     {copy.services.map((service) => (
@@ -222,7 +226,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 </div>
 
                 <div>
-                  <label htmlFor="modal-property" className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label htmlFor="modal-property" className={labelCls}>
                     Select property type
                   </label>
                   <select
@@ -230,7 +234,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     name="propertyType"
                     value={formData.propertyType}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className={`${inputCls} [&>option]:bg-[#0a0f1a]`}
                   >
                     <option value="Residential">Residential</option>
                     <option value="Commercial">Commercial</option>
@@ -240,7 +244,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-3">
+                <label className="block text-sm font-semibold text-white/80 mb-3">
                   How would you like us to contact you?
                 </label>
                 <div className="flex gap-6">
@@ -251,9 +255,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       value="Call"
                       checked={formData.contactPreference === 'Call'}
                       onChange={handleInputChange}
-                      className="text-blue-600 focus:ring-blue-500"
+                      className="text-[#22d3ee] focus:ring-[#22d3ee]"
                     />
-                    <span className="text-sm text-slate-700">Call</span>
+                    <span className="text-sm text-white/70">Call</span>
                   </label>
                   <label className="flex items-center gap-2">
                     <input
@@ -262,9 +266,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       value="Email"
                       checked={formData.contactPreference === 'Email'}
                       onChange={handleInputChange}
-                      className="text-blue-600 focus:ring-blue-500"
+                      className="text-[#22d3ee] focus:ring-[#22d3ee]"
                     />
-                    <span className="text-sm text-slate-700">Email</span>
+                    <span className="text-sm text-white/70">Email</span>
                   </label>
                   <label className="flex items-center gap-2">
                     <input
@@ -273,15 +277,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       value="SMS"
                       checked={formData.contactPreference === 'SMS'}
                       onChange={handleInputChange}
-                      className="text-blue-600 focus:ring-blue-500"
+                      className="text-[#22d3ee] focus:ring-[#22d3ee]"
                     />
-                    <span className="text-sm text-slate-700">SMS</span>
+                    <span className="text-sm text-white/70">SMS</span>
                   </label>
                 </div>
               </div>
 
               <div>
-                <label htmlFor="modal-message" className="block text-sm font-semibold text-slate-700 mb-2">
+                <label htmlFor="modal-message" className={labelCls}>
                   Message *
                 </label>
                 <textarea
@@ -291,7 +295,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   onChange={handleInputChange}
                   required
                   rows={4}
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
+                  className={`${inputCls} resize-none`}
                   placeholder="Please describe what needs cleaning, property size, any special requirements..."
                 />
               </div>
@@ -304,9 +308,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   checked={formData.consent}
                   onChange={handleInputChange}
                   required
-                  className="mt-1 text-blue-600 focus:ring-blue-500 rounded"
+                  className="mt-1 text-[#22d3ee] focus:ring-[#22d3ee] rounded"
                 />
-                <label htmlFor="modal-consent" className="text-sm text-slate-600">
+                <label htmlFor="modal-consent" className="text-sm text-white/60">
                   I agree to be contacted about my enquiry.
                 </label>
               </div>
@@ -314,7 +318,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
               <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="w-full bg-blue-600 text-white font-semibold py-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[#22d3ee] text-black font-bold py-4 rounded-full hover:bg-white focus:ring-2 focus:ring-[#22d3ee] focus:ring-offset-2 focus:ring-offset-[#0a0f1a] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {status === 'loading' ? (
                   <>
@@ -328,15 +332,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
 
               {/* Status Messages */}
               {status === 'success' && (
-                <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
-                  <p className="text-green-800">Thanks! We've received your request and will contact you within 2 hours during business hours.</p>
+                <div className="flex items-center gap-3 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
+                  <CheckCircle className="w-5 h-5 text-emerald-400" />
+                  <p className="text-emerald-300">Thanks! We've received your request and will contact you within 2 hours during business hours.</p>
                 </div>
               )}
 
               {status === 'error' && (
-                <div className="flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-lg">
-                  <p className="text-red-800">Something went wrong. Please try again or call us directly on 0414 203 262.</p>
+                <div className="flex items-center gap-3 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+                  <p className="text-red-300">Something went wrong. Please try again or call us directly on 0414 203 262.</p>
                 </div>
               )}
             </form>

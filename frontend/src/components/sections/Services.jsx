@@ -1,157 +1,170 @@
 // src/components/sections/Services.jsx
 import React from "react";
 import { Link } from "react-router-dom";
-import { Shield, Clock, Star, ArrowRight } from "lucide-react";
+import { Shield, Clock, Star, ArrowRight, Zap } from "lucide-react";
 import Section from "../ui/Section";
+import Glow from "../Glow";
 import { copy } from "../../lib/copy";
 
-const ServiceCard = ({ s }) => {
-  const comingSoon = s.slug === "drone-based-washing";
+const Tile = ({ s, big, badge }) => (
+  <div className={`group relative rounded-3xl overflow-hidden ${big ? "h-[420px]" : "h-[240px]"}`}>
+    {s.image && (
+      <img
+        src={s.image}
+        alt={s.title}
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+    )}
+    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/10" />
 
-  return (
-    <div className="group h-full">
-      <article
-        className={[
-          "bg-white rounded-2xl ring-1 ring-slate-200 shadow-sm",
-          "flex flex-col h-full overflow-hidden transition hover:shadow-md",
-          comingSoon ? "opacity-95" : "",
-        ].join(" ")}
-      >
-        {/* Image */}
-        {s.image && (
-          <div className="relative">
-            <img
-              src={s.image}
-              alt={s.title}
-              loading="lazy"
-              className={[
-                "h-44 w-full object-cover transition-transform",
-                comingSoon ? "grayscale-[40%] blur-[1px]" : "group-hover:scale-[1.02]",
-              ].join(" ")}
-            />
-          </div>
-        )}
+    {badge && (
+      <span className="absolute top-5 left-6 md:top-6 md:left-8 inline-flex items-center gap-1.5 rounded-full bg-black/50 backdrop-blur border border-white/20 text-white text-xs font-semibold tracking-wide uppercase px-3 py-1.5">
+        <Zap className="w-3.5 h-3.5 text-[#22d3ee]" />
+        {badge}
+      </span>
+    )}
 
-        {/* Body */}
-        <div className="p-6 flex-1 flex flex-col">
-          <h3 className="text-lg font-semibold text-slate-900">{s.title}</h3>
+    <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
+      <h3 className={`font-bold text-white ${big ? "text-2xl md:text-3xl" : "text-lg"}`}>{s.title}</h3>
+      <p className={`text-white/70 mt-2 max-w-md ${big ? "text-base" : "text-sm"}`}>{s.blurb}</p>
 
-          {/* flex-1 here ensures descriptions fill spare space so heights match */}
-          <p className="text-sm text-slate-600 mt-2 flex-1">{s.blurb}</p>
-
-          {/* Bullets */}
-          {Array.isArray(s.bullets) && s.bullets.length > 0 && (
-            <ul className="mt-4 space-y-1.5">
-              {s.bullets.slice(0, 2).map((b, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
-                  <span className="mt-1.5 inline-block w-1.5 h-1.5 rounded-full bg-emerald-600" />
-                  {b}
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {/* CTA (locks to bottom with mt-auto on its container) */}
-          <div className="mt-auto pt-6">
-            {comingSoon ? (
-              <div className="w-full text-center rounded-lg bg-slate-100 text-slate-500 font-semibold py-2.5 cursor-not-allowed select-none">
-                Coming soon
-              </div>
-            ) : (
-              <Link
-                to={`/services/${s.slug}`}
-                className="group/btn block w-full text-center rounded-lg bg-emerald-600 hover:bg-[#314085] text-white font-semibold py-2.5 transition"
-                aria-label={`Explore ${s.title}`}
-              >
-                <span className="inline-flex items-center gap-2 justify-center">
-                  Explore Service
-                  <ArrowRight className="w-4 h-4 transition -mr-0.5 group-hover/btn:translate-x-0.5" />
-                </span>
-              </Link>
-            )}
-          </div>
-        </div>
-      </article>
-
-      {/* Calm note for the disabled service */}
-      {comingSoon && (
-        <div className="text-center text-xs text-slate-500 mt-2">
-          {s.title} — available soon
-        </div>
-      )}
+      <div className="mt-5">
+        <Link
+          to={`/services/${s.slug}`}
+          className="inline-flex items-center gap-2 text-sm font-semibold text-white/90 group-hover:text-[#22d3ee] transition-colors"
+        >
+          Explore Service
+          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+        </Link>
+      </div>
     </div>
-  );
-};
+  </div>
+);
+
+// Minimal, photo-led tile for the secondary services - just the image and a
+// small name pill, no blurb/CTA copy. The gallery is meant to read as a
+// wall of real work, not another row of sales cards.
+const GalleryTile = ({ s, wide }) => (
+  <Link
+    to={`/services/${s.slug}`}
+    className={`group relative block rounded-3xl overflow-hidden ${wide ? "aspect-[16/11]" : "aspect-[4/5]"}`}
+  >
+    {(s.galleryImage || s.image) && (
+      <img
+        src={s.galleryImage || s.image}
+        alt={s.title}
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+    )}
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-transparent" />
+    <span className="absolute bottom-4 left-4 inline-flex items-center rounded-full bg-black/50 backdrop-blur border border-white/15 text-white text-xs font-semibold px-3 py-1.5">
+      {s.title}
+    </span>
+  </Link>
+);
 
 export default function Services() {
   const { servicesIntro, services = [] } = copy;
+  const flagship = services.filter((s) => s.flagship);
+  const extras = services.filter((s) => !s.flagship);
 
   return (
-    <Section id="services" className="bg-slate-50 py-20">
-      {/* Header */}
-      <header className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
-          {servicesIntro.title}
-        </h2>
-        <p className="text-slate-600 max-w-3xl mx-auto mt-3">{servicesIntro.sub}</p>
-      </header>
+    <Section id="services" className="relative overflow-hidden bg-[#03070d] py-24 border-t border-white/5">
+      <Glow color="#22d3ee" className="w-[560px] h-[560px] -top-64 -right-52" />
+      <div className="relative max-w-7xl mx-auto px-6">
+        {/* Header */}
+        <header className="mb-12 max-w-2xl">
+          <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">What We Do</span>
+          <h2 className="mt-3 text-3xl md:text-5xl font-bold text-white tracking-tight">
+            {servicesIntro.title}
+          </h2>
+          <p className="text-white/60 mt-4 text-lg">{servicesIntro.sub}</p>
+        </header>
 
-      {/* Grid */}
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-          {services.map((s) => (
-            <ServiceCard key={s.slug} s={s} />
+        {/* Flagship pair - drone thermal scanning finds it, solar cleaning fixes it.
+            These two are the actual core of the business; everything else is secondary. */}
+        <div className="grid md:grid-cols-2 gap-4">
+          {flagship.map((s) => (
+            <Tile
+              key={s.slug}
+              s={s}
+              big
+              badge={
+                s.slug === "solar-cleaning-maintenance" ? "Drone-Powered" :
+                s.slug === "drone-based-washing" ? "Flagship" : null
+              }
+            />
+          ))}
+        </div>
+
+        {/* Everything above the roofline - the secondary services as a
+            photo-led gallery rather than another row of sales cards. Header
+            runs side-by-side (headline left, description right) on desktop. */}
+        <div className="mt-20 mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <div>
+            <span className="text-white/40 tracking-widest text-xs font-semibold uppercase">Services</span>
+            <h3 className="mt-3 text-3xl md:text-5xl font-bold tracking-tight">
+              <span className="text-white">Everything</span>{" "}
+              <span className="text-white/40">above the roofline.</span>
+            </h3>
+          </div>
+          <p className="text-white/50 max-w-sm md:text-right">
+            Roof, gutter and window care — everything else your property needs, from the same drone-equipped team.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-4 gap-4">
+          {extras[0] && (
+            <div className="md:col-span-2">
+              <GalleryTile s={extras[0]} wide />
+            </div>
+          )}
+          {extras.slice(1).map((s) => (
+            <GalleryTile key={s.slug} s={s} />
           ))}
         </div>
 
         {/* Trust strip */}
-        <div className="mt-10 rounded-2xl bg-white/80 backdrop-blur ring-1 ring-slate-200 shadow-sm">
-          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-200">
+        <div className="mt-10 rounded-2xl bg-white/[0.04] backdrop-blur border border-white/10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10">
             <div className="flex items-center gap-3 p-5 justify-center">
-              <Clock className="w-5 h-5 text-blue-600" />
+              <Clock className="w-5 h-5 text-[#22d3ee]" />
               <div className="text-sm">
-                <div className="font-semibold text-slate-900">Same-day Service</div>
-                <div className="text-slate-600">Sydney-wide availability</div>
+                <div className="font-semibold text-white">Same-day Service</div>
+                <div className="text-white/50">Sydney-wide availability</div>
               </div>
             </div>
             <div className="flex items-center gap-3 p-5 justify-center">
-              <Shield className="w-5 h-5 text-emerald-600" />
+              <Shield className="w-5 h-5 text-[#22d3ee]" />
               <div className="text-sm">
-                <div className="font-semibold text-slate-900">Fully Insured</div>
-                <div className="text-slate-600">$10M public liability</div>
+                <div className="font-semibold text-white">Fully Insured</div>
+                <div className="text-white/50">$10M public liability</div>
               </div>
             </div>
             <div className="flex items-center gap-3 p-5 justify-center">
-              <Star className="w-5 h-5 text-amber-400" />
+              <Star className="w-5 h-5 text-[#22d3ee]" />
               <div className="text-sm">
-                <div className="font-semibold text-slate-900">5-Star Rated</div>
-                <div className="text-slate-600">247+ verified reviews</div>
+                <div className="font-semibold text-white">5-Star Rated</div>
+                <div className="text-white/50">247+ verified reviews</div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bold bundle CTA */}
-        <div className="mt-14">
-          <div className="rounded-3xl p-[2px] bg-gradient-to-r from-emerald-500 via-orange-400 to-indigo-500 shadow-lg">
-            <div className="rounded-3xl bg-white p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
-              <div>
-                <h3 className="text-2xl font-bold text-slate-900">
-                  Prefer a custom bundle?
-                </h3>
-                <p className="text-slate-600 mt-1">
-                  Save time and money with a tailored package across multiple services.
-                </p>
-              </div>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 rounded-xl px-5 py-3 bg-[#f79029] text-white font-semibold hover:bg-[#314085] transition whitespace-nowrap"
-              >
-                Get a tailored quote
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+        {/* Bundle CTA */}
+        <div className="mt-6 rounded-3xl bg-gradient-to-r from-[#22d3ee]/10 via-white/[0.03] to-transparent border border-white/10 p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <h3 className="text-xl md:text-2xl font-bold text-white">Prefer a custom bundle?</h3>
+            <p className="text-white/60 mt-1">Save time and money with a tailored package across multiple services.</p>
           </div>
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-2 rounded-full px-6 py-3 bg-[#22d3ee] text-black font-semibold hover:bg-white transition whitespace-nowrap"
+          >
+            Get a tailored quote
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
     </Section>

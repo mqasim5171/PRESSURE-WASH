@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { ChevronDown, HelpCircle } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import Section from '../ui/Section';
+import Glow from '../Glow';
 import { copy } from '../../lib/copy';
 
 const FAQ = () => {
   const { faq } = copy;
-  const [openItem, setOpenItem] = useState(null);
+  const [openItem, setOpenItem] = useState(0);
 
   const toggleItem = (index) => {
     setOpenItem(openItem === index ? null : index);
@@ -16,47 +17,40 @@ const FAQ = () => {
   }
 
   return (
-    <Section className="bg-slate-50">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-16">
-          <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <HelpCircle className="w-8 h-8 text-blue-600" />
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+    <Section className="relative overflow-hidden bg-[#03070d] py-24 border-t border-white/5">
+      <Glow color="#22d3ee" className="w-[400px] h-[400px] -top-32 left-1/2 -translate-x-1/2" />
+      <div className="relative max-w-3xl mx-auto px-6">
+        <div className="text-center mb-14">
+          <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">FAQ</span>
+          <h2 className="mt-3 text-3xl md:text-5xl font-bold text-white tracking-tight">
             {faq.title}
           </h2>
-          <p className="text-xl text-slate-600">
-            Got questions? We've got answers. Here are the most common questions about our services.
-          </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="divide-y divide-white/10 border-t border-b border-white/10">
           {faq.items.map((item, index) => (
-            <div 
-              key={index}
-              className="bg-white rounded-2xl border border-slate-200 overflow-hidden"
-            >
+            <div key={index}>
               <button
                 onClick={() => toggleItem(index)}
-                className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-slate-50 transition-colors"
+                className="w-full py-6 text-left flex items-center justify-between gap-4 group"
               >
-                <span className="font-semibold text-slate-900 pr-4">
+                <span className="font-semibold text-white group-hover:text-[#22d3ee] transition-colors">
                   {item.q}
                 </span>
-                <ChevronDown 
-                  className={`w-5 h-5 text-slate-500 transition-transform duration-200 flex-shrink-0 ${
-                    openItem === index ? 'transform rotate-180' : ''
+                <ChevronDown
+                  className={`w-5 h-5 text-white/40 transition-transform duration-200 flex-shrink-0 ${
+                    openItem === index ? 'rotate-180 text-[#22d3ee]' : ''
                   }`}
                 />
               </button>
-              
-              <div className={`transition-all duration-200 ease-in-out overflow-hidden ${
-                openItem === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-              }`}>
-                <div className="px-8 pb-6">
-                  <p className="text-slate-600 leading-relaxed">
-                    {item.a}
-                  </p>
+
+              <div
+                className={`grid transition-all duration-300 ease-in-out ${
+                  openItem === index ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                }`}
+              >
+                <div className="overflow-hidden">
+                  <p className="text-white/55 leading-relaxed pb-6 pr-8">{item.a}</p>
                 </div>
               </div>
             </div>
@@ -64,28 +58,24 @@ const FAQ = () => {
         </div>
 
         {/* Still Have Questions CTA */}
-        <div className="mt-12 text-center">
-          <div className="bg-blue-600 rounded-2xl p-8 text-white">
-            <h3 className="text-xl font-bold mb-4">
-              Still Have Questions?
-            </h3>
-            <p className="text-blue-100 mb-6">
-              Our friendly team is here to help. Call us now for instant answers and same-day service availability.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a 
-                href="tel:0280001080"
-                className="inline-flex items-center justify-center px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors"
-              >
-                Call 02 8000 1080
-              </a>
-              <a 
-                href="/contact"
-                className="inline-flex items-center justify-center px-8 py-3 border border-white text-white font-semibold rounded-lg hover:bg-white hover:text-blue-600 transition-colors"
-              >
-                Send a Message
-              </a>
-            </div>
+        <div className="mt-14 flex flex-col sm:flex-row items-center justify-between gap-6 bg-white/[0.03] border border-white/10 rounded-2xl p-8">
+          <div className="text-center sm:text-left">
+            <h3 className="text-lg font-bold text-white">Still have questions?</h3>
+            <p className="text-white/50 text-sm mt-1">Our team is here to help, same-day where possible.</p>
+          </div>
+          <div className="flex gap-3">
+            <a
+              href="tel:0280001080"
+              className="inline-flex items-center justify-center px-5 py-2.5 border border-white/20 text-white text-sm font-semibold rounded-full hover:border-white/50 transition-colors whitespace-nowrap"
+            >
+              Call 02 8000 1080
+            </a>
+            <a
+              href="/contact"
+              className="inline-flex items-center justify-center px-5 py-2.5 bg-[#22d3ee] text-black text-sm font-semibold rounded-full hover:bg-white transition-colors whitespace-nowrap"
+            >
+              Send a Message
+            </a>
           </div>
         </div>
       </div>

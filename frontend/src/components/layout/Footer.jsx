@@ -7,7 +7,7 @@ import { copy } from '../../lib/copy';
 
 const Footer = () => {
   return (
-    <footer className="bg-slate-900 text-white mt-20">
+    <footer className="bg-slate-900 text-white">
       <div className="container mx-auto px-4 py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
