@@ -164,7 +164,7 @@ export default function HeroCarousel() {
           overflow-hidden was clipping copy on short viewports (confirmed via
           real device-emulation testing at ~369x491) whenever a slide's
           content needed more room than the viewport gave it. */}
-      <div className="relative w-full overflow-hidden">
+      <div className="relative w-full lg:h-[92vh] overflow-hidden">
         {/* mode="wait" (not "sync"): the outgoing slide's exit animation
             finishes before the incoming one mounts, so at most one slide is
             ever in the DOM at a time. That's what lets the mobile height
