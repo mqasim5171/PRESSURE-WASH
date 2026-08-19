@@ -1,7 +1,7 @@
-# Arcturus Services - API Contracts & Integration Plan
+# Horizon Solar & Exterior Care - API Contracts & Integration Plan
 
 ## Overview
-This document outlines the API contracts, data structure, and backend integration plan for the Arcturus Services cleaning website.
+This document outlines the API contracts, data structure, and backend integration plan for the Horizon Solar & Exterior Care cleaning website.
 
 ## Current Mock Data Structure
 

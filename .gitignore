@@ -80,3 +80,8 @@ agenthub/agents/youtube/db
 android-sdk/ 
 
 .backend/.env
+# Local dev-only MySQL instance used for backend testing (not part of the deployed app)
+.localdb/
+
+# Local-only frontend env overrides (dev API base URL, etc.)
+frontend/.env.local

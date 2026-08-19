@@ -1,8 +1,8 @@
-# 🏗️ **Arcturus Services Website - Complete Technical Guide**
+# 🏗️ **Horizon Solar & Exterior Care Website - Complete Technical Guide**
 
 ## 📋 **What I Built - Overview**
 
-I created a **complete professional cleaning services website** that serves as a fully functional business website for "Arcturus Services" - a Sydney-based cleaning company. The website includes:
+I created a **complete professional cleaning services website** that serves as a fully functional business website for "Horizon Solar & Exterior Care" - a Sydney-based cleaning company. The website includes:
 
 - **6 Complete Pages**: Home, About, Contact, Gallery, Areas, Services Detail, Blog
 - **Professional Quote System**: Modal-based quote requests with full form functionality  
@@ -154,7 +154,7 @@ I created a **complete professional cleaning services website** that serves as a
 **config.js:**
 ```javascript
 export const biz = {
-  name: "Arcturus Services",
+  name: "Horizon Solar & Exterior Care",
   phone: "0414 203 262", 
   email: "hello@arcturusservices.com.au",
   serviceAreas: [...], // All Sydney suburbs
@@ -494,4 +494,4 @@ cd /app/backend
 gunicorn server:app -w 4 -k uvicorn.workers.UvicornWorker
 ```
 
-This comprehensive guide covers everything you need to understand, run, and modify the Arcturus Services website. The project is structured for easy development and scalability, with clear separation of concerns and modern development practices.
+This comprehensive guide covers everything you need to understand, run, and modify the Horizon Solar & Exterior Care website. The project is structured for easy development and scalability, with clear separation of concerns and modern development practices.
