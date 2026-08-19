@@ -58,10 +58,10 @@ export default function Home(){
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "HomeAndConstructionBusiness",
-          "@id": "https://arcturusservices.com.au/#business",
+          "@id": "https://horizonsolar.com.au/#business",
           name: "Horizon Solar & Exterior Care",
-          url: "https://arcturusservices.com.au",
-          image: "https://arcturusservices.com.au/images/drone-sequence/scene-1-front.webp",
+          url: "https://horizonsolar.com.au",
+          image: "https://horizonsolar.com.au/images/drone-sequence/scene-1-front.webp",
           telephone: "+61-2-8000-1080",
           email: biz.email,
           priceRange: "$$",

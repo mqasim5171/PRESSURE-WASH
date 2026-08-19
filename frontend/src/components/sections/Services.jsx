@@ -24,18 +24,27 @@ const PackageTile = ({ s, big }) => (
     )}
     <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10" />
 
-    {s.badge && (
-      <span className="absolute top-5 left-6 md:top-6 md:left-8 inline-flex items-center gap-1.5 rounded-full bg-black/50 backdrop-blur border border-white/20 text-white text-xs font-semibold tracking-wide uppercase px-3 py-1.5">
-        <Zap className="w-3.5 h-3.5 text-[#22d3ee]" />
-        {s.badge}
-      </span>
-    )}
-
-    <div className="relative p-6 md:p-8">
+    <div className="relative p-5 md:p-8">
+      {/* Badge used to be absolutely positioned at a fixed top-5/left-6,
+          independent of how tall the text block below grew. On narrow
+          screens a long title (e.g. "Solar Panel Cleaning + Thermal Health
+          Scan") wraps to 4-5 lines, which - combined with this whole block
+          being bottom-anchored (justify-end) - pushed the text up far
+          enough to collide with that fixed badge position. Making the
+          badge a normal in-flow element at the top of this same block
+          removes the collision structurally: whatever height the text
+          needs, the badge always sits directly above it with real spacing,
+          never floating independently on top of it. */}
+      {s.badge && (
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-black/50 backdrop-blur border border-white/20 text-white text-[11px] md:text-xs font-semibold tracking-wide uppercase px-2.5 py-1.5 md:px-3 mb-3">
+          <Zap className="w-3.5 h-3.5 text-[#22d3ee]" />
+          {s.badge}
+        </span>
+      )}
       {s.catchline && (
         <p className="text-[#22d3ee] font-semibold text-sm md:text-base uppercase tracking-wide">{s.catchline}</p>
       )}
-      <h3 className={`font-bold text-white mt-1 ${big ? "text-3xl md:text-4xl" : "text-xl md:text-2xl"}`}>{s.title}</h3>
+      <h3 className={`font-bold text-white mt-1 leading-tight ${big ? "text-[28px] sm:text-3xl md:text-4xl" : "text-xl md:text-2xl"}`}>{s.title}</h3>
 
       {s.healthCheck && (
         <p className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-white bg-white/10 border border-white/15 rounded-full px-3 py-1.5">

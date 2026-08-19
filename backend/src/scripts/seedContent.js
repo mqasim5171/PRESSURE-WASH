@@ -20,7 +20,7 @@ async function seedContent() {
     businessName: "Horizon Solar & Exterior Care",
     tagline: "Solar Panel Cleaning + Thermal Inspection",
     phone: "02 8000 1080",
-    email: "info@arcturusservices.com.au", // TODO: replace once the new domain/email is confirmed
+    email: "info@horizonsolar.com.au",
     address: "Sydney NSW",
     businessHours: "Mon–Sat 8–6",
     socials: {

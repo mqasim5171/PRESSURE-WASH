@@ -30,6 +30,7 @@ const homepageRoutes = require("./src/routes/homepageSections.routes");
 const settingsRoutes = require("./src/routes/settings.routes");
 const themeRoutes = require("./src/routes/theme.routes");
 const dashboardRoutes = require("./src/routes/dashboard.routes");
+const sitemapRoutes = require("./src/routes/sitemap.routes");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -98,6 +99,12 @@ app.use("/api/theme", themeRoutes.publicRouter);
 app.use("/api/admin/theme", themeRoutes.adminRouter);
 
 app.get("/api/health", (req, res) => res.json({ status: "ok", env: NODE_ENV }));
+
+// Dynamic sitemap, generated from live CMS content on request - mounted
+// ahead of the static-file middleware below so it wins over the old
+// hand-maintained public/sitemap.xml that ships inside frontend/build
+// (same public URL, /sitemap.xml, now backed by real data instead).
+app.use(sitemapRoutes);
 
 // ---------------------------------------------------------------------------
 // Serve the React production build (same-domain deployment: frontend,

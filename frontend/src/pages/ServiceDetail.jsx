@@ -69,7 +69,7 @@ export default function ServiceDetail() {
     "serviceType": service.title,
     "name": service.title,
     "description": service.blurb,
-    "image": service.image ? `https://arcturusservices.com.au${service.image}` : undefined,
+    "image": service.image ? `https://horizonsolar.com.au${service.image}` : undefined,
     "areaServed": (copy.areas?.featured || []).map((a) => ({
       "@type": "City",
       "name": a.name,
@@ -78,7 +78,7 @@ export default function ServiceDetail() {
     "provider": {
       "@type": "LocalBusiness",
       "name": "Horizon Solar & Exterior Care",
-      "url": "https://arcturusservices.com.au",
+      "url": "https://horizonsolar.com.au",
       "telephone": "+61-2-8000-1080",
       "areaServed": "Sydney, NSW, Australia",
     }

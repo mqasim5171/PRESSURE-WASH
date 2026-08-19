@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 
-const CANON = 'https://arcturusservices.com.au'
+const CANON = 'https://horizonsolar.com.au'
 const DEFAULT_IMAGE = `${CANON}/images/drone-sequence/scene-1-front.webp`
 
 export default function Meta({ title, desc, path, image, type = 'website', children }) {

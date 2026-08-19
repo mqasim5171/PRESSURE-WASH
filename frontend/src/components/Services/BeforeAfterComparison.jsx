@@ -100,6 +100,18 @@ export default function BeforeAfterComparison({
   const active = useOrientation(orientation, mobileBreakpoint);
   const isVertical = active === "vertical";
 
+  // Raw pointermove fires far more often than the screen can repaint
+  // (well over 60/sec on many touch devices) - calling setPos() straight
+  // from every event queues a React render per event, which is what read
+  // as "laggy"/trailing on a real phone (the visual update always chasing
+  // a backlog of renders, never actually caught up to the finger).
+  // Coalescing to one setPos() per animation frame - store just the
+  // latest pointer position in a ref, let a single rAF per frame read it -
+  // caps this at the display's real refresh rate regardless of how many
+  // pointer events land in between.
+  const latestPoint = useRef({ x: 0, y: 0 });
+  const rafId = useRef(null);
+
   const updateFromPoint = useCallback((clientX, clientY) => {
     const el = containerRef.current;
     if (!el) return;
@@ -110,6 +122,11 @@ export default function BeforeAfterComparison({
     setPos(Math.min(100, Math.max(0, pct)));
   }, [isVertical]);
 
+  const flushPending = useCallback(() => {
+    rafId.current = null;
+    updateFromPoint(latestPoint.current.x, latestPoint.current.y);
+  }, [updateFromPoint]);
+
   const onPointerDown = (e) => {
     dragging.current = true;
     updateFromPoint(e.clientX, e.clientY);
@@ -117,10 +134,15 @@ export default function BeforeAfterComparison({
   };
   const onPointerMove = (e) => {
     if (!dragging.current) return;
-    updateFromPoint(e.clientX, e.clientY);
+    latestPoint.current = { x: e.clientX, y: e.clientY };
+    if (rafId.current == null) rafId.current = requestAnimationFrame(flushPending);
   };
   const onPointerUp = (e) => {
     dragging.current = false;
+    if (rafId.current != null) {
+      cancelAnimationFrame(rafId.current);
+      rafId.current = null;
+    }
     if (containerRef.current?.hasPointerCapture?.(e.pointerId)) {
       containerRef.current.releasePointerCapture(e.pointerId);
     }
@@ -173,13 +195,33 @@ export default function BeforeAfterComparison({
         />
       </div>
 
-      {/* Labels */}
-      <span className="absolute top-4 left-4 rounded-full bg-black/50 backdrop-blur border border-white/20 text-white text-xs font-semibold tracking-wide uppercase px-3 py-1.5">
-        {beforeLabel}
-      </span>
-      <span className="absolute top-4 right-4 rounded-full bg-black/50 backdrop-blur border border-white/20 text-white text-xs font-semibold tracking-wide uppercase px-3 py-1.5">
-        {afterLabel}
-      </span>
+      {/* Labels - describe where each image genuinely sits. Horizontal:
+          before is the left image, so "top-left" reads correctly. Vertical:
+          before is the TOP image (see clipPath above - inset(0 0 X% 0)
+          reveals from the top down), so a left/right pair at the same
+          top-4 row would just be two badges side by side over the same
+          (top) image, telling the user nothing about the reveal - before
+          belongs top, after belongs bottom, matching the actual up/down
+          drag. */}
+      {isVertical ? (
+        <>
+          <span className="absolute top-4 left-4 rounded-full bg-black/50 backdrop-blur border border-white/20 text-white text-xs font-semibold tracking-wide uppercase px-3 py-1.5">
+            {beforeLabel}
+          </span>
+          <span className="absolute bottom-4 left-4 rounded-full bg-black/50 backdrop-blur border border-white/20 text-white text-xs font-semibold tracking-wide uppercase px-3 py-1.5">
+            {afterLabel}
+          </span>
+        </>
+      ) : (
+        <>
+          <span className="absolute top-4 left-4 rounded-full bg-black/50 backdrop-blur border border-white/20 text-white text-xs font-semibold tracking-wide uppercase px-3 py-1.5">
+            {beforeLabel}
+          </span>
+          <span className="absolute top-4 right-4 rounded-full bg-black/50 backdrop-blur border border-white/20 text-white text-xs font-semibold tracking-wide uppercase px-3 py-1.5">
+            {afterLabel}
+          </span>
+        </>
+      )}
 
       {/* Draggable handle - also a keyboard-focusable slider control */}
       {isVertical ? (

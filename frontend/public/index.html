@@ -1,35 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#02060c" />
-  <meta name="description" content="Drone-powered solar panel cleaning, thermal scanning and pressure washing across Sydney. Same-day service, fully insured. Call 02 8000 1080." />
 
-  <!-- Browser tab title -->
+  <!-- Pre-hydration title only. description/canonical/og:*/twitter:*/geo.*
+       used to be hardcoded here too, but react-helmet-async only knows how
+       to manage tags IT rendered - it has no way to find or remove tags
+       that were already sitting in the raw HTML before React mounted. The
+       net effect was two of every meta/link tag stacking up (this file's
+       static one plus Meta.jsx's per-page one), with whichever one a given
+       consumer happens to read first - browser, bot, or a Playwright
+       querySelector - winning arbitrarily. Since this is a single index.html
+       shared by every route, a "fallback" baked in here can only ever be
+       accurate for one page anyway (the homepage) and actively wrong for
+       every other route to a crawler that doesn't execute JS. Dropping
+       them is the correct trade-off: no tag at all until Meta.jsx renders
+       the real one, rather than a guaranteed-wrong one. Real crawlers that
+       matter for indexing (Googlebot) execute JS and see Meta.jsx's tags
+       correctly; the ones that don't (most social-preview bots) simply
+       won't get a rich preview - an existing, disclosed limitation of this
+       being a client-rendered SPA without server rendering, not something
+       this fixes by itself. -->
   <title>Drone-Powered Solar Cleaning & Pressure Washing Sydney | Horizon Solar & Exterior Care</title>
-
-  <!-- Canonical fallback - Meta.jsx overrides this per-route once the app hydrates,
-       but crawlers that don't execute JS (most social-preview bots) only ever see this. -->
-  <link rel="canonical" href="https://arcturusservices.com.au/" />
-
-  <!-- Open Graph / Twitter fallback - react-helmet-async's per-page tags are
-       injected client-side, which Facebook/LinkedIn/Slack/WhatsApp crawlers
-       generally don't execute. These static defaults are what actually shows
-       up when any page on the site gets shared, until/unless the app moves
-       to server rendering. -->
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Horizon Solar & Exterior Care" />
-  <meta property="og:title" content="Drone-Powered Solar Cleaning & Pressure Washing Sydney | Horizon Solar & Exterior Care" />
-  <meta property="og:description" content="Drone-powered solar panel cleaning, thermal scanning and pressure washing across Sydney. Same-day service, fully insured." />
-  <meta property="og:url" content="https://arcturusservices.com.au/" />
-  <meta property="og:image" content="https://arcturusservices.com.au/images/drone-sequence/scene-1-front.webp" />
-  <meta property="og:locale" content="en_AU" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Drone-Powered Solar Cleaning & Pressure Washing Sydney | Horizon Solar & Exterior Care" />
-  <meta name="twitter:image" content="https://arcturusservices.com.au/images/drone-sequence/scene-1-front.webp" />
-
-  <!-- Local SEO -->
-  <meta name="geo.region" content="AU-NSW" />
-  <meta name="geo.placename" content="Sydney" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon.png" />
@@ -43,83 +37,69 @@
     rel="stylesheet"
   />
 </head>
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
 
-
-    
-
-    <!-- Fonts or other meta tags -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-
-    
-    
-    <!-- PostHog Analytics (optional) -->
-    <script>
-      !(function (t, e) {
-        var o, n, p, r;
-        e.__SV ||
-          ((window.posthog = e),
-          (e._i = []),
-          (e.init = function (i, s, a) {
-            function g(t, e) {
-              var o = e.split(".");
-              2 == o.length && ((t = t[o[0]]), (e = o[1])),
-                (t[e] = function () {
-                  t.push(
-                    [e].concat(Array.prototype.slice.call(arguments, 0))
-                  );
-                });
-            }
-            ((p = t.createElement("script")).type = "text/javascript"),
-              (p.crossOrigin = "anonymous"),
-              (p.async = !0),
-              (p.src =
-                s.api_host.replace(".i.posthog.com", "-assets.i.posthog.com") +
-                "/static/array.js"),
-              (r = t.getElementsByTagName("script")[0]).parentNode.insertBefore(
-                p,
-                r
-              );
-            var u = e;
-            for (
-              void 0 !== a ? (u = e[a] = []) : (a = "posthog"),
-                u.people = u.people || [],
-                u.toString = function (t) {
-                  var e = "posthog";
-                  return (
-                    "posthog" !== a && (e += "." + a),
-                    t || (e += " (stub)"),
-                    e
-                  );
-                },
-                u.people.toString = function () {
-                  return u.toString(1) + ".people (stub)";
-                },
-                o =
-                  "init me ws ys ps bs capture je Di ks register register_once register_for_session unregister unregister_for_session Ps getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags resetGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Es $s createPersonProfile Is opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing Ss debug xs getPageViewId captureTraceFeedback captureTraceMetric".split(
-                    " "
-                  ),
-                n = 0;
-              n < o.length;
-              n++
-            )
-              g(u, o[n]);
-            e._i.push([i, s, a]);
-          }),
-          (e.__SV = 1));
-      })(document, window.posthog || []);
-      posthog.init("phc_yJW1VjHGGwmCbbrtczfqqNxgBDbhlhOWcdzcIJEOTFE", {
-        api_host: "https://us.i.posthog.com",
-        person_profiles: "identified_only",
-      });
-    </script>
-  </body>
+  <!-- PostHog Analytics (optional) -->
+  <script>
+    !(function (t, e) {
+      var o, n, p, r;
+      e.__SV ||
+        ((window.posthog = e),
+        (e._i = []),
+        (e.init = function (i, s, a) {
+          function g(t, e) {
+            var o = e.split(".");
+            2 == o.length && ((t = t[o[0]]), (e = o[1])),
+              (t[e] = function () {
+                t.push(
+                  [e].concat(Array.prototype.slice.call(arguments, 0))
+                );
+              });
+          }
+          ((p = t.createElement("script")).type = "text/javascript"),
+            (p.crossOrigin = "anonymous"),
+            (p.async = !0),
+            (p.src =
+              s.api_host.replace(".i.posthog.com", "-assets.i.posthog.com") +
+              "/static/array.js"),
+            (r = t.getElementsByTagName("script")[0]).parentNode.insertBefore(
+              p,
+              r
+            );
+          var u = e;
+          for (
+            void 0 !== a ? (u = e[a] = []) : (a = "posthog"),
+              u.people = u.people || [],
+              u.toString = function (t) {
+                var e = "posthog";
+                return (
+                  "posthog" !== a && (e += "." + a),
+                  t || (e += " (stub)"),
+                  e
+                );
+              },
+              u.people.toString = function () {
+                return u.toString(1) + ".people (stub)";
+              },
+              o =
+                "init me ws ys ps bs capture je Di ks register register_once register_for_session unregister unregister_for_session Ps getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags resetGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Es $s createPersonProfile Is opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing Ss debug xs getPageViewId captureTraceFeedback captureTraceMetric".split(
+                  " "
+                ),
+              n = 0;
+            n < o.length;
+            n++
+          )
+            g(u, o[n]);
+          e._i.push([i, s, a]);
+        }),
+        (e.__SV = 1));
+    })(document, window.posthog || []);
+    posthog.init("phc_yJW1VjHGGwmCbbrtczfqqNxgBDbhlhOWcdzcIJEOTFE", {
+      api_host: "https://us.i.posthog.com",
+      person_profiles: "identified_only",
+    });
+  </script>
+</body>
 </html>

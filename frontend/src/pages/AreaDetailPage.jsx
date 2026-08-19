@@ -389,7 +389,7 @@ const AreaDetailPage = () => {
     "provider": {
       "@type": "LocalBusiness",
       "name": "Horizon Solar & Exterior Care",
-      "url": "https://arcturusservices.com.au",
+      "url": "https://horizonsolar.com.au",
       "telephone": "+61-2-8000-1080",
     }
   } : null;
