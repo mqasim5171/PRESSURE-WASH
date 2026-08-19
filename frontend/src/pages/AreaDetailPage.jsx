@@ -7,13 +7,15 @@ import {
   ShieldCheck, Zap, Leaf, BadgeCheck, Star, Users
 } from "lucide-react";
 import Meta from "../Meta"; // <-- SEO
+import { submitLead } from "../lib/submitLead";
+import { useCms } from "../lib/useCms";
+import { mapArea } from "../lib/cmsAdapters";
 
 /* ---------------- helpers ---------------- */
 const slugify = (str) =>
   String(str).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
-function resolveAreaOrSuburb(slug) {
-  const areas = copy.areas?.featured || [];
+function resolveAreaOrSuburb(slug, areas) {
   const direct = areas.find((a) => a.slug === slug);
   if (direct) return { vm: direct, parent: direct, isSuburb: false };
 
@@ -153,12 +155,7 @@ const QuoteForm = ({ areaName = "Parramatta", services = [], propertyTypes = [] 
     }
     setStatus("loading");
     try {
-      const res = await fetch("https://pressure-wash.onrender.com/api/submit-quote", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (!res.ok) throw new Error("Failed to submit");
+      await submitLead({ ...form, sourcePage: "Area Detail Page" });
       setStatus("success");
       setForm({
         name: "",
@@ -241,7 +238,7 @@ const QuoteForm = ({ areaName = "Parramatta", services = [], propertyTypes = [] 
 };
 
 /* ---------------- Insights + Coverage ---------------- */
-const AreaInsightsAndCoverage = ({ area, brandShort = "Arcturus" }) => {
+const AreaInsightsAndCoverage = ({ area, brandShort = "Horizon" }) => {
   const bullets = area.expertiseBullets?.length
     ? area.expertiseBullets
     : [
@@ -366,13 +363,15 @@ const FAQGrid = ({ title, faqs = [] }) => {
 /* ---------------- Page ---------------- */
 const AreaDetailPage = () => {
   const { slug } = useParams();
-  const { vm: area, parent } = resolveAreaOrSuburb(slug);
+  const { data: apiAreas } = useCms("/api/areas", null);
+  const areas = apiAreas?.length ? apiAreas.map(mapArea) : (copy.areas?.featured || []);
+  const { vm: area, parent } = resolveAreaOrSuburb(slug, areas);
 
   // ---- SEO bits (added) ----
   const hasArea = !!area;
   const seoTitle = hasArea
-    ? `Cleaning Services ${area.name} Sydney | Arcturus`
-    : "Service Areas in Sydney | Arcturus";
+    ? `Cleaning Services ${area.name} Sydney | Horizon`
+    : "Service Areas in Sydney | Horizon";
   const seoDesc = hasArea
     ? `Drone-powered solar cleaning, thermal scanning and pressure washing in ${area.name}. Same-day service. Call 02 8000 1080.`
     : "Professional cleaning across Sydney suburbs. Same-day service. Call 02 8000 1080.";
@@ -389,7 +388,7 @@ const AreaDetailPage = () => {
     },
     "provider": {
       "@type": "LocalBusiness",
-      "name": "Arcturus Services",
+      "name": "Horizon Solar & Exterior Care",
       "url": "https://arcturusservices.com.au",
       "telephone": "+61-2-8000-1080",
     }
@@ -544,7 +543,7 @@ const AreaDetailPage = () => {
 
         {/* INSIGHTS + COVERAGE */}
         <SectionBlock tone="subtle">
-          <AreaInsightsAndCoverage area={parent || area} brandShort="Arcturus" />
+          <AreaInsightsAndCoverage area={parent || area} brandShort="Horizon" />
         </SectionBlock>
 
         {/* QUOTE SECTION */}

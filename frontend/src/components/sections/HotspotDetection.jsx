@@ -91,7 +91,7 @@ export default function HotspotDetection() {
             ))}
 
             <Link
-              to="/services/drone-based-washing"
+              to="/services/solar-cleaning-maintenance"
               className="hidden lg:inline-flex items-center gap-2 text-sm font-semibold text-[#22d3ee] hover:text-white transition-colors mt-2"
             >
               This is what our clean removes

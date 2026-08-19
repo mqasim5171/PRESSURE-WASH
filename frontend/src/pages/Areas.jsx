@@ -5,6 +5,9 @@ import { copy } from "../lib/copy";
 import { MapPin, Phone, Shield, Clock, Star, CheckCircle } from "lucide-react";
 import Glow from "../components/Glow";
 import Meta from '../Meta';
+import { submitLead } from '../lib/submitLead';
+import { useCms } from '../lib/useCms';
+import { mapArea } from '../lib/cmsAdapters';
 
 const slugify = (str) =>
   String(str).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -92,12 +95,7 @@ const AvailabilityForm = ({ services }) => {
     }
     setStatus("loading");
     try {
-      const res = await fetch("https://pressure-wash.onrender.com/api/submit-quote", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (!res.ok) throw new Error("Failed to submit");
+      await submitLead({ ...form, sourcePage: "Service Areas Page" });
       setStatus("success");
       setForm({
         name: "",
@@ -287,7 +285,8 @@ const AvailabilityForm = ({ services }) => {
 
 
 const AreasPage = () => {
-  const areas = copy.areas?.featured || [];
+  const { data: apiAreas } = useCms("/api/areas", null);
+  const areas = apiAreas?.length ? apiAreas.map(mapArea) : (copy.areas?.featured || []);
   const desiredOrder = [
     "eastern-suburbs",
     "northern-beaches",
@@ -303,11 +302,12 @@ const AreasPage = () => {
     const first = desiredOrder.map(slug => bySlug[slug]).filter(Boolean);
     const rest  = areas.filter(a => !desiredOrder.includes(a.slug));
     return [...first, ...rest];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [areas]);
 
   return (
     <>
-      <Meta title="Service Areas in Sydney | Arcturus Services" desc="Eastern Suburbs, Northern Beaches, North Shore, Inner West, South Sydney, Western Sydney, Hills District." path="/areas" />
+      <Meta title="Service Areas in Sydney | Horizon Solar & Exterior Care" desc="Eastern Suburbs, Northern Beaches, North Shore, Inner West, South Sydney, Western Sydney, Hills District." path="/areas" />
       <main className="pt-24 bg-[#02060c]">
         {/* Hero */}
         <section className="relative overflow-hidden pt-16 pb-20 text-center border-b border-white/5">

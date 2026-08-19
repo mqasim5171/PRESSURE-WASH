@@ -16,7 +16,7 @@ export default function Meta({ title, desc, path, image, type = 'website', child
 
       {/* Open Graph - social previews (Facebook, LinkedIn, WhatsApp, Slack) */}
       <meta property="og:type" content={type} />
-      <meta property="og:site_name" content="Arcturus Services" />
+      <meta property="og:site_name" content="Horizon Solar & Exterior Care" />
       {title && <meta property="og:title" content={title} />}
       {desc && <meta property="og:description" content={desc} />}
       <meta property="og:url" content={url} />

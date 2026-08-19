@@ -15,7 +15,7 @@ const Process = () => {
       <div className="relative">
         {/* Section Header */}
         <div className="max-w-2xl mb-16">
-          <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">Why Choose Us</span>
+          <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">Credentials</span>
           <h2 className="mt-3 text-3xl md:text-5xl font-bold text-white tracking-tight">
             {process.title}
           </h2>

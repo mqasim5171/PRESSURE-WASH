@@ -2,12 +2,15 @@ import React from 'react';
 import { Star, Quote } from 'lucide-react';
 import Section from '../ui/Section';
 import Glow from '../Glow';
+import { useCms } from '../../lib/useCms';
 
-const items = [
+// Static fallback, used only until the CMS responds (or if it's briefly
+// unreachable) - Admin > Reviews is the actual source of truth.
+const fallbackItems = [
   {
     name: "Sarah M.",
     location: "Bondi",
-    text: "Had my solar panels cleaned by Arcturus Services and couldn't be happier! They increased our energy output by 28% and were incredibly professional throughout.",
+    text: "Had my solar panels cleaned by Horizon Solar & Exterior Care and couldn't be happier! They increased our energy output by 28% and were incredibly professional throughout.",
   },
   {
     name: "Michael T.",
@@ -17,11 +20,16 @@ const items = [
   {
     name: "Lisa K.",
     location: "Manly",
-    text: "Called Arcturus for an urgent roof and gutter clean before the storm season. They came same-day and potentially saved us from serious water damage.",
+    text: "Called Horizon for an urgent roof and gutter clean before the storm season. They came same-day and potentially saved us from serious water damage.",
   },
 ];
 
 const Testimonials = () => {
+  const { data: apiReviews } = useCms("/api/reviews", null);
+  const items = apiReviews?.length
+    ? apiReviews.map((r) => ({ name: r.customerName, location: r.location, text: r.reviewText }))
+    : fallbackItems;
+
   return (
     <Section className="relative overflow-hidden bg-[#050910] py-24 border-t border-white/5">
       <Glow color="#22d3ee" className="w-[420px] h-[420px] top-0 -left-40" />

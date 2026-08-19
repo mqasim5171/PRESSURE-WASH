@@ -199,36 +199,73 @@ export const copy = {
     ctaPrimary:  { label: "Get Free Quote Now", href: "/contact" },
     ctaSecondary:{ label: "Call 0414 203 262", href: "tel:0414203262" },
     image: { src: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", alt: "Professional cleaning service in action" },
-    logo:  { src: "https://images.unsplash.com/photo-1563298723-dcfebaa392e3?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80", alt: "Arcturus Services Logo" },
+    logo:  { src: "https://images.unsplash.com/photo-1563298723-dcfebaa392e3?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80", alt: "Horizon Solar & Exterior Care Logo" },
   },
   servicesIntro: {
-    title: "Sydney's Drone Thermal Scanning & Solar Cleaning Specialists",
-    sub: "We find what's costing you output with a drone thermal scan, then clean it away — solar panel cleaning and drone thermal scanning are what we do best.",
+    title: "Solar Cleaning + Thermal Inspection, Backed by Full Exterior Care",
+    sub: "We combine professional exterior cleaning with advanced solar inspection technology — solar comes first, everything else above the roofline follows.",
   },
+  // Priority order matters here - this array drives both the homepage
+  // Services section and the Packages section, in that order:
+  // 1. Solar (flagship, primary) · 2. Roof · 3. Concrete · then extras.
   services: [
     {
       slug: "solar-cleaning-maintenance",
-      title: "Solar Panel Cleaning",
+      title: "Solar Panel Cleaning + Thermal Health Scan",
       flagship: true,
-      blurb: "Drone-powered solar panel cleaning that lifts energy output by up to 30% — no ladders, no roof foot traffic, no risk to your panels.",
-      bullets: ["Drone-powered access", "30% efficiency boost", "Warranty-safe technique"],
+      primary: 1,
+      badge: "Flagship Service",
+      catchline: "Bring Your Solar Back to Life",
+      blurb: "Drone-powered solar panel cleaning combined with a radiometric thermal pass — lifts energy output and flags soiling or hotspots a visual check would miss.",
+      bullets: [
+        "Professional drone-powered panel cleaning",
+        "DJI Matrice 4T thermal drone scan",
+        "Hotspot & soiling detection",
+        "Warranty-safe cleaning technique",
+        "12+ Point Solar Health Check",
+      ],
+      healthCheck: "12+ Point Solar Health Check",
       icon: "Sun",
       image: "/images/solar.avif",
+      ctaLabel: "View Solar Package",
     },
     {
-      slug: "drone-based-washing",
-      title: "Drone Thermal Scanning",
-      flagship: true,
-      blurb: "A radiometric drone pass over your roof turns every panel into a heat map, flagging soiling and hotspots a visual check would miss.",
-      bullets: ["Radiometric thermal imaging", "Hotspot & soiling detection", "Same-day report, same-day clean"],
-      icon: "Drone",
-      image: "/images/drone-sequence/scene-6-thermal.webp",
+      // Kept the original "drone-based-washing" slug as a distinct detail
+      // page (redirects to the combined solar service on the homepage),
+      // so any existing external links keep working - see App.js.
+      slug: "roof-gutter-cleaning",
+      title: "Roof Cleaning",
+      flagship: false,
+      primary: 2,
+      catchline: "Moss, Lichen and Grime — Gone",
+      blurb: "Professional roof cleaning that removes moss, lichen and weather staining and protects your property from water damage — gutters cleared as part of the same visit.",
+      bullets: [
+        "Moss, lichen & organic growth removal",
+        "Weather staining treated",
+        "Gutters cleared of debris",
+        "Prevents water damage",
+      ],
+      icon: "Home",
+      image: "/images/hero2.jpg",
+      galleryImage: "/images/drone-sequence/scene-2-rising.webp",
+      ctaLabel: "View Roof Package",
     },
     {
-      slug: "pressure-washing",
-      title: "Pressure Washing",
-      blurb: "Restore driveways, patios, and external surfaces to like-new condition.",
-      bullets: ["Remove tough stains", "All surface types", "Eco-friendly"],
+      // Renamed from "Pressure Washing" - same underlying service, clearer
+      // name matching the concrete/driveway/patio work it actually covers.
+      // Old slug kept working via a redirect in App.js.
+      slug: "concrete-cleaning",
+      title: "Concrete Cleaning",
+      flagship: false,
+      primary: 3,
+      catchline: "Driveways, Paths & Patios Refreshed",
+      blurb: "Restore driveways, paths, patios and other concrete surfaces to like-new condition, removing built-up dirt, staining and grime.",
+      bullets: [
+        "Driveways, paths & patios",
+        "Built-up dirt & staining removed",
+        "All concrete surface types",
+        "Eco-friendly process",
+      ],
       icon: "Droplets",
       image: "/images/pressure.png",
       // Separate from `image` (used on the service's own detail page, where
@@ -236,15 +273,7 @@ export const copy = {
       // gallery wants the same aerial-rooftop photography as everywhere
       // else on the site, not a mismatched stock photo.
       galleryImage: "/images/drone-sequence/scene-3-elevated.webp",
-    },
-    {
-      slug: "roof-gutter-cleaning",
-      title: "Roof & Gutter Cleaning",
-      blurb: "Protect your property from water damage with comprehensive roof cleaning.",
-      bullets: ["Prevent water damage", "Remove debris", "Safety first"],
-      icon: "Home",
-      image: "/images/hero2.jpg",
-      galleryImage: "/images/drone-sequence/scene-2-rising.webp",
+      ctaLabel: "View Concrete Package",
     },
     {
       slug: "window-cleaning",
@@ -257,7 +286,7 @@ export const copy = {
     },
   ],
   process: {
-    title: "Why Choose Arcturus Services?",
+    title: "Why Choose Horizon Solar & Exterior Care?",
     subtitle: "Professional, reliable, and committed to exceeding expectations every time",
     cards: [
       { title: "Melbourne Registered", text: "Licensed, insured and trusted professionals operating across Sydney", icon: "Shield" },
@@ -272,11 +301,11 @@ export const copy = {
     sub: "Based on 247+ verified Google reviews",
     items: [
       { name:"Sarah M.", location:"Bondi",
-        text:"Had my solar panels cleaned by Arcturus Services and couldn't be happier! They increased our energy output by 28% and were incredibly professional throughout. Highly recommend to anyone wanting to maximize their solar investment." },
+        text:"Had my solar panels cleaned by Horizon Solar & Exterior Care and couldn't be happier! They increased our energy output by 28% and were incredibly professional throughout. Highly recommend to anyone wanting to maximize their solar investment." },
       { name:"Michael T.", location:"Chatswood",
         text:"Absolutely fantastic pressure washing service! My concrete driveway looked terrible after years of stains and weathering. Now it looks like we have a brand new driveway. Professional, punctual and worth every penny!" },
       { name:"Lisa K.", location:"Manly",
-        text:"Called Arcturus for an urgent roof and gutter clean before the storm season. They came same-day, cleared everything perfectly and potentially saved us from serious water damage. Professional service at its absolute best!" },
+        text:"Called Horizon for an urgent roof and gutter clean before the storm season. They came same-day, cleared everything perfectly and potentially saved us from serious water damage. Professional service at its absolute best!" },
     ],
   },
   gallery: {
@@ -311,7 +340,7 @@ export const copy = {
     phone:  { label:"Call 0414 203 262", href:"tel:0414203262" },
   },
   about: {
-    title: "About Arcturus Services",
+    title: "About Horizon Solar & Exterior Care",
     subtitle: "Sydney's Most Trusted Professional Cleaning Service",
     body: `We're a Melbourne registered, Sydney operating professional cleaning service committed to delivering exceptional results that protect and enhance your property value.
 

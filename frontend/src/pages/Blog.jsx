@@ -2,64 +2,68 @@ import React, { useState } from "react";
 import { X } from "lucide-react";
 import Glow from '../components/Glow';
 import Meta from '../Meta';
+import { useCms } from '../lib/useCms';
+import { resolveMediaUrl } from '../lib/media';
 
-// Mock blog posts with full content
-const blogPosts = [
+// Static fallback - used only until Admin > Blog has real published posts
+// (or if the API is briefly unreachable). Wrapped into basic HTML at map
+// time (see mapFallbackPost) so it renders through the same
+// dangerouslySetInnerHTML path as real CMS posts, whose content is real
+// HTML produced by the admin's rich-text editor.
+const fallbackPosts = [
   {
     id: 1,
     title: "How Often Should You Clean Your Solar Panels?",
-    excerpt:
-      "Learn the best practices and recommended frequency to keep your solar panels efficient.",
-    content: `
-      Keeping solar panels clean is essential for maximum energy output.
-      In Sydney, experts recommend cleaning them every 6–12 months, depending on dust, bird droppings, or pollution levels.
-      Professional cleaning ensures safety and efficiency compared to DIY.
-    `,
+    excerpt: "Learn the best practices and recommended frequency to keep your solar panels efficient.",
+    content: "Keeping solar panels clean is essential for maximum energy output. In Sydney, experts recommend cleaning them every 6–12 months, depending on dust, bird droppings, or pollution levels. Professional cleaning ensures safety and efficiency compared to DIY.",
     image: "/media/1.jpg",
   },
   {
     id: 2,
     title: "Pressure Washing: A Complete Guide",
-    excerpt:
-      "Discover how pressure washing can transform your space and why it's essential for maintenance.",
-    content: `
-      Pressure washing removes stubborn dirt, mold, and grime from outdoor surfaces.
-      It's especially useful for driveways, decks, and exterior walls.
-      Always use professional services to avoid damage from high pressure.
-    `,
+    excerpt: "Discover how pressure washing can transform your space and why it's essential for maintenance.",
+    content: "Pressure washing removes stubborn dirt, mold, and grime from outdoor surfaces. It's especially useful for driveways, decks, and exterior walls. Always use professional services to avoid damage from high pressure.",
     image: "/media/2.jpg",
   },
   {
     id: 3,
     title: "Why Window Cleaning Boosts Curb Appeal",
-    excerpt:
-      "Shiny, streak-free windows don’t just look good — they add value to your home.",
-    content: `
-      Clean windows let in more natural light, improve views, and make your home look well-maintained.
-      Regular professional cleaning prevents hard water stains and extends window lifespan.
-    `,
+    excerpt: "Shiny, streak-free windows don't just look good — they add value to your home.",
+    content: "Clean windows let in more natural light, improve views, and make your home look well-maintained. Regular professional cleaning prevents hard water stains and extends window lifespan.",
     image: "/media/3.webp",
   },
   {
     id: 4,
     title: "How Drone Technology Powers Our Solar Cleaning",
-    excerpt:
-      "Our drone fleet is already flying — see how it reaches panels and roofs a ladder crew can't.",
-    content: `
-      Drone technology now powers our solar panel cleaning and high-rise exterior work.
-      It means safer, faster, and more thorough cleaning on roofs and hard-to-reach areas,
-      with a thermal scan first to show exactly where output is being lost to soiling.
-    `,
+    excerpt: "Our drone fleet is already flying — see how it reaches panels and roofs a ladder crew can't.",
+    content: "Drone technology now powers our solar panel cleaning and high-rise exterior work. It means safer, faster, and more thorough cleaning on roofs and hard-to-reach areas, with a thermal scan first to show exactly where output is being lost to soiling.",
     image: "/media/4.webp",
   },
 ];
 
+const paragraphsToHtml = (text) => text.split("\n\n").map((p) => `<p>${p.trim()}</p>`).join("");
+
+const mapFallbackPost = (p) => ({ ...p, content: paragraphsToHtml(p.content) });
+
+const mapApiPost = (p) => ({
+  id: p.id,
+  slug: p.slug,
+  title: p.title,
+  excerpt: p.excerpt,
+  content: p.content,
+  image: p.featuredImageUrl ? resolveMediaUrl(p.featuredImageUrl) : "/media/1.jpg",
+});
+
 const Blog = () => {
   const [selectedPost, setSelectedPost] = useState(null);
+  const { data: apiPosts } = useCms("/api/blog", null);
+  const blogPosts = apiPosts?.items?.length
+    ? apiPosts.items.map(mapApiPost)
+    : fallbackPosts.map(mapFallbackPost);
 
   return (
     <>
-      <Meta title="Cleaning Tips & Updates | Arcturus Sydney" desc="Guides and updates on pressure washing, solar panel, roof & gutter, and window cleaning in Sydney." path="/blog" />
+      <Meta title="Cleaning Tips & Updates | Horizon Sydney" desc="Guides and updates on pressure washing, solar panel, roof & gutter, and window cleaning in Sydney." path="/blog" />
       <main className="pt-24 bg-[#02060c]">
         {/* ===== Hero Section ===== */}
         <section className="relative h-[70vh] w-full flex items-center justify-center text-white">
@@ -82,7 +86,7 @@ const Blog = () => {
           <div className="relative z-10 text-center px-6 max-w-3xl">
             <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">Blog</span>
             <h1 className="mt-3 text-4xl md:text-5xl font-extrabold leading-tight text-white">
-              Stay Updated with Arcturus Cleaning
+              Stay Updated with Horizon Cleaning
             </h1>
             <p className="mt-4 text-lg md:text-xl text-white/60">
               Window Cleaning • Pressure Washing • Solar Cleaning <br />
@@ -115,7 +119,7 @@ const Blog = () => {
                 Soft Washing vs. Pressure Washing
               </h2>
               <p className="text-lg text-white/60 leading-relaxed">
-                At <span className="font-semibold text-[#f79029]">Arcturus Cleaning</span>,
+                At <span className="font-semibold text-[#f79029]">Horizon Cleaning</span>,
                 we specialize in both <span className="font-medium text-white">soft washing</span> and
                 <span className="font-medium text-white"> pressure washing</span> to deliver the
                 perfect clean for your home or business.
@@ -160,6 +164,7 @@ const Blog = () => {
                 <img
                   src={post.image}
                   alt={post.title}
+                  loading="lazy"
                   className="w-full h-48 object-cover" />
                 <div className="p-6">
                   <h3 className="text-lg font-semibold mb-2 text-white">{post.title}</h3>
@@ -178,7 +183,7 @@ const Blog = () => {
             </h2>
             <p className="text-lg text-white/60 mb-10">
               Nothing speaks louder than results. Watch how{" "}
-              <span className="text-[#f79029] font-semibold">Arcturus Cleaning Services</span>
+              <span className="text-[#f79029] font-semibold">Horizon Cleaning Services</span>
               {" "}transforms windows, solar panels, and outdoor surfaces with professional
               soft washing, pressure washing, and more.
             </p>
@@ -227,11 +232,11 @@ const Blog = () => {
         {/* ===== Modal for Blog Post ===== */}
         {selectedPost && (
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-[#0a0f1a] border border-white/10 rounded-2xl shadow-2xl max-w-2xl w-full p-6 relative">
+            <div className="bg-[#0a0f1a] border border-white/10 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 relative">
               {/* Close Button */}
               <button
                 onClick={() => setSelectedPost(null)}
-                className="absolute top-3 right-3 text-white/40 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
+                className="absolute top-3 right-3 text-white/40 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg z-10"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -241,9 +246,14 @@ const Blog = () => {
                 alt={selectedPost.title}
                 className="w-full h-56 object-cover rounded-lg mb-4" />
               <h2 className="text-2xl font-bold mb-3 text-white">{selectedPost.title}</h2>
-              <p className="text-white/60 whitespace-pre-line">
-                {selectedPost.content}
-              </p>
+              {/* Content is real HTML - either produced by the admin's rich-text
+                  editor, or the static fallback text wrapped into <p> tags at
+                  map time (see paragraphsToHtml above). Never raw
+                  user/attacker-supplied HTML. */}
+              <div
+                className="text-white/60 leading-relaxed [&_p]:mb-4 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-6 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-5 [&_h3]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4 [&_a]:text-[#22d3ee] [&_a]:underline [&_blockquote]:border-l-2 [&_blockquote]:border-[#22d3ee]/40 [&_blockquote]:pl-4 [&_blockquote]:italic"
+                dangerouslySetInnerHTML={{ __html: selectedPost.content }}
+              />
             </div>
           </div>
         )}

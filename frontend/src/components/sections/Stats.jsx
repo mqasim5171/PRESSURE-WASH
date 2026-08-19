@@ -15,7 +15,7 @@ export default function Stats() {
   return (
     <Section className="bg-[#02060c] py-20 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-6">
-        <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">Why Arcturus</span>
+        <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">Why Horizon</span>
 
         {/* Single column on mobile - these numbers are meant to be huge and
             given room to breathe, not squeezed two-per-row into half the

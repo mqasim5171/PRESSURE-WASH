@@ -45,8 +45,8 @@ export default function ServiceDetail() {
 
   // fallback meta
   const title = service
-    ? `${service.title} Sydney | Arcturus Services`
-    : "Cleaning Services Sydney | Arcturus Services";
+    ? `${service.title} Sydney | Horizon Solar & Exterior Care`
+    : "Cleaning Services Sydney | Horizon Solar & Exterior Care";
   const desc = service
     ? `${service.blurb} Same-day service. Fully insured. Call 0414 203 262.`
     : "Professional cleaning across Sydney. Same-day service.";
@@ -65,7 +65,7 @@ export default function ServiceDetail() {
     })),
     "provider": {
       "@type": "LocalBusiness",
-      "name": "Arcturus Services",
+      "name": "Horizon Solar & Exterior Care",
       "url": "https://arcturusservices.com.au",
       "telephone": "+61-2-8000-1080",
       "areaServed": "Sydney, NSW, Australia",

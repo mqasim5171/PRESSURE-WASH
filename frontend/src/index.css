@@ -2,6 +2,82 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================================
+   Theme color overrides (Admin > Appearance)
+   ============================================================================
+   The public site's brand colors are written throughout components as
+   literal Tailwind arbitrary values (bg-[#22d3ee], text-[#f79029], ...),
+   which Tailwind compiles to fixed CSS at build time - a runtime color
+   change from the CMS can't reach them by itself. Rather than rewrite ~195
+   occurrences across ~31 files (a large, easy-to-silently-break mechanical
+   change with no reliable way to verify every one visually), these rules
+   intercept Tailwind's own generated selectors for the two brand colors and
+   redirect them to the CSS variables ThemeProvider sets on :root
+   (--horizon-primary / --horizon-secondary, from /api/theme). The selectors
+   below are copied verbatim from the actual compiled Tailwind output, so
+   they match exactly what's really used - not guessed.
+
+   Result: changing Primary Color / Secondary Color in Admin > Appearance
+   now visibly recolors the whole site. Every other theme field
+   (background/heading/body text/button colors, dark section color) already
+   applies wherever a component is written to use the CSS variable directly;
+   only these two colors needed this retrofit because of how pervasively
+   they're hardcoded.
+
+   Fallback color is baked into each var() as the second argument, so if
+   ThemeProvider hasn't set the variable yet (or the API is unreachable)
+   every rule below resolves to today's actual brand colors - visually
+   identical to before this block existed. */
+:root {
+  --horizon-primary: #22d3ee;
+  --horizon-secondary: #f79029;
+}
+
+/* --- Primary (#22d3ee) - solid --- */
+.bg-\[\#22d3ee\],
+.hover\:bg-\[\#22d3ee\]:hover {
+  background-color: var(--horizon-primary) !important;
+}
+.text-\[\#22d3ee\],
+.hover\:text-\[\#22d3ee\]:hover,
+.group:hover .group-hover\:text-\[\#22d3ee\],
+.\[\&_a\]\:text-\[\#22d3ee\] a {
+  color: var(--horizon-primary) !important;
+}
+.border-\[\#22d3ee\],
+.border-l-\[\#22d3ee\] {
+  border-color: var(--horizon-primary) !important;
+}
+.focus\:ring-\[\#22d3ee\]:focus,
+.focus-visible\:ring-\[\#22d3ee\]:focus-visible {
+  --tw-ring-color: var(--horizon-primary) !important;
+}
+
+/* --- Primary (#22d3ee) - alpha-blended --- */
+.bg-\[\#22d3ee\]\/10 { background-color: color-mix(in srgb, var(--horizon-primary) 10%, transparent) !important; }
+.bg-\[\#22d3ee\]\/15 { background-color: color-mix(in srgb, var(--horizon-primary) 15%, transparent) !important; }
+.bg-\[\#22d3ee\]\/50 { background-color: color-mix(in srgb, var(--horizon-primary) 50%, transparent) !important; }
+.border-\[\#22d3ee\]\/20 { border-color: color-mix(in srgb, var(--horizon-primary) 20%, transparent) !important; }
+.border-\[\#22d3ee\]\/30,
+.hover\:border-\[\#22d3ee\]\/30:hover { border-color: color-mix(in srgb, var(--horizon-primary) 30%, transparent) !important; }
+.border-\[\#22d3ee\]\/40,
+.\[\&_blockquote\]\:border-\[\#22d3ee\]\/40 blockquote { border-color: color-mix(in srgb, var(--horizon-primary) 40%, transparent) !important; }
+.border-\[\#22d3ee\]\/50,
+.hover\:border-\[\#22d3ee\]\/50:hover { border-color: color-mix(in srgb, var(--horizon-primary) 50%, transparent) !important; }
+.text-\[\#22d3ee\]\/40 { color: color-mix(in srgb, var(--horizon-primary) 40%, transparent) !important; }
+.from-\[\#22d3ee\]\/10 {
+  --tw-gradient-from: color-mix(in srgb, var(--horizon-primary) 10%, transparent) var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: color-mix(in srgb, var(--horizon-primary) 0%, transparent) var(--tw-gradient-to-position) !important;
+}
+
+/* --- Secondary (#f79029) - solid + alpha-blended --- */
+.bg-\[\#f79029\] { background-color: var(--horizon-secondary) !important; }
+.text-\[\#f79029\] { color: var(--horizon-secondary) !important; }
+.bg-\[\#f79029\]\/10 { background-color: color-mix(in srgb, var(--horizon-secondary) 10%, transparent) !important; }
+.bg-\[\#f79029\]\/15 { background-color: color-mix(in srgb, var(--horizon-secondary) 15%, transparent) !important; }
+.bg-\[\#f79029\]\/50 { background-color: color-mix(in srgb, var(--horizon-secondary) 50%, transparent) !important; }
+.border-\[\#f79029\]\/20 { border-color: color-mix(in srgb, var(--horizon-secondary) 20%, transparent) !important; }
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
@@ -24,6 +100,16 @@ code {
 
 .animate-marquee {
   animation: marquee 20s linear infinite;
+}
+
+/* Offset for the "Why Us" / "Packages" nav links jumping to an in-page
+   anchor, so the section heading doesn't land underneath the fixed/floating
+   header. Mobile gets its own, larger offset below (floating nav capsule is
+   taller relative to the viewport there). */
+@media (min-width: 769px) {
+  #why-us, #packages {
+    scroll-margin-top: 110px;
+  }
 }
 
 
@@ -111,7 +197,6 @@ code {
     width: 10px; height: 10px;
     box-shadow: 0 0 0 4px rgba(34,211,238,.15);
   }
-  .mobile-aperture { display: none; }
   .mobile-menu-button {
     width: 52px; height: 52px;
     border-radius: 999px;

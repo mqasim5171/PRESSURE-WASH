@@ -3,7 +3,8 @@ import { Phone, Mail, MapPin, Clock, CheckCircle, Loader2 } from 'lucide-react';
 import Section from '../components/ui/Section';
 import Glow from '../components/Glow';
 import { copy } from '../lib/copy';
-import { biz } from '../lib/config';
+import { useSiteSettings } from '../lib/useSiteSettings';
+import { submitLead } from '../lib/submitLead';
 import Meta from '../Meta';
 
 const inputCls =
@@ -11,6 +12,7 @@ const inputCls =
 const labelCls = "block text-sm font-semibold text-white/80 mb-2";
 
 const Contact = () => {
+  const biz = useSiteSettings();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -44,14 +46,7 @@ const Contact = () => {
     setStatus('loading');
 
     try {
-      // ✅ send to FastAPI (same as QuoteModal)
-      const res = await fetch("https://pressure-wash.onrender.com/api/submit-quote", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!res.ok) throw new Error("Failed to submit");
+      await submitLead({ ...formData, sourcePage: "Contact Page" });
 
       setStatus('success');
 
@@ -79,7 +74,7 @@ const Contact = () => {
 
   return (
     <>
-      <Meta title="Contact Arcturus Services | Free Quote Sydney" desc="Get a free quote for pressure washing, solar, roof & gutter, and window cleaning. Call 0414 203 262." path="/contact" />
+      <Meta title="Contact Horizon Solar & Exterior Care | Free Quote Sydney" desc="Get a free quote for pressure washing, solar, roof & gutter, and window cleaning. Call 0414 203 262." path="/contact" />
       <main className="pt-28 bg-[#02060c]">
         {/* Hero Section */}
         <Section className="relative overflow-hidden pt-12 pb-20">

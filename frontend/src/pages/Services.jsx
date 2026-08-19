@@ -55,7 +55,7 @@ export default function Services() {
 
   return (
     <>
-      <Meta title="Cleaning Services in Sydney | Arcturus Services" desc="Drone-powered solar panel cleaning and pressure washing, plus roof & gutter and window cleaning. Fast quotes. Same-day service." path="/services" />
+      <Meta title="Cleaning Services in Sydney | Horizon Solar & Exterior Care" desc="Drone-powered solar panel cleaning and pressure washing, plus roof & gutter and window cleaning. Fast quotes. Same-day service." path="/services" />
       <main className="pt-24 bg-[#02060c]">
         {/* HERO with collage */}
         <Section className="relative overflow-hidden pt-12 pb-20 border-b border-white/5">

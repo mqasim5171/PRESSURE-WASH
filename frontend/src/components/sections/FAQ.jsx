@@ -3,16 +3,19 @@ import { ChevronDown } from 'lucide-react';
 import Section from '../ui/Section';
 import Glow from '../Glow';
 import { copy } from '../../lib/copy';
+import { useCms } from '../../lib/useCms';
 
 const FAQ = () => {
   const { faq } = copy;
+  const { data: apiFaqs } = useCms("/api/faqs", null);
+  const items = apiFaqs?.length ? apiFaqs.map((f) => ({ q: f.question, a: f.answer })) : faq.items;
   const [openItem, setOpenItem] = useState(0);
 
   const toggleItem = (index) => {
     setOpenItem(openItem === index ? null : index);
   };
 
-  if (!faq.items || faq.items.length === 0) {
+  if (!items || items.length === 0) {
     return null;
   }
 
@@ -28,7 +31,7 @@ const FAQ = () => {
         </div>
 
         <div className="divide-y divide-white/10 border-t border-b border-white/10">
-          {faq.items.map((item, index) => (
+          {items.map((item, index) => (
             <div key={index}>
               <button
                 onClick={() => toggleItem(index)}

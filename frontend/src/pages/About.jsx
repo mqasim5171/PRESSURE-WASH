@@ -11,7 +11,7 @@ const About = () => {
 
   return (
     <>
-      <Meta title="About Arcturus Services | Sydney Cleaning Experts" desc="Melbourne registered, Sydney operating. Fully insured, same-day availability, 100% satisfaction guarantee." path="/about" />
+      <Meta title="About Horizon Solar & Exterior Care | Sydney Cleaning Experts" desc="Melbourne registered, Sydney operating. Fully insured, same-day availability, 100% satisfaction guarantee." path="/about" />
       <main className="bg-[#02060c]">
         {/* Hero Section */}
         <Section className="relative overflow-hidden pt-32 lg:pt-48 pb-20 border-b border-white/5">
@@ -76,7 +76,7 @@ const About = () => {
         <Section className="bg-[#050910] border-b border-white/5">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-white mb-4">
-              Why Choose Arcturus Services?
+              Why Choose Horizon Solar & Exterior Care?
             </h2>
             <p className="text-xl text-white/60 max-w-3xl mx-auto">
               We're not just another cleaning service. We're your trusted partner in property maintenance and care.
@@ -166,7 +166,7 @@ const About = () => {
             <div className="space-y-4">
               {[
                 {
-                  q: "What makes Arcturus Services different?",
+                  q: "What makes Horizon Solar & Exterior Care different?",
                   a: "We combine years of experience with modern techniques, eco-friendly products, and a true dedication to customer satisfaction."
                 },
                 {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Loader2, CheckCircle } from 'lucide-react';
 import { copy } from '../lib/copy';
+import { submitLead } from '../lib/submitLead';
 
 const inputCls =
   "w-full px-4 py-3 bg-white/[0.04] border border-white/15 rounded-lg text-white placeholder:text-white/30 focus:ring-2 focus:ring-[#22d3ee] focus:border-transparent outline-none transition-all";
@@ -73,14 +74,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
     setStatus('loading');
 
     try {
-      // ✅ Call FastAPI backend instead of mockQuotes
-      const res = await fetch("https://pressure-wash.onrender.com/api/submit-quote", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!res.ok) throw new Error("Failed to submit");
+      await submitLead({ ...formData, sourcePage: "Quote Modal" });
 
       setStatus('success');
 

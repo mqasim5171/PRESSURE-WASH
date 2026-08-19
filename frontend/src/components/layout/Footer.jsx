@@ -2,10 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Clock, Star, Facebook, Instagram, Linkedin } from 'lucide-react';
 import { FaTiktok } from 'react-icons/fa';   // TikTok icon
-import { biz } from '../../lib/config';
 import { copy } from '../../lib/copy';
+import { useSiteSettings } from '../../lib/useSiteSettings';
 
 const Footer = () => {
+  const biz = useSiteSettings();
+  // Footer logo falls back to the general light logo, then the static
+  // asset, if nothing's been uploaded specifically for the footer slot.
+  const footerLogo = biz.footerLogoUrl || biz.logoLightUrl || biz.logoUrl || "/logo.png";
   return (
     <footer className="bg-slate-900 text-white">
       <div className="container mx-auto px-4 py-12">
@@ -13,8 +17,8 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <img 
-                src="/logo.png"   // <-- replace with your actual logo path
+              <img
+                src={footerLogo}
                 alt={biz.name}
                 className="w-10 h-10 object-contain"
               />

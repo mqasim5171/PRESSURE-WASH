@@ -1,5 +1,5 @@
 export const biz = {
-  name: "Arcturus Services",
+  name: "Horizon Solar & Exterior Care",
   phone: "02 8000 1080",
   email: "info@arcturusservices.com.au",
   address: "Sydney NSW",
