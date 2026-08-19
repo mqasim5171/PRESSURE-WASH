@@ -1,26 +1,28 @@
 const express = require("express");
 const slugify = require("slugify");
 const { Op } = require("sequelize");
-const { Package, Service } = require("../models");
+const { Package, Service, Bundle } = require("../models");
 const { requireAdmin, requireCustomHeader } = require("../middleware/auth");
 const { asyncHandler } = require("../middleware/errorHandler");
 const { attachMediaUrls, attachMediaUrl } = require("../utils/mediaUrls");
+const { uniqueSlugAcross } = require("../utils/packageSlug");
 
-const IMAGE_FIELDS = [{ idField: "packageImageMediaId", urlField: "packageImageUrl" }];
+const IMAGE_FIELDS = [
+  { idField: "packageImageMediaId", urlField: "packageImageUrl" },
+  { idField: "packageMobileImageMediaId", urlField: "packageMobileImageUrl" },
+];
 
 const router = express.Router();
 
+// Packages and Bundles both resolve under the public /packages/:slug URL
+// (see PackageDetail.jsx - it tries Package first, then Bundle), so their
+// slugs share one namespace: a new Package can't silently reuse a slug an
+// existing Bundle already owns, and vice versa (see bundles.routes.js).
 async function uniqueSlug(base, ignoreId = null) {
-  let slug = slugify(base, { lower: true, strict: true });
-  let n = 1;
-  while (true) {
-    const where = { slug };
-    if (ignoreId) where.id = { [Op.ne]: ignoreId };
-    const exists = await Package.findOne({ where });
-    if (!exists) return slug;
-    n += 1;
-    slug = `${slugify(base, { lower: true, strict: true })}-${n}`;
-  }
+  return uniqueSlugAcross(slugify(base, { lower: true, strict: true }), [
+    { model: Package, ignoreId },
+    { model: Bundle },
+  ]);
 }
 
 const includeServices = [{ model: Service, as: "services", through: { attributes: [] }, attributes: ["id", "slug", "name"] }];

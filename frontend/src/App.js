@@ -11,9 +11,11 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Services from "./pages/Services";
 import ServiceDetail from "./pages/ServiceDetail";
+import PackageDetail from "./pages/PackageDetail";
 import AreasPage from "./pages/Areas";
 import AreaDetailPage from "./pages/AreaDetailPage";
 import Blog from "./pages/Blog";
+import BlogDetail from "./pages/BlogDetail";
 
 import ThemeProvider from "./lib/ThemeProvider";
 
@@ -48,6 +50,7 @@ function PublicSite() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogDetail />} />
 
           {/* Services */}
           <Route path="/services" element={<Services />} />
@@ -57,6 +60,11 @@ function PublicSite() {
           <Route path="/services/drone-based-washing" element={<Navigate to="/services/solar-cleaning-maintenance" replace />} />
           <Route path="/services/pressure-washing" element={<Navigate to="/services/concrete-cleaning" replace />} />
           <Route path="/services/:slug" element={<ServiceDetail />} />
+
+          {/* Packages - both the top "Individual Packages" grid (Package
+              model) and the "Combine services" bundles grid (Bundle model)
+              resolve here; PackageDetail.jsx tries Package then Bundle. */}
+          <Route path="/packages/:slug" element={<PackageDetail />} />
 
           {/* Areas */}
           <Route path="/areas" element={<AreasPage />} />

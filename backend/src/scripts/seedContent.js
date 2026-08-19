@@ -8,7 +8,7 @@
 require("dotenv").config();
 const {
   sequelize, Service, Package, Bundle, Review, Faq, ServiceArea,
-  HeroSlide, HomepageSection, PageContent, SiteSetting, ThemeSetting,
+  HeroSlide, HomepageSection, PageContent, SiteSetting, ThemeSetting, BlogPost,
 } = require("../models");
 
 async function seedContent() {
@@ -379,6 +379,64 @@ async function seedContentIfEmpty() {
   return true;
 }
 
+// The 4 posts that used to live only as a hardcoded fallback array in
+// frontend/src/pages/Blog.jsx (shown on the public site whenever the CMS
+// had no real posts, which - until this migration - was always, since
+// nothing ever wrote to blog_posts). Migrated in as real, admin-editable
+// rows so Admin > Blog and the public /blog page are genuinely the same
+// data, not "admin shows empty, public shows a different hardcoded list."
+const LEGACY_BLOG_POSTS = [
+  {
+    title: "How Often Should You Clean Your Solar Panels?",
+    excerpt: "Learn the best practices and recommended frequency to keep your solar panels efficient.",
+    content: "<p>Keeping solar panels clean is essential for maximum energy output. In Sydney, experts recommend cleaning them every 6–12 months, depending on dust, bird droppings, or pollution levels. Professional cleaning ensures safety and efficiency compared to DIY.</p>",
+  },
+  {
+    title: "Pressure Washing: A Complete Guide",
+    excerpt: "Discover how pressure washing can transform your space and why it's essential for maintenance.",
+    content: "<p>Pressure washing removes stubborn dirt, mold, and grime from outdoor surfaces. It's especially useful for driveways, decks, and exterior walls. Always use professional services to avoid damage from high pressure.</p>",
+  },
+  {
+    title: "Why Window Cleaning Boosts Curb Appeal",
+    excerpt: "Shiny, streak-free windows don't just look good — they add value to your home.",
+    content: "<p>Clean windows let in more natural light, improve views, and make your home look well-maintained. Regular professional cleaning prevents hard water stains and extends window lifespan.</p>",
+  },
+  {
+    title: "How Drone Technology Powers Our Solar Cleaning",
+    excerpt: "Our drone fleet is already flying — see how it reaches panels and roofs a ladder crew can't.",
+    content: "<p>Drone technology now powers our solar panel cleaning and high-rise exterior work. It means safer, faster, and more thorough cleaning on roofs and hard-to-reach areas, with a thermal scan first to show exactly where output is being lost to soiling.</p>",
+  },
+];
+
+// Independent of seedContentIfEmpty()'s broad gate on purpose: that gate
+// checks Service/Package/etc and, on this site, already found real content
+// the very first time it ran - so it will never fire again, which means it
+// can never be the thing that seeds blog posts after the fact. This checks
+// blog_posts specifically, so it still runs (once) on a production database
+// that already has everything else.
+async function seedBlogIfEmpty() {
+  const slugify = require("slugify");
+  const existing = await BlogPost.count();
+  if (existing > 0) return false;
+
+  const now = new Date();
+  for (const [i, post] of LEGACY_BLOG_POSTS.entries()) {
+    await BlogPost.create({
+      title: post.title,
+      slug: slugify(post.title, { lower: true, strict: true }),
+      excerpt: post.excerpt,
+      content: post.content,
+      author: "Horizon Solar & Exterior Care",
+      status: "published",
+      // Staggered by a minute each so they sort in a stable, sensible order
+      // (oldest last) rather than all sharing one identical timestamp.
+      publishedAt: new Date(now.getTime() - i * 60000),
+    });
+  }
+  console.log(`[seed] Migrated ${LEGACY_BLOG_POSTS.length} legacy blog posts into blog_posts.`);
+  return true;
+}
+
 if (require.main === module) {
   seedContent()
     .then(() => process.exit(0))
@@ -388,4 +446,4 @@ if (require.main === module) {
     });
 }
 
-module.exports = { seedContent, seedContentIfEmpty };
+module.exports = { seedContent, seedContentIfEmpty, seedBlogIfEmpty };

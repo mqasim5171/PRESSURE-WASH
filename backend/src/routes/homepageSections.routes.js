@@ -10,7 +10,17 @@ const { asyncHandler } = require("../middleware/errorHandler");
 const publicRouter = express.Router();
 
 publicRouter.get("/sections", asyncHandler(async (req, res) => {
-  const sections = await HomepageSection.findAll({ where: { enabled: true }, order: [["displayOrder", "ASC"]] });
+  // Returns every section, enabled or not - each public component checks
+  // its own `enabled` flag and renders nothing when it's off (see
+  // useHomepageSection.js). Filtering server-side here instead would mean
+  // a disabled section is simply *absent* from the response, which is
+  // indistinguishable from "no admin row has ever been created for this
+  // section yet" - and the frontend treats that second case as "stay
+  // visible with default content," which is exactly backwards from what a
+  // deliberately-unticked Visible checkbox should do. The content itself
+  // (marketing copy, nothing sensitive) is fine to return regardless of
+  // enabled state.
+  const sections = await HomepageSection.findAll({ order: [["displayOrder", "ASC"]] });
   res.json(sections);
 }));
 

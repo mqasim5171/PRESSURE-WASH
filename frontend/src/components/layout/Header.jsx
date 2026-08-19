@@ -3,6 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, MapPin } from "lucide-react";
 import { copy } from "@/lib/copy";
 import { useSiteSettings } from "@/lib/useSiteSettings";
+import { useCms } from "@/lib/useCms";
+import { mapArea } from "@/lib/cmsAdapters";
 
 // The whole site runs dark/cyan now (Home and every other page), so the nav
 // no longer needs a separate light-theme palette - only Home still gets the
@@ -21,6 +23,14 @@ const Header = () => {
   // /public if nothing's been uploaded in Admin > Website Settings yet.
   const { logoLightUrl, logoUrl } = useSiteSettings();
   const headerLogo = logoLightUrl || logoUrl || "/logo.png";
+  // Areas dropdown - real Admin > Service Areas data (active areas only,
+  // the public API already filters to those), falling back to the static
+  // list only while the API is loading or unreachable. The dropdown has
+  // room for a handful of areas, not the full list, so it's capped the
+  // same way AreaDetailPage's own "popular suburbs" picker is - the
+  // ServiceArea model has no separate "featured" flag, just displayOrder.
+  const { data: apiAreas } = useCms("/api/areas", null);
+  const navAreas = (apiAreas?.length ? apiAreas.map(mapArea) : (copy.areas?.featured || [])).slice(0, 8);
   const { pathname } = useLocation();
   const isHome = pathname === "/";
   let timeoutId;
@@ -118,7 +128,7 @@ const Header = () => {
                 <p className="text-xs text-white/50">Professional cleaning services across all Sydney suburbs</p>
               </div>
               <div className="grid grid-cols-2 gap-1">
-                {copy.areas.featured.map((area) => (
+                {navAreas.map((area) => (
                   <Link
                     key={area.slug}
                     to={`/areas/${area.slug}`}
@@ -177,7 +187,7 @@ const Header = () => {
           </button>
           {isAreasOpen && (
             <div className="pl-4 mt-2 flex flex-col space-y-2">
-              {copy.areas.featured.map((area) => (
+              {navAreas.map((area) => (
                 <Link
                   key={area.slug}
                   to={`/areas/${area.slug}`}

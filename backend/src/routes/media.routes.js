@@ -59,16 +59,24 @@ router.delete("/:id", requireCustomHeader, asyncHandler(async (req, res) => {
   // Refuse to delete an image that's still referenced somewhere, so admins
   // can't accidentally break a live page - list every model with a
   // media FK and check usage before removing the file + row.
-  const { Service, Package, Review, BlogPost, ServiceArea, HeroSlide, BeforeAfterResult, PageContent, SiteSetting } = require("../models");
+  const { Service, Package, Bundle, Review, BlogPost, ServiceArea, HeroSlide, BeforeAfterResult, PageContent, SiteSetting } = require("../models");
   const id = media.id;
   const usageChecks = await Promise.all([
     Service.count({ where: { [Op.or]: [{ thumbnailMediaId: id }, { bannerMediaId: id }] } }),
-    Package.count({ where: { packageImageMediaId: id } }),
+    Package.count({ where: { [Op.or]: [{ packageImageMediaId: id }, { packageMobileImageMediaId: id }] } }),
+    Bundle.count({ where: { [Op.or]: [{ imageMediaId: id }, { mobileImageMediaId: id }] } }),
     Review.count({ where: { avatarMediaId: id } }),
     BlogPost.count({ where: { [Op.or]: [{ featuredImageMediaId: id }, { ogImageMediaId: id }] } }),
     ServiceArea.count({ where: { imageMediaId: id } }),
-    HeroSlide.count({ where: { [Op.or]: [{ imageMediaId: id }, { mobileImageMediaId: id }, { beforeImageMediaId: id }, { afterImageMediaId: id }] } }),
-    BeforeAfterResult.count({ where: { [Op.or]: [{ beforeMediaId: id }, { afterMediaId: id }] } }),
+    HeroSlide.count({ where: { [Op.or]: [
+      { imageMediaId: id }, { mobileImageMediaId: id },
+      { beforeImageMediaId: id }, { afterImageMediaId: id },
+      { mobileBeforeImageMediaId: id }, { mobileAfterImageMediaId: id },
+    ] } }),
+    BeforeAfterResult.count({ where: { [Op.or]: [
+      { beforeMediaId: id }, { afterMediaId: id },
+      { mobileBeforeMediaId: id }, { mobileAfterMediaId: id },
+    ] } }),
     PageContent.count({ where: { heroMediaId: id } }),
     SiteSetting.count({ where: { [Op.or]: [{ logoMediaId: id }, { logoLightMediaId: id }, { faviconMediaId: id }, { footerLogoMediaId: id }] } }),
   ]);

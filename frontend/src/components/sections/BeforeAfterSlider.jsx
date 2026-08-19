@@ -2,6 +2,7 @@ import React, { useRef, useState, useCallback } from "react";
 import { MoveHorizontal } from "lucide-react";
 import Section from "../ui/Section";
 import Glow from "../Glow";
+import { useHomepageSection } from "../../lib/useHomepageSection";
 
 /**
  * BeforeAfterSlider
@@ -13,6 +14,12 @@ import Glow from "../Glow";
  * clip-path reveal, no slider library.
  */
 export default function BeforeAfterSlider() {
+  // Text is admin-editable via Admin > Homepage > Same Roof Story
+  // (sectionKey "same_roof_story"). The images are a matched real pair from
+  // the same drone flight (see the comment above) rather than admin-
+  // uploadable content - that editor only manages eyebrow/heading/
+  // description, no image fields.
+  const { content, enabled } = useHomepageSection("same_roof_story");
   const containerRef = useRef(null);
   const [pos, setPos] = useState(50); // percent revealed (thermal side)
   const dragging = useRef(false);
@@ -24,6 +31,10 @@ export default function BeforeAfterSlider() {
     const pct = ((clientX - rect.left) / rect.width) * 100;
     setPos(Math.min(100, Math.max(0, pct)));
   }, []);
+
+  // Every hook above must run on every render (rules of hooks) - the
+  // visibility early-return has to come after all of them, not before.
+  if (!enabled) return null;
 
   const onPointerDown = (e) => {
     dragging.current = true;
@@ -46,13 +57,14 @@ export default function BeforeAfterSlider() {
       <Glow color="#22d3ee" className="w-[440px] h-[440px] top-0 right-0" />
       <div className="relative max-w-5xl mx-auto px-6">
         <div className="max-w-2xl mb-10">
-          <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">Visual vs Thermal</span>
+          <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">
+            {content?.eyebrow || "Visual vs Thermal"}
+          </span>
           <h2 className="mt-3 text-3xl md:text-5xl font-bold text-white tracking-tight">
-            The same roof. A different story.
+            {content?.heading || "The same roof. A different story."}
           </h2>
           <p className="text-white/60 mt-4 text-lg">
-            Drag the handle. On the left, panels that look perfectly clean. On the right,
-            the heat signature that reveals what a visual check alone would miss.
+            {content?.description || "Drag the handle. On the left, panels that look perfectly clean. On the right, the heat signature that reveals what a visual check alone would miss."}
           </p>
         </div>
 

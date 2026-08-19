@@ -71,11 +71,14 @@ export default function PackageCard({
 
           {hasPrice ? (
             <div className="flex items-baseline gap-3">
-              {typeof originalPrice === "number" && typeof offerPrice === "number" && offerPrice < originalPrice && (
+              {/* offerActive gates this, not just "is offerPrice lower" -
+                  otherwise an expired offer keeps showing its discounted
+                  price forever instead of reverting to originalPrice. */}
+              {offerActive && typeof originalPrice === "number" && typeof offerPrice === "number" && offerPrice < originalPrice && (
                 <span className="text-white/40 text-sm line-through">${originalPrice}</span>
               )}
               <span className="text-2xl font-extrabold text-white">
-                ${offerPrice ?? originalPrice}
+                ${offerActive && typeof offerPrice === "number" ? offerPrice : (originalPrice ?? offerPrice)}
               </span>
             </div>
           ) : (

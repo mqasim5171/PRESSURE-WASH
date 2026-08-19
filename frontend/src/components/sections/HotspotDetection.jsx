@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import Section from "../ui/Section";
 import Glow from "../Glow";
+import { useHomepageSection } from "../../lib/useHomepageSection";
 
 // scene-6-thermal.webp (the real thermal photo) is already used in the
 // hero, the how-it-works walkthrough and the before/after slider - reusing
@@ -10,38 +11,43 @@ import Glow from "../Glow";
 // panel array (scene-4-isometric.webp, a different angle, only otherwise
 // seen once in the hero flythrough) gets a stylized false-color treatment
 // below, so the page isn't showing the exact same photo over and over.
-const findings = [
-  {
-    id: 1,
-    label: "Cell hotspot",
-    severity: "Critical",
-    tone: "#f79029",
-    x: 52,
-    y: 30,
-    detail: "Module C4 running 21°C above array median — resistive junction, high fire-risk indicator.",
-  },
-  {
-    id: 2,
-    label: "Bypass diode failure",
-    severity: "High",
-    tone: "#f79029",
-    x: 60,
-    y: 40,
-    detail: "Localised droppings are shading three cells in this string.",
-  },
-  {
-    id: 3,
-    label: "Soiling band",
-    severity: "Moderate",
-    tone: "#22d3ee",
-    x: 45,
-    y: 46,
-    detail: "A light residue layer, early-stage soiling that's easy to miss visually.",
-  },
+//
+// Marker text (label/severity/detail) is admin-editable via Admin >
+// Homepage > Three Faults (sectionKey "three_faults") - marker x/y position
+// and tone colour aren't part of that editor (it manages 3 text fields per
+// fault, not a visual position picker), so those stay matched by index to
+// the defaults below. A 4th+ fault added in admin reuses the last marker
+// position rather than being placed with no coordinates at all.
+const DEFAULT_FINDINGS = [
+  { id: 1, label: "Cell hotspot", severity: "Critical", tone: "#f79029", x: 52, y: 30, detail: "Module C4 running 21°C above array median — resistive junction, high fire-risk indicator." },
+  { id: 2, label: "Bypass diode failure", severity: "High", tone: "#f79029", x: 60, y: 40, detail: "Localised droppings are shading three cells in this string." },
+  { id: 3, label: "Soiling band", severity: "Moderate", tone: "#22d3ee", x: 45, y: 46, detail: "A light residue layer, early-stage soiling that's easy to miss visually." },
 ];
 
 export default function HotspotDetection() {
+  const { content, enabled } = useHomepageSection("three_faults");
   const [active, setActive] = useState(null);
+
+  if (!enabled) return null;
+
+  const eyebrow = content?.eyebrow || "Fault Detection";
+  const heading = content?.heading || "Three faults on one roof.";
+  const description = content?.description || "Select a marker to see what the thermal pass found — and why a plain visual check would have missed it.";
+  const findings = content?.faults?.length
+    ? content.faults.map((f, i) => {
+        const fallback = DEFAULT_FINDINGS[Math.min(i, DEFAULT_FINDINGS.length - 1)];
+        return {
+          id: i + 1,
+          label: f.label || fallback.label,
+          severity: f.severity || fallback.severity,
+          detail: f.detail || fallback.detail,
+          tone: fallback.tone,
+          x: fallback.x,
+          y: fallback.y,
+        };
+      })
+    : DEFAULT_FINDINGS;
+
   const finding = findings.find((f) => f.id === active);
   const toggleFinding = (id) => setActive((current) => current === id ? null : id);
 
@@ -50,13 +56,12 @@ export default function HotspotDetection() {
       <Glow color="#f79029" className="w-[420px] h-[420px] bottom-0 -left-32" opacity={0.06} />
       <div className="relative max-w-6xl mx-auto px-6">
         <div className="max-w-2xl mb-12">
-          <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">Fault Detection</span>
+          <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">{eyebrow}</span>
           <h2 className="mt-3 text-3xl md:text-5xl font-bold text-white tracking-tight">
-            Three faults on one roof.
+            {heading}
           </h2>
           <p className="text-white/60 mt-4 text-lg">
-            Select a marker to see what the thermal pass found — and why a plain visual
-            check would have missed it.
+            {description}
           </p>
         </div>
 

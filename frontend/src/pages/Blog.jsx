@@ -1,65 +1,60 @@
-import React, { useState } from "react";
-import { X } from "lucide-react";
+import React from "react";
+import { Link } from "react-router-dom";
 import Glow from '../components/Glow';
 import Meta from '../Meta';
 import { useCms } from '../lib/useCms';
 import { resolveMediaUrl } from '../lib/media';
 
 // Static fallback - used only until Admin > Blog has real published posts
-// (or if the API is briefly unreachable). Wrapped into basic HTML at map
-// time (see mapFallbackPost) so it renders through the same
-// dangerouslySetInnerHTML path as real CMS posts, whose content is real
-// HTML produced by the admin's rich-text editor.
+// (or if the API is briefly unreachable). These same 4 posts have also
+// been migrated into the real blog_posts table (see
+// backend/src/scripts/seedContent.js's seedBlogIfEmpty) using the exact
+// same title -> slug rule the backend uses, so even this fallback's links
+// resolve to a real, working /blog/:slug page rather than a dead end.
 const fallbackPosts = [
   {
     id: 1,
+    slug: "how-often-should-you-clean-your-solar-panels",
     title: "How Often Should You Clean Your Solar Panels?",
     excerpt: "Learn the best practices and recommended frequency to keep your solar panels efficient.",
-    content: "Keeping solar panels clean is essential for maximum energy output. In Sydney, experts recommend cleaning them every 6–12 months, depending on dust, bird droppings, or pollution levels. Professional cleaning ensures safety and efficiency compared to DIY.",
     image: "/media/1.jpg",
   },
   {
     id: 2,
+    slug: "pressure-washing-a-complete-guide",
     title: "Pressure Washing: A Complete Guide",
     excerpt: "Discover how pressure washing can transform your space and why it's essential for maintenance.",
-    content: "Pressure washing removes stubborn dirt, mold, and grime from outdoor surfaces. It's especially useful for driveways, decks, and exterior walls. Always use professional services to avoid damage from high pressure.",
     image: "/media/2.jpg",
   },
   {
     id: 3,
+    slug: "why-window-cleaning-boosts-curb-appeal",
     title: "Why Window Cleaning Boosts Curb Appeal",
     excerpt: "Shiny, streak-free windows don't just look good — they add value to your home.",
-    content: "Clean windows let in more natural light, improve views, and make your home look well-maintained. Regular professional cleaning prevents hard water stains and extends window lifespan.",
     image: "/media/3.webp",
   },
   {
     id: 4,
+    slug: "how-drone-technology-powers-our-solar-cleaning",
     title: "How Drone Technology Powers Our Solar Cleaning",
     excerpt: "Our drone fleet is already flying — see how it reaches panels and roofs a ladder crew can't.",
-    content: "Drone technology now powers our solar panel cleaning and high-rise exterior work. It means safer, faster, and more thorough cleaning on roofs and hard-to-reach areas, with a thermal scan first to show exactly where output is being lost to soiling.",
     image: "/media/4.webp",
   },
 ];
-
-const paragraphsToHtml = (text) => text.split("\n\n").map((p) => `<p>${p.trim()}</p>`).join("");
-
-const mapFallbackPost = (p) => ({ ...p, content: paragraphsToHtml(p.content) });
 
 const mapApiPost = (p) => ({
   id: p.id,
   slug: p.slug,
   title: p.title,
   excerpt: p.excerpt,
-  content: p.content,
   image: p.featuredImageUrl ? resolveMediaUrl(p.featuredImageUrl) : "/media/1.jpg",
 });
 
 const Blog = () => {
-  const [selectedPost, setSelectedPost] = useState(null);
   const { data: apiPosts } = useCms("/api/blog", null);
   const blogPosts = apiPosts?.items?.length
     ? apiPosts.items.map(mapApiPost)
-    : fallbackPosts.map(mapFallbackPost);
+    : fallbackPosts;
 
   return (
     <>
@@ -156,10 +151,10 @@ const Blog = () => {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {blogPosts.map((post) => (
-              <div
+              <Link
                 key={post.id}
-                className="bg-white/[0.03] border border-white/10 rounded-xl overflow-hidden hover:bg-white/[0.06] transition cursor-pointer"
-                onClick={() => setSelectedPost(post)}
+                to={`/blog/${post.slug}`}
+                className="block bg-white/[0.03] border border-white/10 rounded-xl overflow-hidden hover:bg-white/[0.06] transition"
               >
                 <img
                   src={post.image}
@@ -170,7 +165,7 @@ const Blog = () => {
                   <h3 className="text-lg font-semibold mb-2 text-white">{post.title}</h3>
                   <p className="text-white/50 text-sm">{post.excerpt}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </section>
@@ -228,35 +223,6 @@ const Blog = () => {
             </div>
           </div>
         </section>
-
-        {/* ===== Modal for Blog Post ===== */}
-        {selectedPost && (
-          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-[#0a0f1a] border border-white/10 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 relative">
-              {/* Close Button */}
-              <button
-                onClick={() => setSelectedPost(null)}
-                className="absolute top-3 right-3 text-white/40 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg z-10"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              <img
-                src={selectedPost.image}
-                alt={selectedPost.title}
-                className="w-full h-56 object-cover rounded-lg mb-4" />
-              <h2 className="text-2xl font-bold mb-3 text-white">{selectedPost.title}</h2>
-              {/* Content is real HTML - either produced by the admin's rich-text
-                  editor, or the static fallback text wrapped into <p> tags at
-                  map time (see paragraphsToHtml above). Never raw
-                  user/attacker-supplied HTML. */}
-              <div
-                className="text-white/60 leading-relaxed [&_p]:mb-4 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-6 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-5 [&_h3]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4 [&_a]:text-[#22d3ee] [&_a]:underline [&_blockquote]:border-l-2 [&_blockquote]:border-[#22d3ee]/40 [&_blockquote]:pl-4 [&_blockquote]:italic"
-                dangerouslySetInnerHTML={{ __html: selectedPost.content }}
-              />
-            </div>
-          </div>
-        )}
       </main>
     </>
   );

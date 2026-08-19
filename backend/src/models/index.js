@@ -69,6 +69,11 @@ const Package = sequelize.define("Package", {
   shortDescription: { type: DataTypes.TEXT, defaultValue: "" },
   fullDescription: { type: DataTypes.TEXT, defaultValue: "" },
   packageImageMediaId: { type: DataTypes.INTEGER, allowNull: true },
+  // Separate portrait asset for the package detail page's mobile hero -
+  // same reasoning as HeroSlide's mobile image fields: not a crop of the
+  // desktop image, a deliberately different composition. Nullable - falls
+  // back to packageImageUrl until one is uploaded.
+  packageMobileImageMediaId: { type: DataTypes.INTEGER, allowNull: true },
   price: { type: DataTypes.DECIMAL(10, 2), allowNull: true },
   startingFrom: { type: DataTypes.BOOLEAN, defaultValue: false },
   unitLabel: { type: DataTypes.STRING(64), defaultValue: "" },
@@ -78,12 +83,18 @@ const Package = sequelize.define("Package", {
   originalPrice: { type: DataTypes.DECIMAL(10, 2), allowNull: true },
   offerPrice: { type: DataTypes.DECIMAL(10, 2), allowNull: true },
   offerEndDate: { type: DataTypes.DATE, allowNull: true },
+  // Custom text for the discount badge (e.g. "WINTER SPECIAL") - when left
+  // blank, the public page computes a plain "SAVE X%"/"SAVE $Y" from
+  // originalPrice/offerPrice instead of forcing an admin to type one.
+  offerBadge: { type: DataTypes.STRING(80), defaultValue: "" },
   ctaLabel: { type: DataTypes.STRING(80), defaultValue: "Get This Package" },
   ctaUrl: { type: DataTypes.STRING(255), defaultValue: "/contact" },
   featured: { type: DataTypes.BOOLEAN, defaultValue: false },
   recommended: { type: DataTypes.BOOLEAN, defaultValue: false },
   displayOrder: { type: DataTypes.INTEGER, defaultValue: 0 },
   published: { type: DataTypes.BOOLEAN, defaultValue: true },
+  seoTitle: { type: DataTypes.STRING(255), defaultValue: "" },
+  seoDescription: { type: DataTypes.STRING(500), defaultValue: "" },
 }, { tableName: "packages" });
 
 const PackageService = sequelize.define("PackageService", {
@@ -93,16 +104,31 @@ const PackageService = sequelize.define("PackageService", {
 
 const Bundle = sequelize.define("Bundle", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  // Nullable (existing rows predate this column) - backfilled once from
+  // `name` on boot by migrateAdditive.js, then required for every new
+  // bundle going forward via the admin route's own uniqueSlug() call.
+  // Bundles now get the same /packages/:slug detail page as Packages do -
+  // see routes/bundles.routes.js - rather than a second, parallel routing
+  // scheme just because they're a different table.
+  slug: { type: DataTypes.STRING(160), allowNull: true, unique: true },
   name: { type: DataTypes.STRING(200), allowNull: false },
+  tagline: { type: DataTypes.STRING(255), defaultValue: "" },
+  shortDescription: { type: DataTypes.TEXT, defaultValue: "" },
+  fullDescription: { type: DataTypes.TEXT, defaultValue: "" },
+  imageMediaId: { type: DataTypes.INTEGER, allowNull: true },
+  mobileImageMediaId: { type: DataTypes.INTEGER, allowNull: true },
   badge: { type: DataTypes.STRING(80), defaultValue: "" },
   includes: { type: DataTypes.JSON, allowNull: false, defaultValue: [] },
   originalPrice: { type: DataTypes.DECIMAL(10, 2), allowNull: true },
   offerPrice: { type: DataTypes.DECIMAL(10, 2), allowNull: true },
   offerEndDate: { type: DataTypes.DATE, allowNull: true },
+  offerBadge: { type: DataTypes.STRING(80), defaultValue: "" },
   ctaLabel: { type: DataTypes.STRING(80), defaultValue: "Get This Bundle" },
   ctaUrl: { type: DataTypes.STRING(255), defaultValue: "/contact" },
   displayOrder: { type: DataTypes.INTEGER, defaultValue: 0 },
   published: { type: DataTypes.BOOLEAN, defaultValue: true },
+  seoTitle: { type: DataTypes.STRING(255), defaultValue: "" },
+  seoDescription: { type: DataTypes.STRING(500), defaultValue: "" },
 }, { tableName: "bundles" });
 
 // ---------------------------------------------------------------------------
@@ -348,6 +374,9 @@ const mediaRef = (model, field) => model.belongsTo(Media, { foreignKey: field, c
 mediaRef(Service, "thumbnailMediaId");
 mediaRef(Service, "bannerMediaId");
 mediaRef(Package, "packageImageMediaId");
+mediaRef(Package, "packageMobileImageMediaId");
+mediaRef(Bundle, "imageMediaId");
+mediaRef(Bundle, "mobileImageMediaId");
 mediaRef(Review, "avatarMediaId");
 mediaRef(BlogPost, "featuredImageMediaId");
 mediaRef(BlogPost, "ogImageMediaId");

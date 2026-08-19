@@ -8,6 +8,8 @@ import {
 import { copy } from "../lib/copy";
 import Glow from "../components/Glow";
 import Meta from "../Meta";
+import { useCms } from "../lib/useCms";
+import { mapService } from "../lib/cmsAdapters";
 
 // --- helpers ---
 const slugify = (s) =>
@@ -41,14 +43,24 @@ const collectPopularSuburbs = () => {
 // --- main component ---
 export default function ServiceDetail() {
   const { slug } = useParams();
-  const service = (copy.services || []).find((s) => s.slug === slug);
+  // Database-driven: fetches the real Service record from Admin > Services
+  // by slug (/api/services/:slug), so a brand-new service created in admin
+  // gets a working page here without any code change or redeploy - the
+  // whole point of this being a dynamic route rather than one hardcoded
+  // page per service. copy.services is kept only as an offline fallback
+  // (API unreachable, or this particular slug predates the CMS and hasn't
+  // been re-saved there) - same resilience pattern every other CMS-backed
+  // section on this site already uses (see lib/useCms.js).
+  const { data: apiService, loading } = useCms(`/api/services/${slug}`, null);
+  const staticService = (copy.services || []).find((s) => s.slug === slug) || null;
+  const service = apiService ? mapService(apiService) : staticService;
 
   // fallback meta
   const title = service
-    ? `${service.title} Sydney | Horizon Solar & Exterior Care`
+    ? (service.seoTitle || `${service.title} Sydney | Horizon Solar & Exterior Care`)
     : "Cleaning Services Sydney | Horizon Solar & Exterior Care";
   const desc = service
-    ? `${service.blurb} Same-day service. Fully insured. Call 0414 203 262.`
+    ? (service.seoDescription || `${service.blurb} Same-day service. Fully insured. Call 0414 203 262.`)
     : "Professional cleaning across Sydney. Same-day service.";
   const canon = service ? `/services/${service.slug}` : `/services`;
   const jsonLd = service && {
@@ -71,6 +83,20 @@ export default function ServiceDetail() {
       "areaServed": "Sydney, NSW, Australia",
     }
   };
+
+  // Still waiting on the API and no offline/static match to show in the
+  // meantime (a service that only exists in the CMS, not in copy.js) -
+  // avoid flashing "Service Not Found" before the real data has a chance
+  // to arrive.
+  if (!service && loading) {
+    return (
+      <main className="pt-24 bg-[#02060c] min-h-screen">
+        <Section className="py-24 text-center">
+          <div className="inline-block w-8 h-8 border-2 border-white/20 border-t-[#22d3ee] rounded-full animate-spin" />
+        </Section>
+      </main>
+    );
+  }
 
   // service not found
   if (!service) {
@@ -263,6 +289,33 @@ export default function ServiceDetail() {
             </Link>
           </div>
         </Section>
+
+        {/* PACKAGES INCLUDING THIS SERVICE - internal linking, real data via
+            Service.belongsToMany(Package) (Admin > Packages > Linked
+            Services). Only renders when this service is actually part of
+            at least one published package. */}
+        {service.packages?.length > 0 && (
+          <Section tone="alt" className="py-16">
+            <div className="text-center mb-10">
+              <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">Better Together</span>
+              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
+                {headline} Is Included In
+              </h2>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              {service.packages.map((pkg) => (
+                <Link
+                  key={pkg.slug || pkg.id}
+                  to={`/packages/${pkg.slug}`}
+                  className="inline-flex items-center gap-2 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-[#22d3ee]/40 hover:bg-white/[0.06] transition px-6 py-4 text-white font-semibold"
+                >
+                  {pkg.name}
+                  <ArrowLeft className="w-4 h-4 rotate-180 text-[#22d3ee]" />
+                </Link>
+              ))}
+            </div>
+          </Section>
+        )}
 
         {/* CTA */}
         <Section className="py-20">
