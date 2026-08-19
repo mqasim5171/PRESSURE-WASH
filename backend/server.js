@@ -10,6 +10,7 @@ const { sequelize, connectWithRetry } = require("./src/config/db");
 const { initDb } = require("./src/scripts/initDb");
 const { migrateAdditive } = require("./src/scripts/migrateAdditive");
 const { seedAdmin } = require("./src/scripts/seedAdmin");
+const { seedContentIfEmpty } = require("./src/scripts/seedContent");
 const { errorHandler, notFoundHandler } = require("./src/middleware/errorHandler");
 const { UPLOAD_ROOT } = require("./src/utils/imageProcessor");
 
@@ -121,6 +122,7 @@ async function start() {
   await initDb();
   await migrateAdditive();
   await seedAdmin();
+  await seedContentIfEmpty();
   app.listen(PORT, () => {
     console.log(`[server] Horizon CMS backend listening on port ${PORT} (${NODE_ENV})`);
   });

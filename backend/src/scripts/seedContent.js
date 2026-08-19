@@ -351,6 +351,34 @@ async function seedContent() {
   console.log("[seed] Existing site content migrated into the database.");
 }
 
+// Managed hosts such as Hostinger do not expose npm in their regular SSH
+// shell. Seed a brand-new database during application startup, but never run
+// the seed over a database that already contains CMS content. This preserves
+// edits made later through the admin panel.
+async function seedContentIfEmpty() {
+  const contentModels = [
+    Service,
+    Package,
+    Bundle,
+    Review,
+    Faq,
+    ServiceArea,
+    HeroSlide,
+    HomepageSection,
+    PageContent,
+    SiteSetting,
+  ];
+  const counts = await Promise.all(contentModels.map((model) => model.count()));
+
+  if (counts.some((count) => count > 0)) {
+    console.log("[seed] Existing CMS content found; automatic seed skipped.");
+    return false;
+  }
+
+  await seedContent();
+  return true;
+}
+
 if (require.main === module) {
   seedContent()
     .then(() => process.exit(0))
@@ -360,4 +388,4 @@ if (require.main === module) {
     });
 }
 
-module.exports = { seedContent };
+module.exports = { seedContent, seedContentIfEmpty };
