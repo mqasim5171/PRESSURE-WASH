@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useCms } from "./useCms";
+import { useSiteSettings } from "./useSiteSettings";
 
 // Maps theme_settings columns to CSS custom properties set on :root. Real
 // mechanism, not a stub - open devtools on any page and these variables
@@ -39,6 +40,7 @@ const VAR_MAP = {
 
 export default function ThemeProvider({ children }) {
   const { data: theme } = useCms("/api/theme", null);
+  const { faviconUrl } = useSiteSettings();
 
   useEffect(() => {
     if (!theme) return;
@@ -47,6 +49,23 @@ export default function ThemeProvider({ children }) {
       if (theme[key]) root.style.setProperty(cssVar, theme[key]);
     });
   }, [theme]);
+
+  // The Favicon field in Admin > Website Settings genuinely saved to the
+  // database already, but index.html's <link rel="icon"> was a static file
+  // reference nothing ever read that value back into - the classic gap
+  // this whole CMS audit has been finding and closing all session. This
+  // updates the actual tab icon in the browser once the upload's URL comes
+  // back from /api/settings; falls back to leaving the static default
+  // alone until an admin uploads one. Note this only reaches real
+  // browsers, the same as everywhere else client-rendered metadata is set
+  // in this app (see Meta.jsx) - a crawler that doesn't execute JS (most
+  // social-preview bots) still only ever sees whatever's baked into the
+  // static index.html/public/favicon.png at build time.
+  useEffect(() => {
+    if (!faviconUrl) return;
+    const links = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
+    links.forEach((link) => { link.href = faviconUrl; });
+  }, [faviconUrl]);
 
   return children;
 }

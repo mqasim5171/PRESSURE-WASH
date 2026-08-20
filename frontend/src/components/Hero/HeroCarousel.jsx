@@ -414,7 +414,20 @@ function SlideSolarBeforeAfter({ content, onDragStart, onDragEnd }) {
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/20 pointer-events-none" />
 
       <div className="relative z-10 lg:h-full max-w-7xl mx-auto px-6 sm:px-20 md:px-24 flex flex-col lg:justify-end pb-16 lg:pb-28 pt-28 pointer-events-none">
-        <div className="max-w-xl pointer-events-auto">
+        {/* pointer-events-auto used to sit on this whole block, so the CTA
+            button stayed clickable - but that makes the block's entire
+            bounding box (eyebrow through button, including all the empty
+            space around the actual text/button) swallow pointer/touch
+            events meant for the before/after slider underneath. On mobile,
+            where this text stack isn't sharing width with anything else,
+            that bounding box covers a large share of the touchable slide
+            surface, which read as "the slider doesn't drag where there's
+            text over it." Scoping pointer-events-auto down to just the
+            actual interactive element (the CTA link) instead means the
+            eyebrow/heading/paragraph go back to letting touches pass
+            straight through to the slider, exactly like the transparent
+            space around them already did. */}
+        <div className="max-w-xl">
           <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">
             {content.eyebrow}
           </span>
@@ -424,7 +437,7 @@ function SlideSolarBeforeAfter({ content, onDragStart, onDragEnd }) {
           <p className="mt-3 text-sm md:text-base text-white/70 max-w-lg">
             {content.description}
           </p>
-          <div className="mt-6">
+          <div className="mt-6 pointer-events-auto inline-block">
             <Link
               to={content.ctaUrl}
               className="inline-flex items-center gap-2 rounded-full px-6 py-3 bg-[#22d3ee] text-black font-semibold hover:bg-white transition"

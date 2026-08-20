@@ -131,9 +131,22 @@ export default function BeforeAfterComparison({
     dragging.current = true;
     updateFromPoint(e.clientX, e.clientY);
     containerRef.current?.setPointerCapture?.(e.pointerId);
+    // touch-action: none (below) tells the browser's compositor not to
+    // treat gestures on this element as a scroll, but on some mobile
+    // browsers that alone isn't reliably enough to stop the very first
+    // touch of a sequence from still being claimed as a scroll/pan gesture
+    // before JS gets a say - the observed symptom is exactly that: the
+    // initial tap moves the handle correctly (pointerdown fires once) but
+    // dragging the finger afterward does nothing, because the browser
+    // already decided this touch belongs to page scrolling and stopped
+    // sending pointermove for it. Explicitly preventing default on the
+    // pointer events themselves (not just hinting via CSS) is the
+    // standard, more reliable fix for this exact class of bug.
+    e.preventDefault();
   };
   const onPointerMove = (e) => {
     if (!dragging.current) return;
+    e.preventDefault();
     latestPoint.current = { x: e.clientX, y: e.clientY };
     if (rafId.current == null) rafId.current = requestAnimationFrame(flushPending);
   };
