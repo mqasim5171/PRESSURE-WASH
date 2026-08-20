@@ -39,6 +39,7 @@ export default function AdminHomepage() {
             { key: "number", label: "Number (e.g. 01)" },
             { key: "title", label: "Title" },
             { key: "text", label: "Text", type: "textarea" },
+            { key: "image", label: "Image", type: "image", category: "why-us" },
           ] }}
         />
       )}

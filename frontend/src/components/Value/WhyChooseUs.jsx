@@ -1,6 +1,7 @@
 import React from "react";
 import Section from "../ui/Section";
 import { useHomepageSection } from "../../lib/useHomepageSection";
+import { resolveMediaUrl } from "../../lib/media";
 
 /**
  * WhyChooseUs
@@ -57,7 +58,10 @@ export default function WhyChooseUs() {
         n: p.number || DEFAULT_POINTS[i % DEFAULT_POINTS.length].n,
         title: p.title || DEFAULT_POINTS[i % DEFAULT_POINTS.length].title,
         text: p.text || DEFAULT_POINTS[i % DEFAULT_POINTS.length].text,
-        image: DEFAULT_POINTS[i % DEFAULT_POINTS.length].image,
+        // Admin-uploaded per-point image (Admin > Homepage > Combined
+        // Services > each Value Point's Image field) - falls back to the
+        // matching default photo until one's been uploaded.
+        image: p.image ? resolveMediaUrl(p.image) : DEFAULT_POINTS[i % DEFAULT_POINTS.length].image,
       }))
     : DEFAULT_POINTS;
 

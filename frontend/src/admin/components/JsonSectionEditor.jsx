@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Loader2, Plus, X, GripVertical } from "lucide-react";
 import { api } from "../api";
 import { useToast } from "../../hooks/use-toast";
+import MediaPicker from "./MediaPicker";
 
 const inputCls = "w-full h-10 px-3 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500";
 const labelCls = "block text-sm font-medium text-slate-700 mb-1.5";
@@ -95,11 +96,30 @@ export default function JsonSectionEditor({ sectionKey, title, description, scal
                 <div className="grid gap-3 pr-8">
                   {arrayField.itemFields.map((f) => (
                     <div key={f.key}>
-                      <label className="block text-xs font-medium text-slate-500 mb-1">{f.label}</label>
-                      {f.type === "textarea" ? (
-                        <textarea value={item[f.key] || ""} onChange={(e) => updateItem(i, f.key, e.target.value)} rows={2} className={`${inputCls} h-auto py-1.5 text-sm resize-y`} />
+                      {f.type === "image" ? (
+                        // Stored as a plain URL string directly inside this
+                        // item's JSON (content is a flexible JSON blob, no
+                        // dedicated mediaId column to attach to like the
+                        // rest of the CMS) - MediaPicker needs a truthy
+                        // "id" to know an image is set, so the URL itself
+                        // doubles as that here; only the URL is actually
+                        // persisted.
+                        <MediaPicker
+                          label={f.label}
+                          mediaId={item[f.key] || null}
+                          url={item[f.key] || null}
+                          category={f.category || "homepage"}
+                          onChange={(_id, url) => updateItem(i, f.key, url)}
+                        />
                       ) : (
-                        <input value={item[f.key] || ""} onChange={(e) => updateItem(i, f.key, e.target.value)} className={`${inputCls} text-sm`} />
+                        <>
+                          <label className="block text-xs font-medium text-slate-500 mb-1">{f.label}</label>
+                          {f.type === "textarea" ? (
+                            <textarea value={item[f.key] || ""} onChange={(e) => updateItem(i, f.key, e.target.value)} rows={2} className={`${inputCls} h-auto py-1.5 text-sm resize-y`} />
+                          ) : (
+                            <input value={item[f.key] || ""} onChange={(e) => updateItem(i, f.key, e.target.value)} className={`${inputCls} text-sm`} />
+                          )}
+                        </>
                       )}
                     </div>
                   ))}
