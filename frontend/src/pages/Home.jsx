@@ -102,8 +102,6 @@ export default function Home(){
         })}</script>
       </Meta>
 
-      {/* Visible headline lives inside the hero; this is for SEO/a11y only */}
-      <h1 className="sr-only">Solar Panel Cleaning &amp; Thermal Drone Inspection in Sydney</h1>
     <main className="relative bg-[#02060c]">
       {/* Hero Section - 3-slide carousel: main + lead form, solar before/after,
           thermal inspection + DJI Matrice 4T */}

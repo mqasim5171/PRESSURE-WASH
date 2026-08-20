@@ -48,9 +48,28 @@ export default function BlogDetail() {
 
   const publishedDate = post.publishedAt ? new Date(post.publishedAt).toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" }) : null;
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: desc,
+    image: image ? [image] : undefined,
+    datePublished: post.publishedAt || undefined,
+    dateModified: post.updatedAt || post.publishedAt || undefined,
+    author: { "@type": "Organization", name: post.author || "Horizon Solar & Exterior Care" },
+    publisher: {
+      "@type": "Organization",
+      name: "Horizon Solar & Exterior Care",
+      logo: { "@type": "ImageObject", url: "https://horizonsolar.com.au/logo.png" },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `https://horizonsolar.com.au/blog/${post.slug}` },
+  };
+
   return (
     <>
-      <Meta title={title} desc={desc} path={`/blog/${post.slug}`} image={image} />
+      <Meta title={title} desc={desc} path={`/blog/${post.slug}`} image={image} type="article">
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      </Meta>
       <main className="pt-24 bg-[#02060c] min-h-screen">
         <div className="max-w-3xl mx-auto px-6 py-16">
           <Link to="/blog" className="inline-flex items-center gap-2 text-[#22d3ee] hover:text-white font-medium transition-colors mb-8">
@@ -94,7 +113,7 @@ export default function BlogDetail() {
           )}
 
           <div className="mt-12 bg-white/[0.04] border border-white/10 rounded-3xl p-8 text-center">
-            <h3 className="text-2xl font-bold text-white mb-2">Ready to get started?</h3>
+            <h2 className="text-2xl font-bold text-white mb-2">Ready to get started?</h2>
             <p className="text-white/60 mb-6">Get a fast, no-obligation quote — same-day slots often available.</p>
             <Link to="/contact" className="inline-flex items-center justify-center rounded-full bg-[#22d3ee] text-black font-semibold px-7 py-3.5 hover:bg-white transition-colors">
               Get Free Quote

@@ -213,9 +213,44 @@ export default function PackageDetail() {
     );
   }
 
+  // Real price only - schema.org/Google structured-data guidelines
+  // explicitly warn against fake/placeholder pricing, and most packages
+  // are genuinely "custom quote" (no fixed number) until an admin sets
+  // one. The offers block is simply omitted rather than filled with a
+  // guessed value when there's nothing real to report.
+  const displayPrice = pkg.offerPrice ?? pkg.price ?? pkg.originalPrice;
+  const offerActive = isOfferActive(pkg.offerEndDate);
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: pkg.name,
+    name: pkg.name,
+    description: desc,
+    image: pkg.imageUrl || undefined,
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Horizon Solar & Exterior Care",
+      url: "https://horizonsolar.com.au",
+      telephone: "+61-2-8000-1080",
+      areaServed: "Sydney, NSW, Australia",
+    },
+    ...(typeof displayPrice === "number" ? {
+      offers: {
+        "@type": "Offer",
+        price: displayPrice,
+        priceCurrency: "AUD",
+        availability: "https://schema.org/InStock",
+        url: `https://horizonsolar.com.au${canon}`,
+        ...(offerActive && pkg.offerEndDate ? { priceValidUntil: new Date(pkg.offerEndDate).toISOString().slice(0, 10) } : {}),
+      },
+    } : {}),
+  };
+
   return (
     <>
-      <Meta title={title} desc={desc} path={canon} image={pkg.imageUrl} />
+      <Meta title={title} desc={desc} path={canon} image={pkg.imageUrl}>
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      </Meta>
 
       <main className="pt-24 bg-[#02060c]">
         {/* HERO */}

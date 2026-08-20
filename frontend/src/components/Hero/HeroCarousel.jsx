@@ -431,9 +431,9 @@ function SlideSolarBeforeAfter({ content, onDragStart, onDragEnd }) {
           <span className="text-[#22d3ee] tracking-widest text-sm font-semibold uppercase">
             {content.eyebrow}
           </span>
-          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+          <h1 className="mt-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
             {content.heading} <span className="text-[#22d3ee]">{content.subheading}</span>
-          </h2>
+          </h1>
           <p className="mt-3 text-sm md:text-base text-white/70 max-w-lg">
             {content.description}
           </p>
@@ -476,9 +476,9 @@ function SlideThermal({ content }) {
             <Zap className="w-3.5 h-3.5" />
             {content.eyebrow}
           </span>
-          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+          <h1 className="mt-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
             {content.heading} <span className="text-[#22d3ee]">{content.subheading}</span>
-          </h2>
+          </h1>
           <p className="mt-3 text-sm md:text-base text-white/70 max-w-lg">
             {content.description}
           </p>

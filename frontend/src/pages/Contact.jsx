@@ -266,9 +266,9 @@ const Contact = () => {
             <div className="space-y-4">
               {/* Call / Email */}
               <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8">
-                <h3 className="text-xl font-bold text-white mb-6">
+                <h2 className="text-xl font-bold text-white mb-6">
                   Get Instant Response
-                </h3>
+                </h2>
                 <div className="space-y-4">
                   <a
                     href={`tel:${biz.phone.replace(/\s+/g, '')}`}
@@ -300,7 +300,7 @@ const Contact = () => {
 
               {/* Hours */}
               <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8">
-                <h3 className="text-xl font-bold text-white mb-6">Business Hours</h3>
+                <h2 className="text-xl font-bold text-white mb-6">Business Hours</h2>
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
                     <Clock className="w-5 h-5 text-[#22d3ee]" />
@@ -319,7 +319,7 @@ const Contact = () => {
 
               {/* Service Promise */}
               <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-8">
-                <h3 className="text-xl font-bold text-white mb-4">Our Promise to You</h3>
+                <h2 className="text-xl font-bold text-white mb-4">Our Promise to You</h2>
                 <ul className="space-y-3 text-white/70">
                   {['Response within 2 hours', 'Same-day service available', '100% satisfaction guarantee', 'Fully licensed & insured'].map((item, idx) => (
                     <li key={idx} className="flex items-center gap-3">
