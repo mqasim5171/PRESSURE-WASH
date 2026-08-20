@@ -138,6 +138,79 @@ export default function HeroCarousel() {
   const pause = useCallback(() => setIsPaused(true), []);
   const resume = useCallback(() => setIsPaused(false), []);
 
+  // Scroll-jacked slide transitions: while the page is scrolled all the way
+  // to the top (the hero is genuinely what's on screen), scrolling down
+  // advances slides instead of scrolling the page; scrolling down again
+  // once already on the last slide releases control and the page scrolls
+  // normally. Scrolling back up from below re-engages the same way in
+  // reverse. Deliberately scoped tight to avoid regressing anything:
+  //  - desktop only (lg+) - mobile's hero was specifically redesigned
+  //    earlier to avoid any scroll interference, and touch scrolling
+  //    doesn't fire wheel events anyway, so this would be a no-op there.
+  //  - off entirely under prefers-reduced-motion - plain scroll instead.
+  //  - only intercepts while scrollY is ~0 - the instant the user has
+  //    actually scrolled past the hero, this never intercepts again until
+  //    they're back at the very top, so it can never trap someone
+  //    mid-page.
+  //  - only reacts to wheel/trackpad input, not Page Down/Space/scrollbar
+  //    drag - a keyboard or scrollbar user simply scrolls straight past
+  //    the hero as normal, which is the safer fallback over trying to
+  //    intercept keys that might legitimately be typed into the lead
+  //    form's fields.
+  const lastWheelTransitionAt = useRef(0);
+  useEffect(() => {
+    if (reduceMotion) return undefined;
+    const mql = window.matchMedia("(min-width: 1024px)");
+    if (!mql.matches) return undefined;
+
+    // Doubles as both "minimum time between advancing two slides" (so one
+    // continuous trackpad swipe can't blow through several at once) AND
+    // "minimum time a slide - including the last one - stays on screen
+    // before release is even considered." Without that second part, the
+    // very last tick of the same swipe that arrived on the final slide
+    // would immediately continue past it into the page below, so the last
+    // slide could flash by without ever really being seen.
+    const DWELL_MS = 1100;
+
+    const onWheel = (e) => {
+      if (window.scrollY > 4) return; // already past the hero - never intercept
+      const scrollingDown = e.deltaY > 0;
+      const scrollingUp = e.deltaY < 0;
+      if (!scrollingDown && !scrollingUp) return;
+
+      const now = Date.now();
+      // A ref, not a plain local variable: this effect re-subscribes on
+      // every activeIndex change (it's a dependency, since the handler
+      // needs the current index in its closure), which is every single
+      // time a transition fires - a variable declared inside the effect
+      // body would reset right along with it, silently defeating the
+      // cooldown after the very first tick. A ref is the one thing that
+      // survives the re-subscribe.
+      const withinDwell = now - lastWheelTransitionAt.current < DWELL_MS;
+
+      const canAdvance = scrollingDown && activeIndex < slides.length - 1;
+      const canGoBack = scrollingUp && activeIndex > 0;
+
+      if (canAdvance || canGoBack) {
+        e.preventDefault();
+        if (withinDwell) return; // still settling from the last tick - swallow it without re-triggering
+        lastWheelTransitionAt.current = now;
+        pause(); // hand control to the user, stop competing with autoplay
+        if (canAdvance) next(); else prev();
+        return;
+      }
+
+      // At a boundary (last slide scrolling down, or first slide scrolling
+      // up): hold position until this slide has had its own minimum dwell
+      // time, same as any other transition would, before letting the
+      // browser's native scroll take over and leave the hero.
+      if (withinDwell) e.preventDefault();
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => window.removeEventListener("wheel", onWheel);
+  }, [activeIndex, slides.length, reduceMotion, next, prev, pause]);
+
   const transition = reduceMotion
     ? { duration: 0.15 }
     : { duration: 0.4, ease: "easeInOut" };
